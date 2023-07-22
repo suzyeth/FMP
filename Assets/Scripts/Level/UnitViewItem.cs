@@ -10,7 +10,7 @@ public class UnitViewItem : MonoBehaviour
     public virtual void Init()
     {
         InitPosID();
-        RefreshPos();
+        RefreshPosInstant();
     }
 
     /// <summary>
@@ -23,9 +23,9 @@ public class UnitViewItem : MonoBehaviour
     }
 
     /// <summary>
-    /// Refresh Real Position According to Position ID
+    /// Refresh Real Position According to Position ID Instantly
     /// </summary>
-    public void RefreshPos()
+    public void RefreshPosInstant()
     {
         this.transform.position = PublicTool.ConvertPosFromID(posID);
     }
@@ -36,6 +36,6 @@ public class UnitViewItem : MonoBehaviour
     public void ResetPos()
     {
         this.posID = initPosID;
-        RefreshPos();
+        RefreshPosInstant();
     }
 }

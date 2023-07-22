@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class BoxViewItem : UnitViewItem
 {
@@ -12,6 +13,7 @@ public class BoxViewItem : UnitViewItem
     public void Move(Vector2Int moveDir)
     {
         posID = posID + moveDir;
-        RefreshPos();
+
+        this.transform.DOMove(PublicTool.ConvertPosFromID(posID), 0.2f);
     }
 }
