@@ -19,6 +19,7 @@ public partial class InputMgr : MonoSingleton<InputMgr>
 
 
     private bool isInitInput = false;
+    private bool isPressWASD = false;
 
     public IEnumerator IE_Init()
     {
@@ -95,24 +96,51 @@ public partial class InputMgr : MonoSingleton<InputMgr>
 
     private void Up_started(InputAction.CallbackContext obj)
     {
-        EventCenter.Instance.EventTrigger("CharacterMove", new Vector2Int(0,1));
+        if (!isPressWASD)
+        {
+            EventCenter.Instance.EventTrigger("CharacterMove", new Vector2Int(0, 1));
+        }
     }
 
     private void Down_started(InputAction.CallbackContext obj)
     {
-        EventCenter.Instance.EventTrigger("CharacterMove", new Vector2Int(0, -1));
+        if (!isPressWASD)
+        {
+            EventCenter.Instance.EventTrigger("CharacterMove", new Vector2Int(0, -1));
+        }
     }
 
     private void Left_started(InputAction.CallbackContext obj)
     {
-        EventCenter.Instance.EventTrigger("CharacterMove", new Vector2Int(-1, 0));
+        if (!isPressWASD)
+        {
+            EventCenter.Instance.EventTrigger("CharacterMove", new Vector2Int(-1, 0));
+        }
     }
 
     private void Right_started(InputAction.CallbackContext obj)
     {
-        EventCenter.Instance.EventTrigger("CharacterMove", new Vector2Int(1, 0));
+        if (!isPressWASD)
+        {
+            EventCenter.Instance.EventTrigger("CharacterMove", new Vector2Int(1, 0));
+        }
     }
 
     #endregion
 
+
+    private void Update()
+    {
+        if (isInitInput)
+        {
+            if (UpAction.IsPressed() || DownAction.IsPressed() || LeftAction.IsPressed() || RightAction.IsPressed())
+            {
+                isPressWASD = true;
+            }
+            else
+            {
+                isPressWASD = false;
+            }
+        }
+    }
 }
