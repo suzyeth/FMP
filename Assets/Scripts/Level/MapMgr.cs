@@ -5,10 +5,22 @@ using UnityEngine;
 public class MapMgr : MonoBehaviour
 {
     public Transform tfBox;
+    public Transform tfCharacter;
+    private CharacterViewItem curCharacter;
 
     public void Init()
     {
+        CheckAllCharacter();
         CheckAllBoxPos();
+    }
+
+    public void CheckAllCharacter()
+    {
+        foreach (Transform child in tfCharacter)
+        {
+            curCharacter = child.GetComponent<CharacterViewItem>();
+            curCharacter.Init();
+        }
     }
 
     public void CheckAllBoxPos()

@@ -7,26 +7,30 @@ public class LevelMgr : MonoBehaviour
     [Header("Map")]
     public Transform tfMap;
 
-    [Header("Character")]
-    public Transform tfCharacter;
-    public GameObject pfCharacter;
-
-    private CharacterViewItem curCharacterView;
     private MapMgr curMap;
 
+    #region Init
     public void Init()
     {
-        InitCharacter();
-        GenerateMap(2);
+        StartLevel(2);
     }
 
-    public void InitCharacter()
+/*    public void InitCharacter()
     {
         PublicTool.ClearChildItem(tfCharacter);
         GameObject objCharacter = GameObject.Instantiate(pfCharacter, tfCharacter);
         curCharacterView = objCharacter.GetComponent<CharacterViewItem>();
         curCharacterView.Init();
+    }*/
+    #endregion
+
+    #region StartLevel
+
+    public void StartLevel(int id)
+    {
+        GenerateMap(id);
     }
+
 
     public void GenerateMap(int id)
     {
@@ -38,4 +42,8 @@ public class LevelMgr : MonoBehaviour
         curMap = gobjMap.GetComponent<MapMgr>();
         curMap.Init();
     }
+
+
+
+    #endregion
 }
