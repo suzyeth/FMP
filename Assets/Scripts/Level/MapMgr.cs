@@ -14,6 +14,31 @@ public class MapMgr : MonoBehaviour
         CheckAllBoxPos();
     }
 
+    #region Event
+
+    private void OnEnable()
+    {
+        EventCenter.Instance.AddEventListener("CharacterMove", CharacterMoveEvent);
+
+    }
+
+    private void OnDisable()
+    {
+        EventCenter.Instance.RemoveEventListener("CharacterMove", CharacterMoveEvent);
+
+    }
+
+    private void CharacterMoveEvent(object arg0)
+    {
+        Vector2Int dir = (Vector2Int)arg0;
+        if (curCharacter != null)
+        {
+            curCharacter.Move(dir);
+        }
+    }
+
+    #endregion
+
     public void CheckAllCharacter()
     {
         foreach (Transform child in tfCharacter)

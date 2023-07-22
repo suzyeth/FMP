@@ -28,18 +28,45 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
             ""id"": ""d470052d-0bfe-4e6c-b5ee-cc9c173066e1"",
             ""actions"": [
                 {
-                    ""name"": ""Move"",
-                    ""type"": ""PassThrough"",
-                    ""id"": ""be82541a-61be-4840-99d9-f65bf32acc42"",
-                    ""expectedControlType"": ""Vector2"",
+                    ""name"": ""Touch"",
+                    ""type"": ""Button"",
+                    ""id"": ""b869125e-3f58-4876-b751-39b9bc787b14"",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Touch"",
+                    ""name"": ""Up"",
                     ""type"": ""Button"",
-                    ""id"": ""b869125e-3f58-4876-b751-39b9bc787b14"",
+                    ""id"": ""7a10d512-13f9-41ff-9d3b-16164f85179c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Down"",
+                    ""type"": ""Button"",
+                    ""id"": ""463f051b-2b69-4fb0-ac4d-513c0539771a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Left"",
+                    ""type"": ""Button"",
+                    ""id"": ""683e3fc0-bbb2-4c83-aa29-0ea85208388b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Right"",
+                    ""type"": ""Button"",
+                    ""id"": ""c2d39641-1f23-4cf7-b849-8c2afd762578"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -56,61 +83,6 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                 }
             ],
             ""bindings"": [
-                {
-                    ""name"": ""Keyboard"",
-                    ""id"": ""9393893c-67e3-4f32-91bf-d2999cf083a2"",
-                    ""path"": ""2DVector"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""up"",
-                    ""id"": ""0e9052a1-ce42-4654-8b43-37c639401d67"",
-                    ""path"": ""<Keyboard>/w"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""6e2c984a-0fd9-4d35-90cb-a97bfca87c48"",
-                    ""path"": ""<Keyboard>/s"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""fbf725c5-fd41-4883-9358-6ae50940a790"",
-                    ""path"": ""<Keyboard>/a"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""a45b56e3-9f6c-464d-8627-19aa4f5b8939"",
-                    ""path"": ""<Keyboard>/d"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
                 {
                     ""name"": """",
                     ""id"": ""c2daeccb-ef33-4e39-8c88-c5dafccbaaa1"",
@@ -132,6 +104,50 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""action"": ""TouchPosition"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""85131d1a-5883-4078-a377-fe8fd697b50c"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Up"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4b430ebe-2f82-4bad-92b4-a93100149970"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Down"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8850c50e-e93b-4449-ace2-5083d252472f"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Left"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e2c5ba16-580b-48d7-8371-d619076ef497"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Right"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -140,8 +156,11 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
 }");
         // Gameplay
         m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
-        m_Gameplay_Move = m_Gameplay.FindAction("Move", throwIfNotFound: true);
         m_Gameplay_Touch = m_Gameplay.FindAction("Touch", throwIfNotFound: true);
+        m_Gameplay_Up = m_Gameplay.FindAction("Up", throwIfNotFound: true);
+        m_Gameplay_Down = m_Gameplay.FindAction("Down", throwIfNotFound: true);
+        m_Gameplay_Left = m_Gameplay.FindAction("Left", throwIfNotFound: true);
+        m_Gameplay_Right = m_Gameplay.FindAction("Right", throwIfNotFound: true);
         m_Gameplay_TouchPosition = m_Gameplay.FindAction("TouchPosition", throwIfNotFound: true);
     }
 
@@ -202,15 +221,21 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
     // Gameplay
     private readonly InputActionMap m_Gameplay;
     private IGameplayActions m_GameplayActionsCallbackInterface;
-    private readonly InputAction m_Gameplay_Move;
     private readonly InputAction m_Gameplay_Touch;
+    private readonly InputAction m_Gameplay_Up;
+    private readonly InputAction m_Gameplay_Down;
+    private readonly InputAction m_Gameplay_Left;
+    private readonly InputAction m_Gameplay_Right;
     private readonly InputAction m_Gameplay_TouchPosition;
     public struct GameplayActions
     {
         private @PlayerInput m_Wrapper;
         public GameplayActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Move => m_Wrapper.m_Gameplay_Move;
         public InputAction @Touch => m_Wrapper.m_Gameplay_Touch;
+        public InputAction @Up => m_Wrapper.m_Gameplay_Up;
+        public InputAction @Down => m_Wrapper.m_Gameplay_Down;
+        public InputAction @Left => m_Wrapper.m_Gameplay_Left;
+        public InputAction @Right => m_Wrapper.m_Gameplay_Right;
         public InputAction @TouchPosition => m_Wrapper.m_Gameplay_TouchPosition;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
@@ -221,12 +246,21 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         {
             if (m_Wrapper.m_GameplayActionsCallbackInterface != null)
             {
-                @Move.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMove;
-                @Move.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMove;
-                @Move.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMove;
                 @Touch.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnTouch;
                 @Touch.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnTouch;
                 @Touch.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnTouch;
+                @Up.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnUp;
+                @Up.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnUp;
+                @Up.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnUp;
+                @Down.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDown;
+                @Down.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDown;
+                @Down.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDown;
+                @Left.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnLeft;
+                @Left.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnLeft;
+                @Left.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnLeft;
+                @Right.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnRight;
+                @Right.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnRight;
+                @Right.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnRight;
                 @TouchPosition.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnTouchPosition;
                 @TouchPosition.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnTouchPosition;
                 @TouchPosition.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnTouchPosition;
@@ -234,12 +268,21 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @Move.started += instance.OnMove;
-                @Move.performed += instance.OnMove;
-                @Move.canceled += instance.OnMove;
                 @Touch.started += instance.OnTouch;
                 @Touch.performed += instance.OnTouch;
                 @Touch.canceled += instance.OnTouch;
+                @Up.started += instance.OnUp;
+                @Up.performed += instance.OnUp;
+                @Up.canceled += instance.OnUp;
+                @Down.started += instance.OnDown;
+                @Down.performed += instance.OnDown;
+                @Down.canceled += instance.OnDown;
+                @Left.started += instance.OnLeft;
+                @Left.performed += instance.OnLeft;
+                @Left.canceled += instance.OnLeft;
+                @Right.started += instance.OnRight;
+                @Right.performed += instance.OnRight;
+                @Right.canceled += instance.OnRight;
                 @TouchPosition.started += instance.OnTouchPosition;
                 @TouchPosition.performed += instance.OnTouchPosition;
                 @TouchPosition.canceled += instance.OnTouchPosition;
@@ -249,8 +292,11 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
     public GameplayActions @Gameplay => new GameplayActions(this);
     public interface IGameplayActions
     {
-        void OnMove(InputAction.CallbackContext context);
         void OnTouch(InputAction.CallbackContext context);
+        void OnUp(InputAction.CallbackContext context);
+        void OnDown(InputAction.CallbackContext context);
+        void OnLeft(InputAction.CallbackContext context);
+        void OnRight(InputAction.CallbackContext context);
         void OnTouchPosition(InputAction.CallbackContext context);
     }
 }

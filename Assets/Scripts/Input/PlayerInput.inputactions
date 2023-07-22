@@ -6,18 +6,45 @@
             "id": "d470052d-0bfe-4e6c-b5ee-cc9c173066e1",
             "actions": [
                 {
-                    "name": "Move",
-                    "type": "PassThrough",
-                    "id": "be82541a-61be-4840-99d9-f65bf32acc42",
-                    "expectedControlType": "Vector2",
+                    "name": "Touch",
+                    "type": "Button",
+                    "id": "b869125e-3f58-4876-b751-39b9bc787b14",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Touch",
+                    "name": "Up",
                     "type": "Button",
-                    "id": "b869125e-3f58-4876-b751-39b9bc787b14",
+                    "id": "7a10d512-13f9-41ff-9d3b-16164f85179c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Down",
+                    "type": "Button",
+                    "id": "463f051b-2b69-4fb0-ac4d-513c0539771a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Left",
+                    "type": "Button",
+                    "id": "683e3fc0-bbb2-4c83-aa29-0ea85208388b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Right",
+                    "type": "Button",
+                    "id": "c2d39641-1f23-4cf7-b849-8c2afd762578",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -34,61 +61,6 @@
                 }
             ],
             "bindings": [
-                {
-                    "name": "Keyboard",
-                    "id": "9393893c-67e3-4f32-91bf-d2999cf083a2",
-                    "path": "2DVector",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Move",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "up",
-                    "id": "0e9052a1-ce42-4654-8b43-37c639401d67",
-                    "path": "<Keyboard>/w",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "down",
-                    "id": "6e2c984a-0fd9-4d35-90cb-a97bfca87c48",
-                    "path": "<Keyboard>/s",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "left",
-                    "id": "fbf725c5-fd41-4883-9358-6ae50940a790",
-                    "path": "<Keyboard>/a",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "right",
-                    "id": "a45b56e3-9f6c-464d-8627-19aa4f5b8939",
-                    "path": "<Keyboard>/d",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
                 {
                     "name": "",
                     "id": "c2daeccb-ef33-4e39-8c88-c5dafccbaaa1",
@@ -108,6 +80,50 @@
                     "processors": "",
                     "groups": "",
                     "action": "TouchPosition",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "85131d1a-5883-4078-a377-fe8fd697b50c",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Up",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4b430ebe-2f82-4bad-92b4-a93100149970",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Down",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8850c50e-e93b-4449-ace2-5083d252472f",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Left",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e2c5ba16-580b-48d7-8371-d619076ef497",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Right",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

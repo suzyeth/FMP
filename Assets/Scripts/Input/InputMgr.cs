@@ -8,7 +8,11 @@ public partial class InputMgr : MonoSingleton<InputMgr>
 {
     private PlayerInput playerInput;
 
-    private InputAction moveAction;
+    private InputAction UpAction;
+    private InputAction DownAction;
+    private InputAction LeftAction;
+    private InputAction RightAction;
+
     private InputAction touchAction;
     private InputAction touchPositionAction;
     public Vector2 moveVector;
@@ -27,7 +31,11 @@ public partial class InputMgr : MonoSingleton<InputMgr>
         if (!isInitInput)
         {
             playerInput = new PlayerInput();
-            moveAction = playerInput.Gameplay.Move;
+            UpAction = playerInput.Gameplay.Up;
+            DownAction = playerInput.Gameplay.Down;
+            LeftAction = playerInput.Gameplay.Left;
+            RightAction = playerInput.Gameplay.Right;
+
             touchAction = playerInput.Gameplay.Touch;
             touchPositionAction = playerInput.Gameplay.TouchPosition;
             isInitInput = true;
@@ -52,30 +60,59 @@ public partial class InputMgr : MonoSingleton<InputMgr>
         }
 
         playerInput.Enable();
-        moveAction.performed += Move_performed;
+        UpAction.started += Up_started;
+        DownAction.started += Down_started;
+        LeftAction.started += Left_started;
+        RightAction.started += Right_started;
         touchAction.performed += Touch_performed;
     }
 
-
-
     private void DisableInput()
     {
-        moveAction.performed -= Move_performed;
+        UpAction.started -= Up_started;
+        DownAction.started -= Down_started;
+        LeftAction.started -= Left_started;
+        RightAction.started -= Right_started;
         touchAction.performed -= Touch_performed;
         playerInput.Disable();
     }
 
 
-    private void Move_performed(InputAction.CallbackContext obj)
+/*    private void Move_performed(InputAction.CallbackContext obj)
     {
         Vector2 valueMove = obj.ReadValue<Vector2>();
         moveVector = valueMove;
     }
-
+*/
     private void Touch_performed(InputAction.CallbackContext obj)
     {
         Vector2 screenPosition = touchPositionAction.ReadValue<Vector2>();
 
         Debug.Log("Click "+ screenPosition);
     }
+
+    #region WASD
+
+    private void Up_started(InputAction.CallbackContext obj)
+    {
+        EventCenter.Instance.EventTrigger("CharacterMove", new Vector2Int(0,1));
+    }
+
+    private void Down_started(InputAction.CallbackContext obj)
+    {
+        EventCenter.Instance.EventTrigger("CharacterMove", new Vector2Int(0, -1));
+    }
+
+    private void Left_started(InputAction.CallbackContext obj)
+    {
+        EventCenter.Instance.EventTrigger("CharacterMove", new Vector2Int(-1, 0));
+    }
+
+    private void Right_started(InputAction.CallbackContext obj)
+    {
+        EventCenter.Instance.EventTrigger("CharacterMove", new Vector2Int(1, 0));
+    }
+
+    #endregion
+
 }
