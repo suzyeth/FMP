@@ -4,15 +4,22 @@ using UnityEngine;
 
 public class BoxViewItem : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public Vector2Int posID;
+
+
+    public void Init()
     {
-        
+        InitPosID();
+        ResetPos();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void InitPosID()
     {
-        
+        posID = PublicTool.TranslatePosToPosID(this.transform.position);
+    }
+
+    public void ResetPos()
+    {
+        this.transform.position = PublicTool.ConvertPosFromID(posID);
     }
 }

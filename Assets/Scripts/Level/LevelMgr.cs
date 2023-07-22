@@ -35,5 +35,7 @@ public class LevelMgr : MonoBehaviour
         Object objMap = Resources.Load("Map/Map"+ id);
         GameObject gobjMap = Instantiate(objMap, tfMap) as GameObject;
         Debug.Log("Map/Map01");
+        curMap = gobjMap.GetComponent<MapMgr>();
+        curMap.Init();
     }
 }

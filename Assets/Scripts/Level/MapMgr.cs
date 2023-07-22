@@ -4,15 +4,19 @@ using UnityEngine;
 
 public class MapMgr : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public Transform tfBox;
+
+    public void Init()
     {
-        
+        CheckAllBoxPos();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void CheckAllBoxPos()
     {
-        
+        foreach (Transform child in tfBox)
+        {
+            BoxViewItem itemBox = child.GetComponent<BoxViewItem>();
+            itemBox.Init();
+        }
     }
 }
