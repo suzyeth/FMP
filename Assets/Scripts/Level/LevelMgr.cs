@@ -12,13 +12,12 @@ public class LevelMgr : MonoBehaviour
     public GameObject pfCharacter;
 
     private CharacterViewItem curCharacterView;
-
-    public LevelData levelData;
+    private MapMgr curMap;
 
     public void Init()
     {
-        levelData = new LevelData();
         InitCharacter();
+        GenerateMap(2);
     }
 
     public void InitCharacter()
@@ -29,8 +28,12 @@ public class LevelMgr : MonoBehaviour
         curCharacterView.Init();
     }
 
-    public void GenerateBox()
+    public void GenerateMap(int id)
     {
+        PublicTool.ClearChildItem(tfMap);
 
+        Object objMap = Resources.Load("Map/Map"+ id);
+        GameObject gobjMap = Instantiate(objMap, tfMap) as GameObject;
+        Debug.Log("Map/Map01");
     }
 }
