@@ -8,6 +8,8 @@ public class GameMgr : MonoSingleton<GameMgr>
 
     public bool isInit = false;
 
+    public GameData gameData;
+
     #region Init
     public override void Init()
     {
@@ -17,6 +19,11 @@ public class GameMgr : MonoSingleton<GameMgr>
     public IEnumerator IE_InitGame()
     {
         //yield return StartCoroutine(ExcelDataMgr.Instance.IE_Init());
+
+        //Init Data
+        gameData = new GameData();
+
+        //Init Input
         yield return StartCoroutine(InputMgr.Instance.IE_Init());
         //yield return StartCoroutine(SoundMgr.Instance.IE_Init());
         levelMgr.Init();
