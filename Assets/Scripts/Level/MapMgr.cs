@@ -14,12 +14,13 @@ public class MapMgr : MonoBehaviour
 {
     private GameData gameData;
 
-    public Transform tfTile;
     public Transform tfCharacter;
-    public Transform tfWall;
     private CharacterViewItem curCharacter;
+
+
+    public Transform tfTile;
     /// <summary>
-    /// List of Box View
+    /// List of Tile View£¨Including Box Wall)
     /// </summary>
     private List<TileViewItem> listTile = new List<TileViewItem>();
     
@@ -60,6 +61,9 @@ public class MapMgr : MonoBehaviour
        
 
     }
+    #endregion
+
+    #region CharacterMove
 
     //CharacterMove
     private void CharacterMoveEvent(object arg0)
@@ -74,19 +78,25 @@ public class MapMgr : MonoBehaviour
             Vector2Int targetPosCharacter = curCharacter.posID + dir;
 
             //Add Character Action
-            ActionRecordData characterAction = new(-2, startCharacterPosID, targetPosCharacter);
-            listAllAction.Add(characterAction);
 
-
-            if (dicBox.ContainsKey(targetPosCharacter))
+            if (dicWall.ContainsKey(targetPosCharacter))
             {
-             
+                UnityEngine.Debug.Log("Wall");
+                //No effect
+            }
+            else if (dicBox.ContainsKey(targetPosCharacter))
+            {
+                UnityEngine.Debug.Log("Box");
+
                 //Check whether this block is box
                 TileViewItem box = (TileViewItem)dicBox[targetPosCharacter];
                 Vector2Int targetPosBox = box.posID + dir;
 
                 if (!dicBox.ContainsKey(targetPosBox) )
                 {
+                    ActionRecordData characterAction = new(-2, startCharacterPosID, targetPosCharacter);
+                    listAllAction.Add(characterAction);
+
                     ActionRecordData boxAction = new(box.keyID, box.posID, box.posID + dir);
                     listAllAction.Add(boxAction);
 
@@ -94,26 +104,28 @@ public class MapMgr : MonoBehaviour
                     box.Move(dir);
                 }
             }
+            //Empty
             else
             {
-                if (!dicWall.ContainsKey(targetPosCharacter))
-                {
-                    curCharacter.Move(dir);
-                }
-                
+                //Move
+                curCharacter.Move(dir);
+                //Record Move
+                ActionRecordData characterAction = new(-2, startCharacterPosID, targetPosCharacter);
+                listAllAction.Add(characterAction);
             }
 
-                if (listAllAction != null && listAllAction.Count > 0)
-                {
-                    gameData.AddRecordAction(listAllAction);
-                }
 
-                ScanAllPos();
-                    
-                 
+
+
+            if (listAllAction != null && listAllAction.Count > 0)
+            {
+                gameData.AddRecordAction(listAllAction);
+            }
+
+            ScanAllPos();
         }
-
     }
+
 
     private void UndoEvent(object info)
     {
@@ -147,6 +159,9 @@ public class MapMgr : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Check All the Position of tile (dont care the type)
+    /// </summary>
     public void CheckAllTilePos()
     {
         listTile.Clear();
@@ -188,22 +203,22 @@ public class MapMgr : MonoBehaviour
                     dicButton.Add(tile.posID, tile);
                     break;
                 case TileType.SwitchableDoor:
-                    dicButton.Add(tile.posID, tile);
+                    //dicButton.Add(tile.posID, tile);
                     break;
                 case TileType.Wall:
-                    dicButton.Add(tile.posID, tile);
+                    dicWall.Add(tile.posID, tile);
                     break;
                 case TileType.Energy:
-                    dicButton.Add(tile.posID, tile);
+                    //dicButton.Add(tile.posID, tile);
                     break;
                 case TileType.Ice:
-                    dicButton.Add(tile.posID, tile);
+                    //dicButton.Add(tile.posID, tile);
                     break;
                 case TileType.Traps:
-                    dicButton.Add(tile.posID, tile);
+                    //dicButton.Add(tile.posID, tile);
                     break;
                 case TileType.SceneChange:
-                    dicButton.Add(tile.posID, tile);
+                    //dicButton.Add(tile.posID, tile);
                     break;
             }
         }
