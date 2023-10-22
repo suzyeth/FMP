@@ -15,6 +15,9 @@ public partial class InputMgr : MonoSingleton<InputMgr>
 
     private InputAction touchAction;
     private InputAction touchPositionAction;
+
+    private InputAction undoAction;
+
     public Vector2 moveVector;
 
 
@@ -39,6 +42,9 @@ public partial class InputMgr : MonoSingleton<InputMgr>
 
             touchAction = playerInput.Gameplay.Touch;
             touchPositionAction = playerInput.Gameplay.TouchPosition;
+
+            undoAction = playerInput.Gameplay.Undo;
+
             isInitInput = true;
         }
     }
@@ -66,6 +72,7 @@ public partial class InputMgr : MonoSingleton<InputMgr>
         LeftAction.started += Left_started;
         RightAction.started += Right_started;
         touchAction.performed += Touch_performed;
+        undoAction.performed += Undo_performed;
     }
 
     private void DisableInput()
@@ -75,6 +82,8 @@ public partial class InputMgr : MonoSingleton<InputMgr>
         LeftAction.started -= Left_started;
         RightAction.started -= Right_started;
         touchAction.performed -= Touch_performed;
+        undoAction.performed -= Undo_performed;
+
         playerInput.Disable();
     }
 
@@ -90,6 +99,17 @@ public partial class InputMgr : MonoSingleton<InputMgr>
         Vector2 screenPosition = touchPositionAction.ReadValue<Vector2>();
 
         Debug.Log("Click "+ screenPosition);
+    }
+
+    private void Undo_performed(InputAction.CallbackContext obj)
+    {
+        if (PublicTool.GetGameData() != null)
+        {
+            PublicTool.GetGameData().UndoAction();
+
+            Debug.Log("Invoke Undo");
+        }
+
     }
 
     #region WASD

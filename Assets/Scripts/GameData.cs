@@ -3,11 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
+public class ActionRecordData
+{
+    //Define that keyID=-2 mean character
+    public int keyID;
+    public Vector2Int startPos;
+    public Vector2Int endPos;
+
+    public ActionRecordData(int keyID, Vector2Int startPos, Vector2Int endPos)
+    {
+        this.keyID = keyID;
+        this.startPos = startPos;
+        this.endPos = endPos;
+    }
+}
+
 public class GameData
 {
-    public int energy = 0;
-    public Dictionary<int, Crystal> dicCrystal = new Dictionary<int, Crystal>();
-
     //Init game data
     public GameData()
     {
@@ -15,6 +27,9 @@ public class GameData
         dicCrystal.Clear();
     }
 
+    #region Crystal
+    public int energy = 0;
+    public Dictionary<int, Crystal> dicCrystal = new Dictionary<int, Crystal>();
     public void AddCrystal(int id)
     {
         if (!dicCrystal.ContainsKey(id))
@@ -50,6 +65,36 @@ public class GameData
         }
         return count;
     }
+    #endregion
+
+    #region Undo
+
+    private Stack<List<ActionRecordData>> stackActionRecord = new Stack<List<ActionRecordData>>();
+
+    public void AddRecordAction(List<ActionRecordData> listAction)
+    {
+        stackActionRecord.Push(listAction);
+    }
+
+    public void UndoAction()
+    {
+        if (stackActionRecord.Count > 0)
+        {
+            List<ActionRecordData> listUndoAction = stackActionRecord.Pop();
+
+
+            if (listUndoAction != null)
+            {
+                foreach (var action in listUndoAction)
+                {
+                    EventCenter.Instance.EventTrigger("Undo", action);
+                }
+            }
+        }
+    }
+
+    #endregion
+
 }
 
 public class Crystal

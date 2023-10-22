@@ -26,4 +26,10 @@ public partial class PublicTool
 
         return posID;
     }
+
+    public static GameData GetGameData()
+    {
+        return GameMgr.Instance.gameData;
+    }
+
 }

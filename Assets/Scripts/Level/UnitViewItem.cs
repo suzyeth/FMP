@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,8 @@ public class UnitViewItem : MonoBehaviour
 {
     public Vector2Int initPosID;
     public Vector2Int posID;
+
+
 
     public virtual void Init()
     {
@@ -36,6 +39,12 @@ public class UnitViewItem : MonoBehaviour
     public void ResetPos()
     {
         this.posID = initPosID;
+        RefreshPosInstant();
+    }
+
+    public void MoveToTarPos(Vector2Int tarPos)
+    {
+        posID = tarPos;
         RefreshPosInstant();
     }
 }

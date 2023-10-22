@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-public class BoxViewItem : UnitViewItem
+public class TileViewItem : UnitViewItem
 {
+    public int keyID = -999;
+    public TileType tileType;
+
     public override void Init()
     {
         base.Init();

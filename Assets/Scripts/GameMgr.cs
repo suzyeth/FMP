@@ -4,11 +4,17 @@ using UnityEngine;
 
 public class GameMgr : MonoSingleton<GameMgr>
 {
+
+
+
+
     public LevelMgr levelMgr;
 
     public bool isInit = false;
 
     public GameData gameData;
+
+
 
     #region Init
     public override void Init()
@@ -31,5 +37,18 @@ public class GameMgr : MonoSingleton<GameMgr>
         isInit = true;
     }
     #endregion
+
+
+    private void Start()
+    {
+
+
+    }
+
+    private void Update()
+    {
+
+    }
+
 
 }

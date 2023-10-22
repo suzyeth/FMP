@@ -1,25 +1,46 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
+/*
+public class TileData
+{
+
+}
+*/
+
 
 public class MapMgr : MonoBehaviour
 {
-    public Transform tfBox;
+    private GameData gameData;
+
+    public Transform tfTile;
     public Transform tfCharacter;
+    public Transform tfWall;
     private CharacterViewItem curCharacter;
     /// <summary>
     /// List of Box View
     /// </summary>
-    private List<BoxViewItem> listBox = new List<BoxViewItem>();
+    private List<TileViewItem> listTile = new List<TileViewItem>();
+    
     /// <summary>
     /// Dictionary of Box Position. Key is Pos ID such as (0,1)
     /// </summary>
-    private Dictionary<Vector2Int, UnitViewItem> dicBlock = new Dictionary<Vector2Int, UnitViewItem>();
+    //Store the relationship between PosID --- Different Types of tile
+    private Dictionary<Vector2Int, UnitViewItem> dicBox = new Dictionary<Vector2Int, UnitViewItem>();
+    private Dictionary<Vector2Int, UnitViewItem> dicButton = new Dictionary<Vector2Int, UnitViewItem>();
+    private Dictionary<Vector2Int, UnitViewItem> dicWall = new Dictionary<Vector2Int, UnitViewItem>();
+    //Store the relationship between keyID ----- Particular tile
+    private Dictionary<int, TileViewItem> dicAllTile = new Dictionary<int, TileViewItem>();
+
+    public int keyID = -1;
 
     public void Init()
     {
+        gameData = PublicTool.GetGameData();
+
         CheckAllCharacter();
-        CheckAllBoxPos();
+        CheckAllTilePos();
         ScanAllPos();
     }
 
@@ -28,42 +49,88 @@ public class MapMgr : MonoBehaviour
     private void OnEnable()
     {
         EventCenter.Instance.AddEventListener("CharacterMove", CharacterMoveEvent);
-
+        EventCenter.Instance.AddEventListener("Undo", UndoEvent);
+        
     }
 
     private void OnDisable()
     {
         EventCenter.Instance.RemoveEventListener("CharacterMove", CharacterMoveEvent);
+        EventCenter.Instance.RemoveEventListener("Undo", UndoEvent);
+       
 
     }
 
+    //CharacterMove
     private void CharacterMoveEvent(object arg0)
     {
         Vector2Int dir = (Vector2Int)arg0;
         if (curCharacter != null)
         {
+            
+            List<ActionRecordData> listAllAction = new List<ActionRecordData>();
+
+            Vector2Int startCharacterPosID = curCharacter.posID;
             Vector2Int targetPosCharacter = curCharacter.posID + dir;
-            if (dicBlock.ContainsKey(targetPosCharacter))
+
+            //Add Character Action
+            ActionRecordData characterAction = new(-2, startCharacterPosID, targetPosCharacter);
+            listAllAction.Add(characterAction);
+
+
+            if (dicBox.ContainsKey(targetPosCharacter))
             {
+             
                 //Check whether this block is box
-
-
-                BoxViewItem box = (BoxViewItem)dicBlock[targetPosCharacter];
+                TileViewItem box = (TileViewItem)dicBox[targetPosCharacter];
                 Vector2Int targetPosBox = box.posID + dir;
 
-                if (!dicBlock.ContainsKey(targetPosBox))
+                if (!dicBox.ContainsKey(targetPosBox) )
                 {
+                    ActionRecordData boxAction = new(box.keyID, box.posID, box.posID + dir);
+                    listAllAction.Add(boxAction);
+
                     curCharacter.Move(dir);
                     box.Move(dir);
                 }
             }
             else
             {
-                curCharacter.Move(dir);
+                if (!dicWall.ContainsKey(targetPosCharacter))
+                {
+                    curCharacter.Move(dir);
+                }
+                
             }
-            ScanAllPos();
+
+                if (listAllAction != null && listAllAction.Count > 0)
+                {
+                    gameData.AddRecordAction(listAllAction);
+                }
+
+                ScanAllPos();
+                    
+                 
         }
 
+    }
+
+    private void UndoEvent(object info)
+    {
+        ActionRecordData recordData = (ActionRecordData)info;
+        if (recordData.keyID == -2)
+        {
+            curCharacter.MoveToTarPos(recordData.startPos);
+        }
+        else if(recordData.keyID>=0)
+        {
+            if (dicAllTile.ContainsKey(recordData.keyID))
+            {
+                TileViewItem tile = dicAllTile[recordData.keyID];
+                tile.MoveToTarPos(recordData.startPos);
+            }
+        }
+        ScanAllPos();
 
     }
 
@@ -80,16 +147,17 @@ public class MapMgr : MonoBehaviour
         }
     }
 
-    public void CheckAllBoxPos()
+    public void CheckAllTilePos()
     {
-        listBox.Clear();
-        foreach (Transform child in tfBox)
+        listTile.Clear();
+        foreach (Transform child in tfTile)
         {
-            BoxViewItem itemBox = child.GetComponent<BoxViewItem>();
-            itemBox.Init();
-            listBox.Add(itemBox);
+            TileViewItem itemTile = child.GetComponent<TileViewItem>();
+            itemTile.Init();
+            listTile.Add(itemTile);
         }
     }
+   
 
     #endregion
 
@@ -97,10 +165,47 @@ public class MapMgr : MonoBehaviour
 
     public void ScanAllPos()
     {
-        dicBlock.Clear();
-        foreach(var box in listBox)
+        dicAllTile.Clear();
+        dicBox.Clear();
+        dicButton.Clear();
+        dicWall.Clear();
+
+        keyID = -1;
+        foreach(var tile in listTile)
         {
-            dicBlock.Add(box.posID, box);
+            //Only record when map start
+            keyID++;
+            tile.keyID = keyID;
+
+            //Pos Refresh Every time
+            dicAllTile.Add(keyID, tile);
+            switch (tile.tileType)
+            {
+                case TileType.Box:
+                    dicBox.Add(tile.posID, tile);
+                    break;
+                case TileType.Button:
+                    dicButton.Add(tile.posID, tile);
+                    break;
+                case TileType.SwitchableDoor:
+                    dicButton.Add(tile.posID, tile);
+                    break;
+                case TileType.Wall:
+                    dicButton.Add(tile.posID, tile);
+                    break;
+                case TileType.Energy:
+                    dicButton.Add(tile.posID, tile);
+                    break;
+                case TileType.Ice:
+                    dicButton.Add(tile.posID, tile);
+                    break;
+                case TileType.Traps:
+                    dicButton.Add(tile.posID, tile);
+                    break;
+                case TileType.SceneChange:
+                    dicButton.Add(tile.posID, tile);
+                    break;
+            }
         }
     }
 
