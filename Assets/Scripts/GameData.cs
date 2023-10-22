@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
 
@@ -36,6 +37,7 @@ public class GameData
         {
             Crystal crystal = new Crystal(id);
             dicCrystal.Add(id, crystal);
+
         }
     }
 
@@ -64,6 +66,8 @@ public class GameData
             }
         }
         return count;
+        Debug.Log(count);
+        
     }
     #endregion
 

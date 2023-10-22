@@ -8,9 +8,11 @@ public enum TileType
     Button,//The tile that can be cover by box and switch the door
     
     Wall,
-    Energy,
+    Crystal,
     Ice,
-    SwitchableDoor,
+    //SwitchableDoor,
+    RedDoor,
+    BuleDoor,
     Traps,
     SceneChange,
 

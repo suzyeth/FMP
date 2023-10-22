@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 950978274985630382}
   - component: {fileID: 6453285392748202142}
   m_Layer: 0
-  m_Name: WallViewItem
+  m_Name: IceViewItem 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -48,7 +48,7 @@ MonoBehaviour:
   initPosID: {x: 0, y: 0}
   posID: {x: 0, y: 0}
   keyID: -999
-  tileType: 2
+  tileType: 4
 --- !u!212 &6453285392748202142
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -91,7 +91,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 4c27bb754c1ec6649af8e69e6ac7c0f8, type: 3}
-  m_Color: {r: 0.7169812, g: 0.4526005, b: 0.070345305, a: 1}
+  m_Color: {r: 0.56703454, g: 0.81856304, b: 0.8301887, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
