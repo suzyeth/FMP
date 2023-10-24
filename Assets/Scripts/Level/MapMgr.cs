@@ -588,21 +588,27 @@ public class MapMgr : MonoBehaviour
 
           if (dicBox.ContainsKey(ButtonKeyID))
           {
-              ButtonIsPressed = true;
-               // ButtonViewItem button = (ButtonViewItem)kyevalue.Value;
-                //button.OnPress();
+              
+              ButtonViewItem button = (ButtonViewItem)kyevalue.Value;
+                ButtonIsPressed = true;
+                button.ButtonIsPressed = true;
+                button.OnPress();
            }
            else if (ButtonKeyID == CharacterPosID)
            { 
+                
+                ButtonViewItem button = (ButtonViewItem)kyevalue.Value;
                 ButtonIsPressed = true;
-                //ButtonViewItem button = (ButtonViewItem)kyevalue.Value;
-               // button.OnPress();
+                button.ButtonIsPressed = true;
+                button.OnPress();
             }
            else
             {
-               ButtonIsPressed = false;
-                //ButtonViewItem button = (ButtonViewItem)kyevalue.Value;
-                //button.OnRelease();
+              
+               ButtonViewItem button = (ButtonViewItem)kyevalue.Value;
+                ButtonIsPressed = false;
+                button.ButtonIsPressed = false;
+                button.OnRelease();
             }
 
 
