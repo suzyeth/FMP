@@ -12,7 +12,8 @@ public enum TileType
     Ice,
     //SwitchableDoor,
     RedDoor,
-    BuleDoor,
+    BlueDoor,
+   
     Traps,
     SceneChange,
 

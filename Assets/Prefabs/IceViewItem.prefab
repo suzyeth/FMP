@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 950978274985630382}
   - component: {fileID: 6453285392748202142}
   m_Layer: 0
-  m_Name: IceViewItem 2
+  m_Name: IceViewItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

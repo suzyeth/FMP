@@ -66,7 +66,7 @@ public class GameData
             }
         }
         return count;
-        Debug.Log(count);
+        
         
     }
     #endregion
