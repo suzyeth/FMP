@@ -46,11 +46,10 @@ public class MapMgr : MonoBehaviour
     public int keyID = -1;
     public int ItemKeyID = -1;
 
-    private bool isbroken = false;
+    
     
     private bool ButtonIsPressed = false;
-    public bool TrapsIsPassable = false;
-    public bool TrapsIsFilled = false;
+    
 
     public void Init()
     {
@@ -127,29 +126,15 @@ public class MapMgr : MonoBehaviour
                 listAllAction.Add(characterAction);
 
             }
-
-            else if (dicButton.ContainsKey(targetPosCharacter))
-            {
-                UnityEngine.Debug.Log("Button");
-                //Move
-                curCharacter.Move(dir);
-                //Record Move
-                ActionRecordData characterAction = new(-2, startCharacterPosID, targetPosCharacter);
-                listAllAction.Add(characterAction);
-                CheckButtonState();
-
-            }          
-
-           
-
+          
             else if (dicIce.ContainsKey(targetPosCharacter))
             {
                 UnityEngine.Debug.Log("Ice");
-
+                IceViewItem Ice = (IceViewItem)dicIce[targetPosCharacter];
                 //No effect
-                if (dicIce.ContainsKey(targetPosCharacter) && isbroken == true)
+                if (dicIce.ContainsKey(targetPosCharacter) && Ice.iceIsCracked)
                 {
-                    //如何将属性附在单一的预制体上，而不是全体同一类别？
+                    //Attachment of properties to a single prefabricated body
                     UnityEngine.Debug.Log("Icebroken");
                     ScanIceKeyID(targetPosCharacter);
                     DestoryTile(ItemKeyID);
@@ -159,10 +144,14 @@ public class MapMgr : MonoBehaviour
                     //Record Move
                     ActionRecordData characterAction = new(-2, startCharacterPosID, targetPosCharacter);
                     listAllAction.Add(characterAction);
+
+
                     
-                    isbroken = false;
                 }
-                isbroken = true;
+                else
+                {
+                    Ice.iceIsCracked = true;
+                }
 
 
 
@@ -180,6 +169,7 @@ public class MapMgr : MonoBehaviour
 
                 if (!dicBox.ContainsKey(targetPosBox) && !dicWall.ContainsKey(targetPosBox)  && !dicIce.ContainsKey(targetPosBox))
                 {
+                    
                     if (dicButton.ContainsKey(targetPosBox))
                     {
                         UnityEngine.Debug.Log("Box&Button");
@@ -195,8 +185,9 @@ public class MapMgr : MonoBehaviour
                     }
                     else if (dicTraps.ContainsKey(targetPosBox))
                     {
+                        TrapsViemItem Traps = (TrapsViemItem)dicTraps[targetPosBox];
 
-                        if (!TrapsIsFilled)
+                        if (!Traps.TrapsIsFilled)
                         {
                             UnityEngine.Debug.Log("BoxDrop");
 
@@ -208,7 +199,7 @@ public class MapMgr : MonoBehaviour
                             //Record Move
                             ActionRecordData characterAction = new(-2, startCharacterPosID, targetPosCharacter);
                             listAllAction.Add(characterAction);
-                            TrapsIsFilled = true;
+                            Traps.TrapsIsFilled = true;
                         }
                         else
                         {
@@ -288,7 +279,9 @@ public class MapMgr : MonoBehaviour
             else if (dicTraps.ContainsKey(targetPosCharacter))
             {
                 UnityEngine.Debug.Log("Traps");
-                if (TrapsIsFilled)
+                TrapsViemItem Traps = (TrapsViemItem)dicTraps[targetPosCharacter];
+
+                if (Traps.TrapsIsFilled)
                 {
                     UnityEngine.Debug.Log("TrapsIsFilled");
                     //Move
@@ -301,13 +294,16 @@ public class MapMgr : MonoBehaviour
                 {
                     UnityEngine.Debug.Log("TrapsIsImpassable");
                     //No effect
+                    //调用UNDO
+
                 }
 
             }
 
             else if (dicRedDoor.ContainsKey(targetPosCharacter))
             {
-
+                // DoorViewItem redDoor = (DoorViewItem)dicRedDoor[targetPosCharacter];
+                // if(redDoor.IsOpen())
                 if (ButtonIsPressed)
                 {
                     UnityEngine.Debug.Log("RedDoorisopen");
@@ -345,6 +341,18 @@ public class MapMgr : MonoBehaviour
                 }
 
             }
+
+            else if (dicButton.ContainsKey(targetPosCharacter))
+            {
+                UnityEngine.Debug.Log("Button");
+                //Move
+                curCharacter.Move(dir);
+                //Record Move
+                ActionRecordData characterAction = new(-2, startCharacterPosID, targetPosCharacter);
+                listAllAction.Add(characterAction);
+                CheckButtonState();
+
+            }
             //Empty
             else
             {
@@ -360,6 +368,7 @@ public class MapMgr : MonoBehaviour
                 gameData.AddRecordAction(listAllAction);
             }
 
+            CheckButtonState();
             ScanAllPos();
         }
     }
@@ -571,21 +580,29 @@ public class MapMgr : MonoBehaviour
 
         //Otherwise the red door closes
         Vector2Int CharacterPosID = curCharacter.posID;
+        ScanAllPos();
 
-       //foreach (var kyevalue in dicButton)
+       foreach (var kyevalue in dicButton)
         {
-         // Vector2Int ButtonKeyID = KeyValuePair.Key;
-          //if (dicBox.ContainsKey(ButtonKeyID))
+          Vector2Int ButtonKeyID = kyevalue.Key;
+
+          if (dicBox.ContainsKey(ButtonKeyID))
           {
-          //    ButtonIsPressed = true;
+              ButtonIsPressed = true;
+               // ButtonViewItem button = (ButtonViewItem)kyevalue.Value;
+                //button.OnPress();
            }
-           //else if (ButtonKeyID == CharacterPosID)
-           {
-             //   ButtonIsPressed = true;
-           }
-           // else
+           else if (ButtonKeyID == CharacterPosID)
+           { 
+                ButtonIsPressed = true;
+                //ButtonViewItem button = (ButtonViewItem)kyevalue.Value;
+               // button.OnPress();
+            }
+           else
             {
-             //   ButtonIsPressed = false;
+               ButtonIsPressed = false;
+                //ButtonViewItem button = (ButtonViewItem)kyevalue.Value;
+                //button.OnRelease();
             }
 
 
