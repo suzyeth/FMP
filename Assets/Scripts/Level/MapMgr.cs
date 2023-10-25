@@ -30,14 +30,14 @@ public class MapMgr : MonoBehaviour
     /// </summary>
     //Store the relationship between PosID --- Different Types of tile
     private Dictionary<Vector2Int, UnitViewItem> dicBox = new Dictionary<Vector2Int, UnitViewItem>();
-    private Dictionary<Vector2Int, UnitViewItem> dicButton = new Dictionary<Vector2Int, UnitViewItem>();
+    private Dictionary<Vector2Int, ButtonViewItem> dicButton = new Dictionary<Vector2Int, ButtonViewItem>();
     private Dictionary<Vector2Int, UnitViewItem> dicWall = new Dictionary<Vector2Int, UnitViewItem>();
     //energy
     private Dictionary<Vector2Int, UnitViewItem> dicCrystal = new Dictionary<Vector2Int, UnitViewItem>();
-    private Dictionary<Vector2Int, UnitViewItem> dicIce = new Dictionary<Vector2Int, UnitViewItem>();
+    private Dictionary<Vector2Int, IceViewItem> dicIce = new Dictionary<Vector2Int, IceViewItem>();
     private Dictionary<Vector2Int, UnitViewItem> dicRedDoor = new Dictionary<Vector2Int, UnitViewItem>();
     private Dictionary<Vector2Int, UnitViewItem> dicBlueDoor = new Dictionary<Vector2Int, UnitViewItem>();
-    private Dictionary<Vector2Int, UnitViewItem> dicTraps = new Dictionary<Vector2Int, UnitViewItem>();
+    private Dictionary<Vector2Int, TrapsViemItem> dicTraps = new Dictionary<Vector2Int, TrapsViemItem>();
     private Dictionary<Vector2Int, UnitViewItem> dicSceneChange = new Dictionary<Vector2Int, UnitViewItem>();
 
     //Store the relationship between keyID ----- Particular tile
@@ -470,10 +470,10 @@ public class MapMgr : MonoBehaviour
                     dicBox.Add(tile.posID, tile);
                     break;
                 case TileType.Button:
-                    dicButton.Add(tile.posID, tile);
+                    dicButton.Add(tile.posID, (ButtonViewItem)tile);
                     break;
                 case TileType.RedDoor:
-                    dicRedDoor.Add(tile.posID, tile);
+                    dicRedDoor.Add(tile.posID,tile);
                     break;
                 case TileType.BlueDoor:
                     dicBlueDoor.Add(tile.posID, tile);
@@ -485,10 +485,10 @@ public class MapMgr : MonoBehaviour
                     dicCrystal.Add(tile.posID, tile);
                     break;
                 case TileType.Ice:
-                    dicIce.Add(tile.posID, tile);
+                    dicIce.Add(tile.posID, (IceViewItem)tile);
                     break;
                 case TileType.Traps:
-                    dicTraps.Add(tile.posID, tile);
+                    dicTraps.Add(tile.posID, (TrapsViemItem)tile);
                     break;
                 case TileType.SceneChange:
                     dicSceneChange.Add(tile.posID, tile);
