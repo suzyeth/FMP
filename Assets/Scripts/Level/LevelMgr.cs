@@ -8,11 +8,14 @@ public class LevelMgr : MonoBehaviour
     public Transform tfMap;
 
     private MapMgr curMap;
+    public  int CurMapID=1 ;
+    private int id = 1;
+    
 
     #region Init
     public void Init()
     {
-        StartLevel(5);
+        StartLevel(CurMapID);
     }
 
 /*    public void InitCharacter()
@@ -35,15 +38,30 @@ public class LevelMgr : MonoBehaviour
     public void GenerateMap(int id)
     {
         PublicTool.ClearChildItem(tfMap);
+       
 
         Object objMap = Resources.Load("Map/Map"+ id);
         GameObject gobjMap = Instantiate(objMap, tfMap) as GameObject;
-        Debug.Log("Map/Map01");
+        Debug.Log("Map/Map" + id);
         curMap = gobjMap.GetComponent<MapMgr>();
         curMap.Init();
     }
 
 
 
+    #endregion
+
+    #region ChangeMap
+    public void ChangeMap()
+    {
+        curMap.ClearDataChangScence();
+         id++;
+        Debug.Log("id" + id);
+        GenerateMap(id);
+
+
+    }
+
+    
     #endregion
 }
