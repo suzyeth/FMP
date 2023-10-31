@@ -100,7 +100,7 @@ MonoBehaviour:
   initPosID: {x: 0, y: 0}
   posID: {x: 0, y: 0}
   keyID: -999
-  tileType: 7
+  tileType: 8
   TrapsUnfilled: {fileID: 21300000, guid: b09bce864352a254a9bab71a81a140c4, type: 3}
   TrapsFilled: {fileID: 21300000, guid: 4adeb08a1b3e6a94eb085f0a91bed777, type: 3}
   TrapsIsFilled: 0
