@@ -6,7 +6,7 @@ public class IceViewItem : TileViewItem
 
 {
     public bool iceIsCracked=false;
-    public bool iceIsDestroyed = false;
+    
     #region spriteVariables
     public Sprite iceUnCracked;
     public Sprite iceCracked;

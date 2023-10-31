@@ -12,6 +12,7 @@ public class TileViewItem : UnitViewItem
     public override void Init()
     {
         base.Init();
+
     }
 
     public void Move(Vector2Int moveDir)

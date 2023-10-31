@@ -2,6 +2,7 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
+using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 
 public class UnitViewItem : MonoBehaviour
@@ -9,6 +10,7 @@ public class UnitViewItem : MonoBehaviour
     public Vector2Int initPosID;
     public Vector2Int posID;
     public bool IsDestroyed = false;
+    public bool DoorIsOpened = false;
 
     //public GameObject father;
     // public GameObject TilePrefab;
@@ -71,10 +73,27 @@ public class UnitViewItem : MonoBehaviour
         else
         {
             thisItem.SetActive(false);
+           
             UnityEngine.Debug.Log("SetActiveFalse");
         }
         
         
+
+    }
+
+
+    public void OpenDoor()
+    {
+        DoorIsOpened = true;
+        UnityEngine.Debug.Log("OpenDoor");
+
+    }
+
+    public void CloseDoor()
+    {
+        DoorIsOpened = false;
+        UnityEngine.Debug.Log("CloseDoor");
+
 
     }
 }
