@@ -13,7 +13,7 @@ public enum TileType
     //SwitchableDoor,
     RedDoor,
     BlueDoor,
-   
+    Spikes,
     Traps,
     SceneChange,
 
