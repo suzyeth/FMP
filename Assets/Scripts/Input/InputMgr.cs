@@ -107,6 +107,8 @@ public partial class InputMgr : MonoSingleton<InputMgr>
         {
             PublicTool.GetGameData().UndoAction();
 
+
+
             Debug.Log("Invoke Undo");
         }
 

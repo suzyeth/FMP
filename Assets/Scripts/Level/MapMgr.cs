@@ -1,8 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Tilemaps;
+using UnityEngine.UIElements;
+using static UnityEngine.ParticleSystem;
 /*
 public class TileData
 {
@@ -39,6 +43,7 @@ public class MapMgr : MonoBehaviour
     private Dictionary<Vector2Int, UnitViewItem> dicBlueDoor = new Dictionary<Vector2Int, UnitViewItem>();
     private Dictionary<Vector2Int, TrapsViemItem> dicTraps = new Dictionary<Vector2Int, TrapsViemItem>();
     private Dictionary<Vector2Int, UnitViewItem> dicSceneChange = new Dictionary<Vector2Int, UnitViewItem>();
+    private Dictionary<Vector2Int, UnitViewItem> dicSpikes = new Dictionary<Vector2Int, UnitViewItem>();
 
     //Store the relationship between keyID ----- Particular tile
     private Dictionary<int, TileViewItem> dicAllTile = new Dictionary<int, TileViewItem>();
@@ -46,10 +51,12 @@ public class MapMgr : MonoBehaviour
     public int keyID = -1;
     public int ItemKeyID = -1;
 
-    
-    
+
+
     private bool ButtonIsPressed = false;
-    
+
+
+
 
     public void Init()
     {
@@ -66,7 +73,7 @@ public class MapMgr : MonoBehaviour
     {
         EventCenter.Instance.AddEventListener("CharacterMove", CharacterMoveEvent);
         EventCenter.Instance.AddEventListener("Undo", UndoEvent);
-
+        EventCenter.Instance.AddEventListener("UndoDestroy", UndoDestroyEvent);
 
 
     }
@@ -75,6 +82,7 @@ public class MapMgr : MonoBehaviour
     {
         EventCenter.Instance.RemoveEventListener("CharacterMove", CharacterMoveEvent);
         EventCenter.Instance.RemoveEventListener("Undo", UndoEvent);
+        EventCenter.Instance.RemoveEventListener("UndoDestroy", UndoDestroyEvent);
 
 
 
@@ -91,7 +99,7 @@ public class MapMgr : MonoBehaviour
         if (curCharacter != null)
         {
 
-            List<ActionRecordData> listAllAction = new List<ActionRecordData>();
+            List<BaseRecordData> listAllAction = new List<BaseRecordData>();
 
             Vector2Int startCharacterPosID = curCharacter.posID;
             Vector2Int targetPosCharacter = curCharacter.posID + dir;
@@ -100,40 +108,69 @@ public class MapMgr : MonoBehaviour
 
             if (dicWall.ContainsKey(targetPosCharacter))
             {
-                if (dicWall.ContainsKey(targetPosCharacter))
-                {
-                    UnityEngine.Debug.Log("Wall");
-                    //No effect
-                }
+
+                UnityEngine.Debug.Log("Wall");
+                //No effect
+
+
+            }
+
+            else if (dicSpikes.ContainsKey(targetPosCharacter))
+            {
+
+                UnityEngine.Debug.Log("Spikes");
+                //No effect
+
 
             }
 
             else if (dicCrystal.ContainsKey(targetPosCharacter))
             {
-                UnityEngine.Debug.Log("Crystal");
-                gameData.AddCrystal(1);
-                gameData.GetNumActiveCrystal();
 
-                //Get the keyID of crystal 
-                ScanCrystalkeyID(targetPosCharacter);
-                //?尚未实现输出能量数量
 
-                DestoryTile(ItemKeyID);
-                // Move
-                curCharacter.Move(dir);
-                //Record Move
-                ActionRecordData characterAction = new(-2, startCharacterPosID, targetPosCharacter);
-                listAllAction.Add(characterAction);
+                UnitViewItem Crystal = (UnitViewItem)dicCrystal[targetPosCharacter];
+                if (Crystal.IsDestroyed == false)
+                {
+                    Crystal.IsDestroyed = true;
+                    UnityEngine.Debug.Log("Crystal");
+                    gameData.AddCrystal(1);
+                    gameData.GetNumActiveCrystal();
+
+                    //Get the keyID of crystal 
+                    ScanCrystalkeyID(targetPosCharacter);
+                    //?尚未实现输出能量数量
+
+                    DestoryTile(ItemKeyID);
+                    // Move
+                    curCharacter.Move(dir);
+                    //Record Move
+                    ActionRecordData characterAction = new(-2, startCharacterPosID, targetPosCharacter);
+                    listAllAction.Add(characterAction);
+
+                    DestoryStateRecordData CrystalAction = new(ItemKeyID, targetPosCharacter, TileType.Crystal);
+                    listAllAction.Add(CrystalAction);
+
+                }
+                else
+                {
+                    UnityEngine.Debug.Log("No Crystal");
+                    curCharacter.Move(dir);
+                    //Record Move
+                    ActionRecordData characterAction = new(-2, startCharacterPosID, targetPosCharacter);
+                    listAllAction.Add(characterAction);
+                }
+
 
             }
-          
+
             else if (dicIce.ContainsKey(targetPosCharacter))
             {
                 UnityEngine.Debug.Log("Ice");
                 IceViewItem Ice = (IceViewItem)dicIce[targetPosCharacter];
                 //No effect
-                if (dicIce.ContainsKey(targetPosCharacter) && Ice.iceIsCracked)
+                if (dicIce.ContainsKey(targetPosCharacter) && Ice.iceIsCracked && Ice.iceIsDestroyed == false)
                 {
+
                     //Attachment of properties to a single prefabricated body
                     UnityEngine.Debug.Log("Icebroken");
                     ScanIceKeyID(targetPosCharacter);
@@ -145,15 +182,39 @@ public class MapMgr : MonoBehaviour
                     ActionRecordData characterAction = new(-2, startCharacterPosID, targetPosCharacter);
                     listAllAction.Add(characterAction);
 
+                    DestoryStateRecordData IceAction = new(Ice.keyID, targetPosCharacter, TileType.Ice);
+                    listAllAction.Add(IceAction);
+                    Ice.iceIsDestroyed = true;
 
-                    
+
+
+                }
+                else if (Ice.iceIsDestroyed == false)
+                {
+                    Ice.iceIsCracked = true;
+
+                    DestoryStateRecordData IceAction = new(Ice.keyID, targetPosCharacter, TileType.Ice);
+                    listAllAction.Add(IceAction);
                 }
                 else
                 {
-                    Ice.iceIsCracked = true;
+                    curCharacter.Move(dir);
+                    ActionRecordData characterAction = new(-2, startCharacterPosID, targetPosCharacter);
+                    listAllAction.Add(characterAction);
                 }
 
 
+
+
+
+            }
+
+            else if (dicSceneChange.ContainsKey(targetPosCharacter))
+            {
+                UnityEngine.Debug.Log("SceneChange");
+                ChangeScenceViewItem SceneChange = (ChangeScenceViewItem)dicSceneChange[targetPosCharacter];
+                DestoryTile(SceneChange.keyID);
+                SceneChange.ChangeScence();
 
 
 
@@ -167,9 +228,9 @@ public class MapMgr : MonoBehaviour
                 TileViewItem box = (TileViewItem)dicBox[targetPosCharacter];
                 Vector2Int targetPosBox = box.posID + dir;
 
-                if (!dicBox.ContainsKey(targetPosBox) && !dicWall.ContainsKey(targetPosBox)  && !dicIce.ContainsKey(targetPosBox))
+                if (!dicBox.ContainsKey(targetPosBox) && !dicWall.ContainsKey(targetPosBox) && !dicIce.ContainsKey(targetPosBox) && !dicCrystal.ContainsKey(targetPosBox))
                 {
-                    
+
                     if (dicButton.ContainsKey(targetPosBox))
                     {
                         UnityEngine.Debug.Log("Box&Button");
@@ -189,17 +250,32 @@ public class MapMgr : MonoBehaviour
 
                         if (!Traps.TrapsIsFilled)
                         {
-                            UnityEngine.Debug.Log("BoxDrop");
+                            //The absence of a box in the trap
 
+                            UnityEngine.Debug.Log("Traps.TrapsIsFilled"+ Traps.TrapsIsFilled);
+
+
+                            TileViewItem Boxs = (TileViewItem)dicBox[targetPosCharacter];
                             ScanBoxkeyID(targetPosCharacter);
-                            DestoryTile(ItemKeyID);
+                            DestoryTile(Boxs.keyID);
+                           
 
                             //Move
                             curCharacter.Move(dir);
                             //Record Move
                             ActionRecordData characterAction = new(-2, startCharacterPosID, targetPosCharacter);
                             listAllAction.Add(characterAction);
+
+                            //Record changes in status
+                            DestoryStateRecordData trapAction = new(Traps.keyID, targetPosBox, TileType.Traps);
+                            listAllAction.Add(trapAction);
+                            DestoryStateRecordData BoxAction = new(Boxs.keyID, targetPosCharacter, TileType.Box);
+                            listAllAction.Add(BoxAction);
+
                             Traps.TrapsIsFilled = true;
+
+
+
                         }
                         else
                         {
@@ -216,7 +292,7 @@ public class MapMgr : MonoBehaviour
 
 
                     }
-                    else if (dicRedDoor.ContainsKey(targetPosBox) )
+                    else if (dicRedDoor.ContainsKey(targetPosBox))
                     {
                         if (ButtonIsPressed)
                         {
@@ -230,14 +306,14 @@ public class MapMgr : MonoBehaviour
                             curCharacter.Move(dir);
                             box.Move(dir);
                         }
-                        else 
+                        else
                         {
                             UnityEngine.Debug.Log("Can't go through reddoor");
                         }
 
-                        
+
                     }
-                    else if (dicBlueDoor.ContainsKey(targetPosBox) )
+                    else if (dicBlueDoor.ContainsKey(targetPosBox))
                     {
                         if (!ButtonIsPressed)
                         {
@@ -256,9 +332,10 @@ public class MapMgr : MonoBehaviour
                             UnityEngine.Debug.Log("Can't go through bluedoor");
                         }
 
-                        
+
                     }
-                    
+
+
                     else
                     {
                         ActionRecordData characterAction = new(-2, startCharacterPosID, targetPosCharacter);
@@ -387,11 +464,68 @@ public class MapMgr : MonoBehaviour
             {
                 TileViewItem tile = dicAllTile[recordData.keyID];
                 tile.MoveToTarPos(recordData.startPos);
+
             }
         }
+
+
+
         ScanAllPos();
     }
 
+    private void UndoDestroyEvent(object info)
+    {
+        DestoryStateRecordData recordData = (DestoryStateRecordData)info;
+
+        if (recordData.tileType == TileType.Box)
+        {
+            UnitViewItem Box = (UnitViewItem)dicBox[recordData.PosID];
+            Box.inactivation();
+
+        }
+        else if (recordData.tileType == TileType.Crystal)
+        {
+            UnitViewItem Crystal = (UnitViewItem)dicCrystal[recordData.PosID];
+            Crystal.IsDestroyed = false;
+            Crystal.inactivation();
+            //计数要改变，还没做
+
+           
+
+
+        }
+        else if (recordData.tileType == TileType.Traps)
+        {
+
+            TrapsViemItem Traps = (TrapsViemItem)dicTraps[recordData.PosID];
+           
+
+            Traps.TrapsIsFilled = false;
+
+        }
+        else if (recordData.tileType == TileType.Ice)
+        {
+            IceViewItem Ice = (IceViewItem)dicIce[recordData.PosID];
+            if (Ice.iceIsDestroyed == false)
+            {
+                UnityEngine.Debug.Log("Undoice");
+                Ice.iceIsCracked=false;
+
+
+            }
+            else
+            {
+                UnityEngine.Debug.Log("UndoiceIsCracked");
+                Ice.iceIsCracked = true;
+                Ice.iceIsDestroyed = false;
+                Ice.inactivation();
+            }
+
+
+
+        }
+
+    }
 
     #endregion
 
@@ -401,14 +535,71 @@ public class MapMgr : MonoBehaviour
         if (dicAllTile.ContainsKey(keyID))
         {
             TileViewItem tileViewItem = dicAllTile[keyID];
-            listTile.Remove(tileViewItem);
-            dicAllTile.Remove(keyID);
-            Destroy(tileViewItem.gameObject);
+            tileViewItem.inactivation();
+            //listTile.Remove(tileViewItem);
+            //dicAllTile.Remove(keyID);
+            //tileViewItem.IsDestroyed = true;
+            //tileViewItem.gameObject.SetActive(false);
+            //Destroy(tileViewItem.gameObject);
             ScanAllPos();
         }
 
     }
     #endregion
+
+
+
+    /*public void RegenerateTile(TileType tileType, Vector2Int posID)
+    {
+        // 首先确定要重新生成的瓷砖的类型和位置
+        switch (tileType)
+        {
+            case TileType.Crystal:
+                // 在dicCrystal中查找具有特定posID的瓷砖
+                if (dicCrystal.ContainsKey(posID))
+                {
+                    UnitViewItem existingCrystal = dicCrystal[posID];
+
+                    // 检查瓷砖是否已被销毁
+                    if (existingCrystal.IsDestroyed)
+                    {
+                        // 取消瓷砖的非销毁状态
+                        existingCrystal.IsDestroyed = false;
+
+                        // 在这里实例化新的瓷砖游戏对象，你需要根据具体情况创建新的对象
+                        //GameObject newCrystalObject = Instantiate(icePrefab);
+
+                        // 设置新的瓷砖的位置和其他属性
+                        // 使用posID和其他信息来确定位置
+
+                        // 如果有需要，你可以将新的瓷砖添加到相应的字典中，以便跟踪它
+                        // 例如，如果你的字典是Dictionary<Vector2Int, UnitViewItem>
+                        //dicCrystal[posID] = newCrystalObject.GetComponent<UnitViewItem>();
+                    }
+                }
+                break;
+
+            case TileType.Box:
+                // 同样的方法处理箱子的重新生成
+                if (dicBox.ContainsKey(posID))
+                {
+                    UnitViewItem existingBox = dicBox[posID];
+                    if (existingBox.IsDestroyed)
+                    {
+                        //existingBox.IsDestroyed = false;
+
+                        //GameObject newBoxObject = Instantiate(boxPrefab);
+
+                        // 设置新的瓷砖的位置和其他属性
+
+                        //dicBox[posID] = newBoxObject.GetComponent<UnitViewItem>();
+                    }
+                }
+                break;
+
+                // 其他类型的瓷砖可以类似处理
+        }
+    }*/
 
     #region InitCheck
 
@@ -452,6 +643,7 @@ public class MapMgr : MonoBehaviour
         dicBlueDoor.Clear();
         dicTraps.Clear();
         dicSceneChange.Clear();
+        dicSpikes.Clear();
 
 
 
@@ -473,7 +665,7 @@ public class MapMgr : MonoBehaviour
                     dicButton.Add(tile.posID, (ButtonViewItem)tile);
                     break;
                 case TileType.RedDoor:
-                    dicRedDoor.Add(tile.posID,tile);
+                    dicRedDoor.Add(tile.posID, tile);
                     break;
                 case TileType.BlueDoor:
                     dicBlueDoor.Add(tile.posID, tile);
@@ -490,6 +682,9 @@ public class MapMgr : MonoBehaviour
                 case TileType.Traps:
                     dicTraps.Add(tile.posID, (TrapsViemItem)tile);
                     break;
+                case TileType.Spikes:
+                    dicSpikes.Add(tile.posID, tile);
+                    break;
                 case TileType.SceneChange:
                     dicSceneChange.Add(tile.posID, tile);
                     break;
@@ -499,7 +694,7 @@ public class MapMgr : MonoBehaviour
 
     #endregion
 
-    #region Get the CrystalkeyID 
+    #region Get the ItemID 
     public void ScanCrystalkeyID(Vector2Int CrystalPosID)
     {
         keyID = -1;
@@ -514,9 +709,6 @@ public class MapMgr : MonoBehaviour
         }
     }
 
-    #endregion
-
-    #region Get the IceKeyID 
     public void ScanIceKeyID(Vector2Int IceKeyID)
     {
         keyID = -1;
@@ -531,9 +723,7 @@ public class MapMgr : MonoBehaviour
         }
     }
 
-    #endregion
 
-    #region Get the ButtonkeyID 
     public void ScanButtonkeyID(Vector2Int ButtonPosID)
     {
         keyID = -1;
@@ -549,9 +739,7 @@ public class MapMgr : MonoBehaviour
         }
     }
 
-    #endregion
 
-    #region Get the BoxkeyID 
     public void ScanBoxkeyID(Vector2Int BoxkeyID)
     {
         keyID = -1;
@@ -566,6 +754,11 @@ public class MapMgr : MonoBehaviour
             }
         }
     }
+
+
+
+
+
 
     #endregion
 
@@ -582,30 +775,30 @@ public class MapMgr : MonoBehaviour
         Vector2Int CharacterPosID = curCharacter.posID;
         ScanAllPos();
 
-       foreach (var kyevalue in dicButton)
+        foreach (var kyevalue in dicButton)
         {
-          Vector2Int ButtonKeyID = kyevalue.Key;
+            Vector2Int ButtonKeyID = kyevalue.Key;
 
-          if (dicBox.ContainsKey(ButtonKeyID))
-          {
-              
-              ButtonViewItem button = (ButtonViewItem)kyevalue.Value;
-                ButtonIsPressed = true;
-                button.ButtonIsPressed = true;
-                button.OnPress();
-           }
-           else if (ButtonKeyID == CharacterPosID)
-           { 
-                
+            if (dicBox.ContainsKey(ButtonKeyID))
+            {
+
                 ButtonViewItem button = (ButtonViewItem)kyevalue.Value;
                 ButtonIsPressed = true;
                 button.ButtonIsPressed = true;
                 button.OnPress();
             }
-           else
+            else if (ButtonKeyID == CharacterPosID)
             {
-              
-               ButtonViewItem button = (ButtonViewItem)kyevalue.Value;
+
+                ButtonViewItem button = (ButtonViewItem)kyevalue.Value;
+                ButtonIsPressed = true;
+                button.ButtonIsPressed = true;
+                button.OnPress();
+            }
+            else
+            {
+
+                ButtonViewItem button = (ButtonViewItem)kyevalue.Value;
                 ButtonIsPressed = false;
                 button.ButtonIsPressed = false;
                 button.OnRelease();
@@ -621,32 +814,22 @@ public class MapMgr : MonoBehaviour
 
     #endregion
 
-    #region CheckTrapsState
-    public void CheckTrapsState()
+
+
+    public void ClearDataChangScence()
     {
-       
-      //  Vector2Int CharacterPosID = curCharacter.posID;
-
-     //   foreach (var kyevalue in dicTraps)
-       // {
-       //     TrapsKeyID = KeyValuePair.key;
-       //     if (dicBox.ContainsKey(TrapsKeyID))
-            {
-       //         TrapsIsPassable = true;
-            }
-       //     else
-            {
-       //         TrapsIsPassable = false;
-            }
-
-
-        }
-
-
+        dicAllTile.Clear();
+        dicBox.Clear();
+        dicButton.Clear();
+        dicWall.Clear();
+        dicCrystal.Clear();
+        dicIce.Clear();
+        dicRedDoor.Clear();
+        dicBlueDoor.Clear();
+        dicTraps.Clear();
+        dicSceneChange.Clear();
+        dicSpikes.Clear();
     }
 
-
-
-    #endregion
-
+}
 

@@ -3,19 +3,45 @@ using System.Collections.Generic;
 using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
+public class BaseRecordData
+{
+    public int keyID;
+}
 
-public class ActionRecordData
+public class ActionRecordData : BaseRecordData
 {
     //Define that keyID=-2 mean character
-    public int keyID;
     public Vector2Int startPos;
     public Vector2Int endPos;
+    
 
     public ActionRecordData(int keyID, Vector2Int startPos, Vector2Int endPos)
     {
+
         this.keyID = keyID;
         this.startPos = startPos;
         this.endPos = endPos;
+        
+    }
+
+
+}
+
+public class DestoryStateRecordData : BaseRecordData
+{
+    //Define that keyID=-2 mean character
+    public Vector2Int PosID;
+    public TileType tileType;
+
+
+    public DestoryStateRecordData(int keyID, Vector2Int PosID, TileType tileType)
+    {
+
+        this.keyID = keyID;
+        this.PosID = PosID;
+        this.tileType=tileType;
+        
+
     }
 }
 
@@ -27,6 +53,22 @@ public class GameData
         energy = 0;
         dicCrystal.Clear();
     }
+
+    #region data destroyedTiles
+    public Dictionary<int, bool> destroyedTiles = new Dictionary<int, bool>();
+
+    public void RecordDestroyedTile(int keyID)
+    {
+        destroyedTiles[keyID] = true;
+    }
+
+    public bool IsTileDestroyed(int keyID)
+    {
+        return destroyedTiles.ContainsKey(keyID) && destroyedTiles[keyID];
+    }
+
+    #endregion
+
 
     #region Crystal
     public int energy = 0;
@@ -73,9 +115,9 @@ public class GameData
 
     #region Undo
 
-    private Stack<List<ActionRecordData>> stackActionRecord = new Stack<List<ActionRecordData>>();
+    private Stack<List<BaseRecordData>> stackActionRecord = new Stack<List<BaseRecordData>>();
 
-    public void AddRecordAction(List<ActionRecordData> listAction)
+    public void AddRecordAction(List<BaseRecordData> listAction)
     {
         stackActionRecord.Push(listAction);
     }
@@ -84,14 +126,24 @@ public class GameData
     {
         if (stackActionRecord.Count > 0)
         {
-            List<ActionRecordData> listUndoAction = stackActionRecord.Pop();
+            List<BaseRecordData> listUndoAction = stackActionRecord.Pop();
 
 
             if (listUndoAction != null)
             {
                 foreach (var action in listUndoAction)
                 {
-                    EventCenter.Instance.EventTrigger("Undo", action);
+                    if (action.GetType() == typeof(DestoryStateRecordData))
+                    {
+                        EventCenter.Instance.EventTrigger("UndoDestroy", action);
+                        
+                    }
+                    else if(action.GetType() == typeof(ActionRecordData))
+                    {
+                        EventCenter.Instance.EventTrigger("Undo", action);
+                    }
+                    
+
                 }
             }
         }

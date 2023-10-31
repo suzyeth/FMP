@@ -9,7 +9,10 @@ public partial class PublicTool
         foreach (UnityEngine.Transform item in tf)
         {
             UnityEngine.Object.Destroy(item.gameObject);
+            
+
         }
+        
     }
 
     public static Vector2 ConvertPosFromID(Vector2Int posID)

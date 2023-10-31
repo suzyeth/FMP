@@ -7,6 +7,7 @@ public class TileViewItem : UnitViewItem
 {
     public int keyID = -999;
     public TileType tileType;
+    
 
     public override void Init()
     {
