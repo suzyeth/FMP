@@ -47,8 +47,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initPosID: {x: 0, y: 0}
   posID: {x: 0, y: 0}
-  IsDestroyed: 0
-  thisItem: {fileID: 7741738294718654463}
   keyID: -999
   tileType: 7
 --- !u!212 &6453285392748202142
@@ -92,8 +90,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 4c27bb754c1ec6649af8e69e6ac7c0f8, type: 3}
-  m_Color: {r: 0.014951921, g: 0.6603774, b: 0.2578128, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 7d6d931d82910344a8ccac6e33833903, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
