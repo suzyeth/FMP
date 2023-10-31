@@ -77,5 +77,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tfMap: {fileID: 7062897079712711939}
-  tfCharacter: {fileID: 0}
-  pfCharacter: {fileID: 7050905515450940448, guid: 0b30cb50ce8ebab43aa293717cefc099, type: 3}

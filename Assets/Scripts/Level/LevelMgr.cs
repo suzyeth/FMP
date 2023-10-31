@@ -12,7 +12,7 @@ public class LevelMgr : MonoBehaviour
     #region Init
     public void Init()
     {
-        StartLevel(3);
+        StartLevel(5);
     }
 
 /*    public void InitCharacter()
