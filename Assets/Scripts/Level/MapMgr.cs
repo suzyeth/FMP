@@ -148,11 +148,12 @@ public class MapMgr : MonoBehaviour
 
                 if (
                     ( !dicBox.ContainsKey(targetPosBox) || ( dicBox.ContainsKey(targetPosBox) && dicBox[targetPosBox].IsDestroyed ) ) &&
+
                     ( !dicWall.ContainsKey(targetPosBox) || (dicWall.ContainsKey(targetPosBox) && dicBox[targetPosCharacter].IsDestroyed) )&&
                      //Ice
-                    ( !dicIce.ContainsKey(targetPosBox) || ( dicIce.ContainsKey(targetPosBox) && dicIce[targetPosBox].IsDestroyed ) ) &&
+                    ( !dicIce.ContainsKey(targetPosBox) || ( dicIce.ContainsKey(targetPosBox) && dicIce[targetPosBox].IsDestroyed ) || (dicIce.ContainsKey(targetPosBox) && dicBox[targetPosCharacter].IsDestroyed)) &&
                     //crystal
-                    ( !dicCrystal.ContainsKey(targetPosBox) || ( dicCrystal.ContainsKey(targetPosBox) && dicCrystal[targetPosBox].IsDestroyed ) || ( dicCrystal.ContainsKey(targetPosBox) && dicBox[targetPosCharacter].IsDestroyed ) ))
+                    ( !dicCrystal.ContainsKey(targetPosBox) || ( dicCrystal.ContainsKey(targetPosBox) && dicCrystal[targetPosBox].IsDestroyed ) || ( dicCrystal.ContainsKey(targetPosBox) && dicBox[targetPosCharacter].IsDestroyed )  ))
                 {
                     if (dicButton.ContainsKey(targetPosBox))
                     {
@@ -167,18 +168,12 @@ public class MapMgr : MonoBehaviour
                         curCharacter.Move(dir);
                         box.Move(dir);
                     }
-                    else if (dicBox[targetPosCharacter].IsDestroyed)
-                    {
-                        
-                        ActionRecordData characterAction = new(-2, startCharacterPosID, targetPosCharacter);
-                        listAllAction.Add(characterAction);
-                        curCharacter.Move(dir);
-
-                    }
+                    
                     
                     else if (dicTraps.ContainsKey(targetPosBox))
                     {
                         TrapsViemItem Traps = (TrapsViemItem)dicTraps[targetPosBox];
+                        
 
                         if (!Traps.TrapsIsFilled)
                         {
@@ -212,7 +207,7 @@ public class MapMgr : MonoBehaviour
                         }
                         else
                         {
-
+                            UnityEngine.Debug.Log("TrapsandBox");
 
                             curCharacter.Move(dir);
                             box.Move(dir);
