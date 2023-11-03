@@ -21,4 +21,6 @@ public class TileViewItem : UnitViewItem
 
         this.transform.DOMove(PublicTool.ConvertPosFromID(posID), 0.2f);
     }
+
+
 }

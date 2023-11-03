@@ -12,9 +12,9 @@ public class UnitViewItem : MonoBehaviour
     public bool IsDestroyed = false;
     public bool DoorIsOpened = false;
 
-    //public GameObject father;
-    // public GameObject TilePrefab;
-    public GameObject thisItem;
+  
+
+
 
 
 
@@ -56,15 +56,9 @@ public class UnitViewItem : MonoBehaviour
         RefreshPosInstant();
     }
 
-    public void RegenerateTile(Vector2Int posID)
-    {
-       
-        //GameObject NewTile = Instantiate(TilePrefab, PublicTool.ConvertPosFromID(posID), quaternion.identity);
-        //NewTile.transform.parent = father.transform;
+    
 
-    }
-
-    public void inactivation()
+    /*public void inactivation()
     {
         if (thisItem.activeSelf == false)
         {
@@ -79,7 +73,9 @@ public class UnitViewItem : MonoBehaviour
         
         
 
-    }
+    }*/
+
+    
 
 
     public void OpenDoor()
@@ -96,4 +92,6 @@ public class UnitViewItem : MonoBehaviour
 
 
     }
+
+    
 }

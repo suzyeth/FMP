@@ -111,6 +111,10 @@ public partial class InputMgr : MonoSingleton<InputMgr>
 
             Debug.Log("Invoke Undo");
         }
+        else
+        {
+            Debug.LogWarning("GameData is null");
+        }
 
     }
 

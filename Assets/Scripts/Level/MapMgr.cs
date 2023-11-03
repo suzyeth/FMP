@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -53,8 +54,10 @@ public class MapMgr : MonoBehaviour
     public int ItemKeyID = -1;
 
 
+    public GameObject IcePrefab;
+    public GameObject BoxPrefab;
+    public GameObject CrystalPrefab;
 
-    
 
 
 
@@ -130,7 +133,7 @@ public class MapMgr : MonoBehaviour
                 UnityEngine.Debug.Log("SceneChange");
                 
                 ChangeScenceViewItem SceneChange = (ChangeScenceViewItem)dicSceneChange[targetPosCharacter];
-                DestoryTile(SceneChange.keyID);
+                DestoryTile(SceneChange.keyID, SceneChange.posID);
                 SceneChange.ChangeScence();
 
 
@@ -144,166 +147,12 @@ public class MapMgr : MonoBehaviour
                 //Check whether this block is box
                 TileViewItem box = (TileViewItem)dicBox[targetPosCharacter];
                 Vector2Int targetPosBox = box.posID + dir;
-
-
-                if (
-                    ( !dicBox.ContainsKey(targetPosBox) || ( dicBox.ContainsKey(targetPosBox) && dicBox[targetPosBox].IsDestroyed ) ) &&
-
-                    ( !dicWall.ContainsKey(targetPosBox) || (dicWall.ContainsKey(targetPosBox) && dicBox[targetPosCharacter].IsDestroyed) )&&
-                     //Ice
-                    ( !dicIce.ContainsKey(targetPosBox) || ( dicIce.ContainsKey(targetPosBox) && dicIce[targetPosBox].IsDestroyed ) || (dicIce.ContainsKey(targetPosBox) && dicBox[targetPosCharacter].IsDestroyed)) &&
-                    //crystal
-                    ( !dicCrystal.ContainsKey(targetPosBox) || ( dicCrystal.ContainsKey(targetPosBox) && dicCrystal[targetPosBox].IsDestroyed ) || ( dicCrystal.ContainsKey(targetPosBox) && dicBox[targetPosCharacter].IsDestroyed )  ))
-                {
-                    if (dicButton.ContainsKey(targetPosBox))
+   
+                   if (!dicBox.ContainsKey(targetPosBox) && !dicIce.ContainsKey(targetPosBox) && !dicCrystal.ContainsKey(targetPosBox) && !dicWall.ContainsKey(targetPosBox))
                     {
-                        UnityEngine.Debug.Log("Box&Button");
 
-                        ActionRecordData characterAction = new(-2, startCharacterPosID, targetPosCharacter);
-                        listAllAction.Add(characterAction);
-
-                        ActionRecordData boxAction = new(box.keyID, box.posID, box.posID + dir);
-                        listAllAction.Add(boxAction);
-
-                        curCharacter.Move(dir);
-                        box.Move(dir);
-                    }
-                    
-                    
-                    else if (dicTraps.ContainsKey(targetPosBox))
-                    {
-                        TrapsViemItem Traps = (TrapsViemItem)dicTraps[targetPosBox];
                         
-
-                        if (!Traps.TrapsIsFilled)
-                        {
-                            //The absence of a box in the trap
-
-                            UnityEngine.Debug.Log("Traps.TrapsIsFilled" + Traps.TrapsIsFilled);
-
-                            
-
-                            //Record Move
-                            ActionRecordData characterAction = new(-2, startCharacterPosID, targetPosCharacter);
-                            listAllAction.Add(characterAction);
-                            ActionRecordData boxAction = new(box.keyID, box.posID, box.posID + dir);
-                            listAllAction.Add(boxAction);
-
-
-                            DestoryTile(box.keyID);
-
-                            //Record changes in status
-                            DestoryStateRecordData trapAction = new(Traps.keyID, targetPosBox, TileType.Traps);
-                            listAllAction.Add(trapAction);
-                            DestoryStateRecordData BoxAction = new(box.keyID, box.posID, TileType.Box);
-                            listAllAction.Add(BoxAction);
-
-                            //Move
-                            curCharacter.Move(dir);
-                            box.Move(dir);
-
-                            Traps.TrapsIsFilled = true;
-
-                        }
-                        else
-                        {
-                            UnityEngine.Debug.Log("TrapsandBox");
-
-                            curCharacter.Move(dir);
-                            box.Move(dir);
-
-                            ActionRecordData characterAction = new(-2, startCharacterPosID, targetPosCharacter);
-                            listAllAction.Add(characterAction);
-
-                            ActionRecordData boxAction = new(box.keyID, box.posID, box.posID + dir);
-                            listAllAction.Add(boxAction);
-                        }
-
-
-
-                    }
-                    else if (dicRedDoor.ContainsKey(targetPosBox))
-                    {
-                        if (dicRedDoor[targetPosBox].DoorIsOpened)
-                        {
-                            UnityEngine.Debug.Log("Box&RedDoor");
-                            ActionRecordData characterAction = new(-2, startCharacterPosID, targetPosCharacter);
-                            listAllAction.Add(characterAction);
-
-                            ActionRecordData boxAction = new(box.keyID, box.posID, box.posID + dir);
-                            listAllAction.Add(boxAction);
-
-                            curCharacter.Move(dir);
-                            box.Move(dir);
-                        }
-                        else
-                        {
-                            UnityEngine.Debug.Log("Can't go through reddoor");
-                        }
-
-
-                    }
-                    else if (dicBlueDoor.ContainsKey(targetPosBox))
-                    {
-                        if (dicBlueDoor[targetPosBox].DoorIsOpened)
-                        {
-                            UnityEngine.Debug.Log("Box&BlueDoor");
-                            ActionRecordData characterAction = new(-2, startCharacterPosID, targetPosCharacter);
-                            listAllAction.Add(characterAction);
-
-                            ActionRecordData boxAction = new(box.keyID, box.posID, box.posID + dir);
-                            listAllAction.Add(boxAction);
-
-                            curCharacter.Move(dir);
-                            box.Move(dir);
-                        }
-                        else
-                        {
-                            UnityEngine.Debug.Log("Can't go through bluedoor");
-                        }
-
-
-                    }                   
-                    else
-                    {
-                        ActionRecordData characterAction = new(-2, startCharacterPosID, targetPosCharacter);
-                        listAllAction.Add(characterAction);
-
-                        ActionRecordData boxAction = new(box.keyID, box.posID, box.posID + dir);
-                        listAllAction.Add(boxAction);
-
-                        curCharacter.Move(dir);
-                        box.Move(dir);
-                    }
-                    }
-                
-
-
-
-               
-                   /* if ((!dicBox.ContainsKey(targetPosBox) || (dicBox.ContainsKey(targetPosBox) && dicBox[targetPosBox].IsDestroyed)) &&
-                         !dicWall.ContainsKey(targetPosBox) &&
-
-                        //Ice
-                        (!dicIce.ContainsKey(targetPosBox) || (dicIce.ContainsKey(targetPosBox) && dicIce[targetPosBox].IsDestroyed)) &&
-                       //crystal
-                       (!dicCrystal.ContainsKey(targetPosBox) || (dicCrystal.ContainsKey(targetPosBox) && dicCrystal[targetPosBox].IsDestroyed)))
-                    {
-
-                        if (dicButton.ContainsKey(targetPosBox))
-                        {
-                            UnityEngine.Debug.Log("Box&Button");
-
-                            ActionRecordData characterAction = new(-2, startCharacterPosID, targetPosCharacter);
-                            listAllAction.Add(characterAction);
-
-                            ActionRecordData boxAction = new(box.keyID, box.posID, box.posID + dir);
-                            listAllAction.Add(boxAction);
-
-                            curCharacter.Move(dir);
-                            box.Move(dir);
-                        }
-                        else if (dicTraps.ContainsKey(targetPosBox))
+                        if (dicTraps.ContainsKey(targetPosBox))
                         {
                             TrapsViemItem Traps = (TrapsViemItem)dicTraps[targetPosBox];
 
@@ -311,7 +160,7 @@ public class MapMgr : MonoBehaviour
                             {
                                 //The absence of a box in the trap
 
-                                UnityEngine.Debug.Log("Traps.TrapsIsFilled" + Traps.TrapsIsFilled);
+                                
 
                                 //Move
                                 curCharacter.Move(dir);
@@ -322,12 +171,12 @@ public class MapMgr : MonoBehaviour
 
 
 
-                                DestoryTile(box.keyID);
+                                DestoryTile(box.keyID, box.posID);
 
                                 //Record changes in status
                                 DestoryStateRecordData trapAction = new(Traps.keyID, targetPosBox, TileType.Traps);
                                 listAllAction.Add(trapAction);
-                                DestoryStateRecordData BoxAction = new(box.keyID, targetPosCharacter, TileType.Box);
+                                DestoryStateRecordData BoxAction = new(box.keyID, box.posID, TileType.Box);
                                 listAllAction.Add(BoxAction);
 
                                 Traps.TrapsIsFilled = true;
@@ -354,7 +203,7 @@ public class MapMgr : MonoBehaviour
                         {
                             if (dicRedDoor[targetPosBox].DoorIsOpened)
                             {
-                                UnityEngine.Debug.Log("Box&RedDoor");
+                                
                                 ActionRecordData characterAction = new(-2, startCharacterPosID, targetPosCharacter);
                                 listAllAction.Add(characterAction);
 
@@ -392,6 +241,17 @@ public class MapMgr : MonoBehaviour
 
 
                         }
+                        else if (dicSpikes.ContainsKey(targetPosBox))
+                        {
+                        ActionRecordData characterAction = new(-2, startCharacterPosID, targetPosCharacter);
+                        listAllAction.Add(characterAction);
+
+                        ActionRecordData boxAction = new(box.keyID, box.posID, box.posID + dir);
+                        listAllAction.Add(boxAction);
+
+                        curCharacter.Move(dir);
+                        box.Move(dir);
+                        }
                         else
                         {
                             ActionRecordData characterAction = new(-2, startCharacterPosID, targetPosCharacter);
@@ -407,20 +267,19 @@ public class MapMgr : MonoBehaviour
 
 
                     
-                }*/
+                    }
 
-                
-                
+
+
+
             }
 
             else if (dicCrystal.ContainsKey(targetPosCharacter))
             {
 
 
-                UnitViewItem Crystal = (UnitViewItem)dicCrystal[targetPosCharacter];
-                if (Crystal.IsDestroyed == false)
-                {
-                    Crystal.IsDestroyed = true;
+                TileViewItem Crystal = (TileViewItem)dicCrystal[targetPosCharacter];
+                
                     UnityEngine.Debug.Log("Crystal");
                     gameData.AddCrystal(1);
                     gameData.GetNumActiveCrystal();
@@ -429,25 +288,17 @@ public class MapMgr : MonoBehaviour
                     ScanCrystalkeyID(targetPosCharacter);
                     //?尚未实现输出能量数量
 
-                    DestoryTile(ItemKeyID);
+                    DestoryTile(ItemKeyID, Crystal.posID);
                     // Move
                     curCharacter.Move(dir);
                     //Record Move
                     ActionRecordData characterAction = new(-2, startCharacterPosID, targetPosCharacter);
                     listAllAction.Add(characterAction);
 
-                    DestoryStateRecordData CrystalAction = new(ItemKeyID, targetPosCharacter, TileType.Crystal);
+                    DestoryStateRecordData CrystalAction = new(Crystal.keyID, targetPosCharacter, TileType.Crystal);
                     listAllAction.Add(CrystalAction);
 
-                }
-                else
-                {
-                    UnityEngine.Debug.Log("No Crystal");
-                    curCharacter.Move(dir);
-                    //Record Move
-                    ActionRecordData characterAction = new(-2, startCharacterPosID, targetPosCharacter);
-                    listAllAction.Add(characterAction);
-                }
+               
 
 
             }
@@ -457,13 +308,13 @@ public class MapMgr : MonoBehaviour
                 UnityEngine.Debug.Log("Ice");
                 IceViewItem Ice = (IceViewItem)dicIce[targetPosCharacter];
                 //No effect
-                if (Ice.iceIsCracked && Ice.IsDestroyed == false)
+                if (Ice.iceIsCracked )
                 {
 
                     //Attachment of properties to a single prefabricated body
-                    UnityEngine.Debug.Log("Icebroken");
-                    ScanIceKeyID(targetPosCharacter);
-                    DestoryTile(ItemKeyID);
+                    UnityEngine.Debug.Log("IceDisappear");
+                    
+                    DestoryTile(Ice.keyID, Ice.posID);
 
                     //Move
                     curCharacter.Move(dir);
@@ -471,7 +322,7 @@ public class MapMgr : MonoBehaviour
                     ActionRecordData characterAction = new(-2, startCharacterPosID, targetPosCharacter);
                     listAllAction.Add(characterAction);
 
-                    dicIce[targetPosCharacter].IsDestroyed = true;
+                    
                     DestoryStateRecordData IceAction = new(Ice.keyID, targetPosCharacter, TileType.Ice);
                     listAllAction.Add(IceAction);
 
@@ -480,19 +331,14 @@ public class MapMgr : MonoBehaviour
 
 
                 }
-                else if ( !Ice.iceIsCracked && Ice.IsDestroyed == false)
+                else 
                 {
                     Ice.iceIsCracked = true;
 
                     DestoryStateRecordData IceAction = new(Ice.keyID, targetPosCharacter, TileType.Ice);
                     listAllAction.Add(IceAction);
                 }
-                else
-                {
-                    curCharacter.Move(dir);
-                    ActionRecordData characterAction = new(-2, startCharacterPosID, targetPosCharacter);
-                    listAllAction.Add(characterAction);
-                }
+                
 
 
 
@@ -574,7 +420,7 @@ public class MapMgr : MonoBehaviour
                 //Record Move
                 ActionRecordData characterAction = new(-2, startCharacterPosID, targetPosCharacter);
                 listAllAction.Add(characterAction);
-                CheckButtonState();
+                
 
             }
             //Empty
@@ -613,34 +459,74 @@ public class MapMgr : MonoBehaviour
                 tile.MoveToTarPos(recordData.startPos);
 
             }
+            
         }
 
 
 
         ScanAllPos();
+        CheckButtonState();
+
     }
 
     private void UndoDestroyEvent(object info)
     {
         DestoryStateRecordData recordData = (DestoryStateRecordData)info;
-
-        if (recordData.tileType == TileType.Box)
+         if (recordData.tileType == TileType.Ice)
         {
-            UnitViewItem Box = dicAllTile[recordData.keyID];
-            Box.IsDestroyed = false;
-            Box.inactivation();
+            IceViewItem Ice;
+            if (dicIce.TryGetValue(recordData.PosID, out IceViewItem ice))
+            {
+                Ice = (IceViewItem)dicIce[recordData.PosID];
+                Ice.iceIsCracked = false;
+            }
+            else
+            {
+                // 处理字典中不存在该键的情况
+
+                
+                //RegenerateTile(IcePrefab, recordData.PosID);
+                //Ice.inactivation();
+                RegenerateTile(IcePrefab, recordData.PosID);
+
+                ScanAllPos();
+                Ice = (IceViewItem)dicIce[recordData.PosID];
+                Ice.iceIsCracked = true;
+                //Ice.IsDestroyed = false;
+
+            }
+
+
+
+
+
+
+        }
+        else if(recordData.tileType == TileType.Box)
+        {
+            
+            RegenerateTile(BoxPrefab, recordData.PosID);
+            
+            UnitViewItem Box = dicBox[recordData.PosID];
+            
+            //Box.IsDestroyed = false;
+            //Box.inactivation();
             Box.MoveToTarPos(recordData.PosID);
 
 
         }
         else if (recordData.tileType == TileType.Crystal)
         {
+            
+            RegenerateTile(CrystalPrefab, recordData.PosID);
+            
+
             UnitViewItem Crystal = (UnitViewItem)dicCrystal[recordData.PosID];
-            Crystal.IsDestroyed = false;
-            Crystal.inactivation();
+            //Crystal.IsDestroyed = false;
+            //Crystal.inactivation();
             //计数要改变，还没做
 
-           
+
 
 
         }
@@ -648,110 +534,96 @@ public class MapMgr : MonoBehaviour
         {
 
             TrapsViemItem Traps = (TrapsViemItem)dicTraps[recordData.PosID];
-           
-
             Traps.TrapsIsFilled = false;
+            UnityEngine.Debug.Log("Traps.TrapsIsFilled" + Traps.TrapsIsFilled);
 
         }
-        else if (recordData.tileType == TileType.Ice)
-        {
-            IceViewItem Ice = (IceViewItem)dicIce[recordData.PosID];
-            if (Ice.IsDestroyed == false)
-            {
-                UnityEngine.Debug.Log("Undoice");
-                Ice.iceIsCracked=false;
-
-
-            }
-            else
-            {
-                UnityEngine.Debug.Log("UndoiceIsCracked");
-                Ice.inactivation();
-                Ice.iceIsCracked = true;
-                Ice.IsDestroyed = false;
-                
-            }
-
-
-
-        }
+        
+        CheckButtonState();
+        ScanAllPos();
 
     }
 
     #endregion
 
     #region DestoryTile
-    public void DestoryTile(int keyID)
+    public void DestoryTile(int keyID,Vector2Int posID)
     {
         if (dicAllTile.ContainsKey(keyID))
         {
+            if (dicBox.ContainsKey(posID))
+            {
+                dicBox.Remove(posID);
+            }
+            else if (dicCrystal.ContainsKey(posID))
+            {
+                dicCrystal.Remove(posID);
+            }
+            else if (dicIce.ContainsKey(posID))
+            {
+                dicIce.Remove(posID);
+            }
             TileViewItem tileViewItem = dicAllTile[keyID];
             tileViewItem.IsDestroyed = true;
-            tileViewItem.inactivation();
-            //listTile.Remove(tileViewItem);
-            //dicAllTile.Remove(keyID);
-            //tileViewItem.IsDestroyed = true;
+            //tileViewItem.inactivation();
             //tileViewItem.gameObject.SetActive(false);
-            //Destroy(tileViewItem.gameObject);
+            listTile.Remove(tileViewItem);
+            dicAllTile.Remove(keyID);
+            
+            
+            Destroy(tileViewItem.gameObject);
             ScanAllPos();
         }
 
     }
     #endregion
 
-
-
-    /*public void RegenerateTile(TileType tileType, Vector2Int posID)
+    public void RegenerateTile(GameObject Prefab, Vector2Int posID)
     {
-        // 首先确定要重新生成的瓷砖的类型和位置
-        switch (tileType)
+        GameObject  newObject = Instantiate(Prefab, new Vector3(posID.x, posID.y, 0), Quaternion.identity);
+       
+        newObject.transform.parent = tfTile;
+        Vector2Int crystalPos = posID;
+        Vector2Int icePos = posID;
+        Vector2Int boxPos = posID;
+
+
+        if (Prefab == BoxPrefab)
         {
-            case TileType.Crystal:
-                // 在dicCrystal中查找具有特定posID的瓷砖
-                if (dicCrystal.ContainsKey(posID))
-                {
-                    UnitViewItem existingCrystal = dicCrystal[posID];
 
-                    // 检查瓷砖是否已被销毁
-                    if (existingCrystal.IsDestroyed)
-                    {
-                        // 取消瓷砖的非销毁状态
-                        existingCrystal.IsDestroyed = false;
-
-                        // 在这里实例化新的瓷砖游戏对象，你需要根据具体情况创建新的对象
-                        //GameObject newCrystalObject = Instantiate(icePrefab);
-
-                        // 设置新的瓷砖的位置和其他属性
-                        // 使用posID和其他信息来确定位置
-
-                        // 如果有需要，你可以将新的瓷砖添加到相应的字典中，以便跟踪它
-                        // 例如，如果你的字典是Dictionary<Vector2Int, UnitViewItem>
-                        //dicCrystal[posID] = newCrystalObject.GetComponent<UnitViewItem>();
-                    }
-                }
-                break;
-
-            case TileType.Box:
-                // 同样的方法处理箱子的重新生成
-                if (dicBox.ContainsKey(posID))
-                {
-                    UnitViewItem existingBox = dicBox[posID];
-                    if (existingBox.IsDestroyed)
-                    {
-                        //existingBox.IsDestroyed = false;
-
-                        //GameObject newBoxObject = Instantiate(boxPrefab);
-
-                        // 设置新的瓷砖的位置和其他属性
-
-                        //dicBox[posID] = newBoxObject.GetComponent<UnitViewItem>();
-                    }
-                }
-                break;
-
-                // 其他类型的瓷砖可以类似处理
+            TileViewItem BoxTileItem = newObject.GetComponent<TileViewItem>();
+            BoxTileItem.posID = boxPos;
+            listTile.Add(BoxTileItem);
+            dicBox.Add(BoxTileItem.posID, BoxTileItem);
         }
-    }*/
+        else if (Prefab == CrystalPrefab)
+        {
+            TileViewItem CrystalItem = newObject.GetComponent<TileViewItem>();
+            CrystalItem.posID = crystalPos;
+            listTile.Add(CrystalItem);
+            dicCrystal.Add(CrystalItem.posID, CrystalItem);
+        }
+        else if (Prefab == IcePrefab)
+        {
+            IceViewItem IceTileItem = newObject.GetComponent<IceViewItem>();
+            IceTileItem.posID = icePos;
+            listTile.Add(IceTileItem);
+            dicIce.Add(IceTileItem.posID, (IceViewItem)IceTileItem);
+        }
+
+        //TileViewItem newTileItem = newObject.GetComponent<TileViewItem>();
+       // newTileItem.posID = posID;
+
+
+        //listTile.Add(newTileItem);
+        ScanAllPos();
+
+    }
+
+
+
+   
+        
 
     #region InitCheck
 
@@ -925,7 +797,7 @@ public class MapMgr : MonoBehaviour
 
         //Otherwise the red door closes
         Vector2Int CharacterPosID = curCharacter.posID;
-        ScanAllPos();
+        
 
         foreach (var kyevalue in dicButton)
         {
@@ -959,7 +831,7 @@ public class MapMgr : MonoBehaviour
 
         }
 
-
+        ScanAllPos();
     }
 
 

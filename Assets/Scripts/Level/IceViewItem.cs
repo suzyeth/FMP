@@ -7,6 +7,7 @@ public class IceViewItem : TileViewItem
 {
     public bool iceIsCracked=false;
     
+
     #region spriteVariables
     public Sprite iceUnCracked;
     public Sprite iceCracked;
@@ -34,4 +35,6 @@ public class IceViewItem : TileViewItem
         }
 
     }
+
+   
 }
