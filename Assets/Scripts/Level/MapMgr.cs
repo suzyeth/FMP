@@ -147,14 +147,8 @@ public class MapMgr : MonoBehaviour
                 //Check whether this block is box
                 TileViewItem box = (TileViewItem)dicBox[targetPosCharacter];
                 Vector2Int targetPosBox = box.posID + dir;
-
    
                    if (!dicBox.ContainsKey(targetPosBox) && !dicIce.ContainsKey(targetPosBox) && !dicCrystal.ContainsKey(targetPosBox) && !dicWall.ContainsKey(targetPosBox))
-
-
-
-                
-
                     {
 
                         

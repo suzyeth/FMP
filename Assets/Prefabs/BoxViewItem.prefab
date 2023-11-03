@@ -47,8 +47,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initPosID: {x: 0, y: 0}
   posID: {x: 0, y: 0}
-  IsDestroyed: 0
-  thisItem: {fileID: 7203087793979579479}
   keyID: -999
   tileType: 0
 --- !u!212 &5838920244854125366
