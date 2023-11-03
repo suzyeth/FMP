@@ -99,8 +99,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initPosID: {x: 0, y: 0}
   posID: {x: 0, y: 0}
+  IsDestroyed: 0
+  thisItem: {fileID: 7741738294718654463}
   keyID: -999
   tileType: 4
   iceIsCracked: 0
+  iceIsDestroyed: 0
   iceUnCracked: {fileID: 21300000, guid: 43d02c340adb34342be709f25ca86db8, type: 3}
   iceCracked: {fileID: 21300000, guid: e4eaa3de48541314bbd5f610daa19a3a, type: 3}

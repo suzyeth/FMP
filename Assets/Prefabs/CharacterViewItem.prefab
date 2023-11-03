@@ -131,3 +131,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initPosID: {x: 0, y: 0}
   posID: {x: 0, y: 0}
+  IsDestroyed: 0
+  DoorIsOpened: 0
+  thisItem: {fileID: 7050905515450940448}
