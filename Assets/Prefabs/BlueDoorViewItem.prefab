@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1409877929514706182}
-  - component: {fileID: 950978274985630382}
   - component: {fileID: 4674377073018809531}
+  - component: {fileID: -9003375880561009223}
   m_Layer: 0
   m_Name: BlueDoorViewItem
   m_TagString: Untagged
@@ -33,22 +33,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &950978274985630382
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7741738294718654463}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47507d8fe3aad7a4896a1d9a8ec65b8c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  initPosID: {x: 0, y: 0}
-  posID: {x: 0, y: 0}
-  keyID: -999
-  tileType: 6
 --- !u!212 &4674377073018809531
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -101,3 +85,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &-9003375880561009223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7741738294718654463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d515f400565980241b3ce6bb81f9930f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initPosID: {x: 0, y: 0}
+  posID: {x: 0, y: 0}
+  IsDestroyed: 0
+  DoorIsOpened: 0
+  thisItem: {fileID: 7741738294718654463}
+  keyID: -999
+  tileType: 6
