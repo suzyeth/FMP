@@ -32,6 +32,7 @@ public class DestoryStateRecordData : BaseRecordData
     //Define that keyID=-2 mean character
     public Vector2Int PosID;
     public TileType tileType;
+   
 
 
     public DestoryStateRecordData(int keyID, Vector2Int PosID, TileType tileType)
@@ -40,7 +41,9 @@ public class DestoryStateRecordData : BaseRecordData
         this.keyID = keyID;
         this.PosID = PosID;
         this.tileType=tileType;
+
         
+
 
     }
 }

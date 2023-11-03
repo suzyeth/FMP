@@ -54,6 +54,7 @@ public class MapMgr : MonoBehaviour
     public int ItemKeyID = -1;
 
 
+
     public GameObject IcePrefab;
     public GameObject BoxPrefab;
     public GameObject CrystalPrefab;
@@ -68,7 +69,7 @@ public class MapMgr : MonoBehaviour
 
         CheckAllCharacter();
         CheckAllTilePos();
-        ScanAllPos();
+        ScanAllPos(true);
     }
 
     #region Event
@@ -280,15 +281,15 @@ public class MapMgr : MonoBehaviour
 
                 TileViewItem Crystal = (TileViewItem)dicCrystal[targetPosCharacter];
                 
-                    UnityEngine.Debug.Log("Crystal");
+                    UnityEngine.Debug.Log("Crystal"+ Crystal.keyID);
                     gameData.AddCrystal(1);
                     gameData.GetNumActiveCrystal();
 
                     //Get the keyID of crystal 
-                    ScanCrystalkeyID(targetPosCharacter);
+                    //ScanCrystalkeyID(targetPosCharacter);
                     //?尚未实现输出能量数量
 
-                    DestoryTile(ItemKeyID, Crystal.posID);
+                    DestoryTile(Crystal.keyID, Crystal.posID);
                     // Move
                     curCharacter.Move(dir);
                     //Record Move
@@ -439,7 +440,7 @@ public class MapMgr : MonoBehaviour
             }
 
             CheckButtonState();
-            ScanAllPos();
+            ScanAllPos(false);
         }
     }
 
@@ -454,9 +455,12 @@ public class MapMgr : MonoBehaviour
         else if (recordData.keyID >= 0)
         {
             if (dicAllTile.ContainsKey(recordData.keyID))
-            {
-                TileViewItem tile = dicAllTile[recordData.keyID];
-                tile.MoveToTarPos(recordData.startPos);
+                {
+                    TileViewItem tile = dicAllTile[recordData.keyID];
+                    tile.MoveToTarPos(recordData.startPos);
+
+
+
 
             }
             
@@ -464,7 +468,7 @@ public class MapMgr : MonoBehaviour
 
 
 
-        ScanAllPos();
+        ScanAllPos(false);
         CheckButtonState();
 
     }
@@ -487,9 +491,8 @@ public class MapMgr : MonoBehaviour
                 
                 //RegenerateTile(IcePrefab, recordData.PosID);
                 //Ice.inactivation();
-                RegenerateTile(IcePrefab, recordData.PosID);
+                RegenerateTile(IcePrefab, recordData.PosID, recordData.keyID);
 
-                ScanAllPos();
                 Ice = (IceViewItem)dicIce[recordData.PosID];
                 Ice.iceIsCracked = true;
                 //Ice.IsDestroyed = false;
@@ -505,7 +508,7 @@ public class MapMgr : MonoBehaviour
         else if(recordData.tileType == TileType.Box)
         {
             
-            RegenerateTile(BoxPrefab, recordData.PosID);
+            RegenerateTile(BoxPrefab, recordData.PosID,recordData.keyID);
             
             UnitViewItem Box = dicBox[recordData.PosID];
             
@@ -518,7 +521,7 @@ public class MapMgr : MonoBehaviour
         else if (recordData.tileType == TileType.Crystal)
         {
             
-            RegenerateTile(CrystalPrefab, recordData.PosID);
+            RegenerateTile(CrystalPrefab, recordData.PosID, recordData.keyID);
             
 
             UnitViewItem Crystal = (UnitViewItem)dicCrystal[recordData.PosID];
@@ -540,7 +543,7 @@ public class MapMgr : MonoBehaviour
         }
         
         CheckButtonState();
-        ScanAllPos();
+        
 
     }
 
@@ -551,41 +554,32 @@ public class MapMgr : MonoBehaviour
     {
         if (dicAllTile.ContainsKey(keyID))
         {
-            if (dicBox.ContainsKey(posID))
-            {
-                dicBox.Remove(posID);
-            }
-            else if (dicCrystal.ContainsKey(posID))
-            {
-                dicCrystal.Remove(posID);
-            }
-            else if (dicIce.ContainsKey(posID))
-            {
-                dicIce.Remove(posID);
-            }
+           
             TileViewItem tileViewItem = dicAllTile[keyID];
             tileViewItem.IsDestroyed = true;
-            //tileViewItem.inactivation();
-            //tileViewItem.gameObject.SetActive(false);
+            
             listTile.Remove(tileViewItem);
+            
             dicAllTile.Remove(keyID);
-            
-            
             Destroy(tileViewItem.gameObject);
-            ScanAllPos();
+            ScanAllPos(false);
         }
 
     }
     #endregion
 
-    public void RegenerateTile(GameObject Prefab, Vector2Int posID)
+    public void RegenerateTile(GameObject Prefab, Vector2Int posID,int keyID)
     {
         GameObject  newObject = Instantiate(Prefab, new Vector3(posID.x, posID.y, 0), Quaternion.identity);
        
         newObject.transform.parent = tfTile;
         Vector2Int crystalPos = posID;
+        int crystalKeyId = keyID;
         Vector2Int icePos = posID;
+        int iceKeyId = keyID;
         Vector2Int boxPos = posID;
+        int boxKeyId = keyID;
+
 
 
         if (Prefab == BoxPrefab)
@@ -593,22 +587,34 @@ public class MapMgr : MonoBehaviour
 
             TileViewItem BoxTileItem = newObject.GetComponent<TileViewItem>();
             BoxTileItem.posID = boxPos;
+            
+            BoxTileItem.keyID = boxKeyId;
             listTile.Add(BoxTileItem);
             dicBox.Add(BoxTileItem.posID, BoxTileItem);
+            dicAllTile.Add(BoxTileItem.keyID, BoxTileItem);
+
         }
         else if (Prefab == CrystalPrefab)
         {
             TileViewItem CrystalItem = newObject.GetComponent<TileViewItem>();
             CrystalItem.posID = crystalPos;
+            CrystalItem.keyID = crystalKeyId;
             listTile.Add(CrystalItem);
             dicCrystal.Add(CrystalItem.posID, CrystalItem);
+            dicAllTile.Add(CrystalItem.keyID, CrystalItem);
+
+
+            UnityEngine.Debug.Log("crystalKeyId" + keyID);
         }
         else if (Prefab == IcePrefab)
         {
             IceViewItem IceTileItem = newObject.GetComponent<IceViewItem>();
             IceTileItem.posID = icePos;
+            IceTileItem.keyID = iceKeyId;
             listTile.Add(IceTileItem);
             dicIce.Add(IceTileItem.posID, (IceViewItem)IceTileItem);
+            dicAllTile.Add(IceTileItem.keyID, (IceViewItem)IceTileItem);
+
         }
 
         //TileViewItem newTileItem = newObject.GetComponent<TileViewItem>();
@@ -616,7 +622,7 @@ public class MapMgr : MonoBehaviour
 
 
         //listTile.Add(newTileItem);
-        ScanAllPos();
+        ScanAllPos(false);
 
     }
 
@@ -655,7 +661,22 @@ public class MapMgr : MonoBehaviour
 
     #region Scan
 
-    public void ScanAllPos()
+    public void ScanAllPos(bool WhetherInit)
+    {
+
+        if (WhetherInit)
+        {
+            InitialScan();
+        }
+        else
+        {
+            UpdateScan();
+
+        }
+
+    }
+
+    private void InitialScan()
     {
         dicAllTile.Clear();
         dicBox.Clear();
@@ -714,6 +735,61 @@ public class MapMgr : MonoBehaviour
                     break;
             }
         }
+    }
+
+    private void UpdateScan()
+    {
+        dicBox.Clear();
+        dicButton.Clear();
+        dicWall.Clear();
+        dicCrystal.Clear();
+        dicIce.Clear();
+        dicRedDoor.Clear();
+        dicBlueDoor.Clear();
+        dicTraps.Clear();
+        dicSceneChange.Clear();
+        dicSpikes.Clear();
+
+        foreach(var Info in dicAllTile)
+        {
+            int keyID = Info.Key;
+            TileViewItem tile = Info.Value;
+
+            switch (tile.tileType)
+            {
+                case TileType.Box:
+                    dicBox.Add(tile.posID, tile);
+                    break;
+                case TileType.Button:
+                    dicButton.Add(tile.posID, (ButtonViewItem)tile);
+                    break;
+                case TileType.RedDoor:
+                    dicRedDoor.Add(tile.posID, (RedDoorViewItem)tile);
+                    break;
+                case TileType.BlueDoor:
+                    dicBlueDoor.Add(tile.posID, (BlueDoorViewItem)tile);
+                    break;
+                case TileType.Wall:
+                    dicWall.Add(tile.posID, tile);
+                    break;
+                case TileType.Crystal:
+                    dicCrystal.Add(tile.posID, tile);
+                    break;
+                case TileType.Ice:
+                    dicIce.Add(tile.posID, (IceViewItem)tile);
+                    break;
+                case TileType.Traps:
+                    dicTraps.Add(tile.posID, (TrapsViemItem)tile);
+                    break;
+                case TileType.Spikes:
+                    dicSpikes.Add(tile.posID, tile);
+                    break;
+                case TileType.SceneChange:
+                    dicSceneChange.Add(tile.posID, tile);
+                    break;
+            }
+        }
+
     }
 
     #endregion
@@ -831,7 +907,7 @@ public class MapMgr : MonoBehaviour
 
         }
 
-        ScanAllPos();
+        ScanAllPos(false);
     }
 
 
