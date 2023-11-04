@@ -18,6 +18,11 @@ public partial class InputMgr : MonoSingleton<InputMgr>
 
     private InputAction undoAction;
 
+    private InputAction SkillAction1;
+    private InputAction SkillAction12;
+    private InputAction SkillAction13;
+    private InputAction SkillAction14;
+
     public Vector2 moveVector;
 
 
@@ -44,6 +49,11 @@ public partial class InputMgr : MonoSingleton<InputMgr>
             touchPositionAction = playerInput.Gameplay.TouchPosition;
 
             undoAction = playerInput.Gameplay.Undo;
+            SkillAction1= playerInput.Gameplay.IceBreakingSkill1;
+            SkillAction12 = playerInput.Gameplay.ThroughSpikesSkill2;
+            SkillAction13 = playerInput.Gameplay.PullBoxSkill3;
+            SkillAction14 = playerInput.Gameplay.TeleportationSkill4;
+
 
             isInitInput = true;
         }
@@ -73,6 +83,12 @@ public partial class InputMgr : MonoSingleton<InputMgr>
         RightAction.started += Right_started;
         touchAction.performed += Touch_performed;
         undoAction.performed += Undo_performed;
+        SkillAction1.performed += IceBreakingSkill1_performed;
+        SkillAction12.performed += ThroughSpikesSkill2_performed;
+        SkillAction13.performed += PullBoxSkill3_performed;
+        SkillAction14.performed += TeleportationSkill4_performed;
+     
+
     }
 
     private void DisableInput()
@@ -117,6 +133,40 @@ public partial class InputMgr : MonoSingleton<InputMgr>
         }
 
     }
+
+   #region skills
+    private void IceBreakingSkill1_performed(InputAction.CallbackContext obj)
+    {
+        
+
+        EventCenter.Instance.EventTrigger("IceBreakingSkill1", 1);
+
+
+    }
+
+    private void ThroughSpikesSkill2_performed(InputAction.CallbackContext obj)
+    {
+        EventCenter.Instance.EventTrigger("ThroughSpikesSkill2", 1);
+
+    }
+
+    
+    private void PullBoxSkill3_performed(InputAction.CallbackContext obj)
+    {
+        EventCenter.Instance.EventTrigger("PullBoxSkill3", 1);
+
+    }
+
+    private void TeleportationSkill4_performed(InputAction.CallbackContext obj)
+    {
+        EventCenter.Instance.EventTrigger("TeleportationSkill4",1);
+
+    }
+
+
+    #endregion
+
+
 
     #region WASD
 

@@ -67,6 +67,42 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "TeleportationSkill4",
+                    "type": "Button",
+                    "id": "0c6b5f34-d5af-42f8-b722-54f94eefeb2d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "PullBoxSkill3",
+                    "type": "Button",
+                    "id": "51f1260b-a42a-4a59-bc60-29f0267c1ebe",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "IceBreakingSkill1",
+                    "type": "Button",
+                    "id": "ff9a1f5a-9cc1-489d-a250-35c073d2407d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Hold",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ThroughSpikesSkill2",
+                    "type": "Button",
+                    "id": "d1a4e0d9-e00b-4080-bfd0-290eeed6dbe7",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -144,6 +180,50 @@
                     "processors": "",
                     "groups": "",
                     "action": "Undo",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5972f567-e160-41f5-aa7c-11515b19aa67",
+                    "path": "<Keyboard>/l",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TeleportationSkill4",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7790f00d-30d1-4b0c-a257-48a9f34db5e9",
+                    "path": "<Keyboard>/k",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PullBoxSkill3",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "10f1a2fa-88f8-4cab-bd6b-f47df406db8d",
+                    "path": "<Keyboard>/h",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "IceBreakingSkill1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "398be50d-d03a-441e-b71f-e310f2f6f165",
+                    "path": "<Keyboard>/j",
+                    "interactions": "Press,Press(behavior=1)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ThroughSpikesSkill2",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

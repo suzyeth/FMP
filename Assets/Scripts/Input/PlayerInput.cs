@@ -89,6 +89,42 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TeleportationSkill4"",
+                    ""type"": ""Button"",
+                    ""id"": ""0c6b5f34-d5af-42f8-b722-54f94eefeb2d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PullBoxSkill3"",
+                    ""type"": ""Button"",
+                    ""id"": ""51f1260b-a42a-4a59-bc60-29f0267c1ebe"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""IceBreakingSkill1"",
+                    ""type"": ""Button"",
+                    ""id"": ""ff9a1f5a-9cc1-489d-a250-35c073d2407d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Hold"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ThroughSpikesSkill2"",
+                    ""type"": ""Button"",
+                    ""id"": ""d1a4e0d9-e00b-4080-bfd0-290eeed6dbe7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -168,6 +204,50 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""action"": ""Undo"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5972f567-e160-41f5-aa7c-11515b19aa67"",
+                    ""path"": ""<Keyboard>/l"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TeleportationSkill4"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7790f00d-30d1-4b0c-a257-48a9f34db5e9"",
+                    ""path"": ""<Keyboard>/k"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PullBoxSkill3"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""10f1a2fa-88f8-4cab-bd6b-f47df406db8d"",
+                    ""path"": ""<Keyboard>/h"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""IceBreakingSkill1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""398be50d-d03a-441e-b71f-e310f2f6f165"",
+                    ""path"": ""<Keyboard>/j"",
+                    ""interactions"": ""Press,Press(behavior=1)"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ThroughSpikesSkill2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -183,6 +263,10 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         m_Gameplay_Right = m_Gameplay.FindAction("Right", throwIfNotFound: true);
         m_Gameplay_TouchPosition = m_Gameplay.FindAction("TouchPosition", throwIfNotFound: true);
         m_Gameplay_Undo = m_Gameplay.FindAction("Undo", throwIfNotFound: true);
+        m_Gameplay_TeleportationSkill4 = m_Gameplay.FindAction("TeleportationSkill4", throwIfNotFound: true);
+        m_Gameplay_PullBoxSkill3 = m_Gameplay.FindAction("PullBoxSkill3", throwIfNotFound: true);
+        m_Gameplay_IceBreakingSkill1 = m_Gameplay.FindAction("IceBreakingSkill1", throwIfNotFound: true);
+        m_Gameplay_ThroughSpikesSkill2 = m_Gameplay.FindAction("ThroughSpikesSkill2", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -249,6 +333,10 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Right;
     private readonly InputAction m_Gameplay_TouchPosition;
     private readonly InputAction m_Gameplay_Undo;
+    private readonly InputAction m_Gameplay_TeleportationSkill4;
+    private readonly InputAction m_Gameplay_PullBoxSkill3;
+    private readonly InputAction m_Gameplay_IceBreakingSkill1;
+    private readonly InputAction m_Gameplay_ThroughSpikesSkill2;
     public struct GameplayActions
     {
         private @PlayerInput m_Wrapper;
@@ -260,6 +348,10 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         public InputAction @Right => m_Wrapper.m_Gameplay_Right;
         public InputAction @TouchPosition => m_Wrapper.m_Gameplay_TouchPosition;
         public InputAction @Undo => m_Wrapper.m_Gameplay_Undo;
+        public InputAction @TeleportationSkill4 => m_Wrapper.m_Gameplay_TeleportationSkill4;
+        public InputAction @PullBoxSkill3 => m_Wrapper.m_Gameplay_PullBoxSkill3;
+        public InputAction @IceBreakingSkill1 => m_Wrapper.m_Gameplay_IceBreakingSkill1;
+        public InputAction @ThroughSpikesSkill2 => m_Wrapper.m_Gameplay_ThroughSpikesSkill2;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -290,6 +382,18 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                 @Undo.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnUndo;
                 @Undo.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnUndo;
                 @Undo.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnUndo;
+                @TeleportationSkill4.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnTeleportationSkill4;
+                @TeleportationSkill4.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnTeleportationSkill4;
+                @TeleportationSkill4.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnTeleportationSkill4;
+                @PullBoxSkill3.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPullBoxSkill3;
+                @PullBoxSkill3.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPullBoxSkill3;
+                @PullBoxSkill3.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPullBoxSkill3;
+                @IceBreakingSkill1.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnIceBreakingSkill1;
+                @IceBreakingSkill1.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnIceBreakingSkill1;
+                @IceBreakingSkill1.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnIceBreakingSkill1;
+                @ThroughSpikesSkill2.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnThroughSpikesSkill2;
+                @ThroughSpikesSkill2.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnThroughSpikesSkill2;
+                @ThroughSpikesSkill2.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnThroughSpikesSkill2;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -315,6 +419,18 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                 @Undo.started += instance.OnUndo;
                 @Undo.performed += instance.OnUndo;
                 @Undo.canceled += instance.OnUndo;
+                @TeleportationSkill4.started += instance.OnTeleportationSkill4;
+                @TeleportationSkill4.performed += instance.OnTeleportationSkill4;
+                @TeleportationSkill4.canceled += instance.OnTeleportationSkill4;
+                @PullBoxSkill3.started += instance.OnPullBoxSkill3;
+                @PullBoxSkill3.performed += instance.OnPullBoxSkill3;
+                @PullBoxSkill3.canceled += instance.OnPullBoxSkill3;
+                @IceBreakingSkill1.started += instance.OnIceBreakingSkill1;
+                @IceBreakingSkill1.performed += instance.OnIceBreakingSkill1;
+                @IceBreakingSkill1.canceled += instance.OnIceBreakingSkill1;
+                @ThroughSpikesSkill2.started += instance.OnThroughSpikesSkill2;
+                @ThroughSpikesSkill2.performed += instance.OnThroughSpikesSkill2;
+                @ThroughSpikesSkill2.canceled += instance.OnThroughSpikesSkill2;
             }
         }
     }
@@ -328,5 +444,9 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         void OnRight(InputAction.CallbackContext context);
         void OnTouchPosition(InputAction.CallbackContext context);
         void OnUndo(InputAction.CallbackContext context);
+        void OnTeleportationSkill4(InputAction.CallbackContext context);
+        void OnPullBoxSkill3(InputAction.CallbackContext context);
+        void OnIceBreakingSkill1(InputAction.CallbackContext context);
+        void OnThroughSpikesSkill2(InputAction.CallbackContext context);
     }
 }
