@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using System;
 
 public class ButtonViewItem : TileViewItem
 {
@@ -9,31 +10,43 @@ public class ButtonViewItem : TileViewItem
     public UnityEvent onRelease;
     public bool ButtonIsPressed = false;
 
-    #region spriteVariables
-    public Sprite ButtonUnPressed;
-    public Sprite ButtonPressed;
-    SpriteRenderer spriteRenderer;
-    #endregion
+    public List<GameObject> Corridors = new List<GameObject>();
+    
+
+    
 
     void Start()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        
     }
     void Update()
     {
 
         if (ButtonIsPressed)
         {
-            spriteRenderer.sprite = ButtonPressed;
-            spriteRenderer.color = Color.red;
+            //spriteRenderer.sprite = iceCracked;
+            ChangeGraphic(1);
         }
         else
         {
-            spriteRenderer.sprite = ButtonUnPressed;
-            spriteRenderer.color = new Color(1,1,1,1);
+            //spriteRenderer.sprite = iceUnCracked;
+            ChangeGraphic(0);
         }
 
     }
+
+    public void ChangeGraphic(int index)
+    {
+        //index = index += direction;
+        index = Math.Clamp(index, 0, Corridors.Count - 1);
+
+
+        for (int i = 0; i < Corridors.Count; i++)
+        {
+            Corridors[i].SetActive(i == index);
+        }
+    }
+   
     public void OnPress()
     {
         Debug.Log("Pressed button " + keyID);

@@ -1,38 +1,51 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class TrapsViemItem : TileViewItem
 
 {
-    #region spriteVariables
-    public Sprite TrapsUnfilled;
-    public Sprite TrapsFilled;
+    public List<GameObject> Corridors = new List<GameObject>();
     
     
-    SpriteRenderer spriteRenderer;
-    #endregion
     public bool TrapsIsFilled = false;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
+       
     }
 
     // Update is called once per frame
+ 
+
     void Update()
     {
 
         if (TrapsIsFilled)
         {
-            spriteRenderer.sprite = TrapsFilled;
+            //spriteRenderer.sprite = iceCracked;
+            ChangeGraphic(1);
         }
-        else if (!TrapsIsFilled)
+        else
         {
-            spriteRenderer.sprite = TrapsUnfilled;
+            //spriteRenderer.sprite = iceUnCracked;
+            ChangeGraphic(0);
         }
 
+    }
+
+    public void ChangeGraphic(int index)
+    {
+        //index = index += direction;
+        index = Math.Clamp(index, 0, Corridors.Count - 1);
+       
+
+        for (int i = 0; i < Corridors.Count; i++)
+        {
+            Corridors[i].SetActive(i == index);
+        }
     }
 }
