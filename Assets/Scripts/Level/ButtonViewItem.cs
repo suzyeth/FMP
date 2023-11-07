@@ -13,33 +13,26 @@ public class ButtonViewItem : TileViewItem
 
 
 
-    #region spriteVariables
-    public Sprite ButtonUnPressed;
-    public Sprite ButtonPressed;
-    SpriteRenderer spriteRenderer;
-    #endregion
 
     void Start()
     {
 
-        spriteRenderer = GetComponent<SpriteRenderer>();
+       
     }
     void Update()
     {
 
         if (ButtonIsPressed)
         {
-            //spriteRenderer.sprite = iceCracked;
+            
             ChangeGraphic(1);
-            spriteRenderer.sprite = ButtonPressed;
-            spriteRenderer.color = Color.red;
+            
         }
         else
         {
-            //spriteRenderer.sprite = iceUnCracked;
+           
             ChangeGraphic(0);
-            spriteRenderer.sprite = ButtonUnPressed;
-            spriteRenderer.color = new Color(1, 1, 1, 1);
+            
         }
 
     }
