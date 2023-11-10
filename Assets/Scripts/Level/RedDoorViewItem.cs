@@ -31,8 +31,8 @@ public class RedDoorViewItem : TileViewItem
     public void ChangeGraphic(int index)
     {
         //index = index += direction;
-        index = Math.Clamp(index, 0, Corridors.Count - 1);
-        Debug.Log("index" + index);
+        //index = Math.Clamp(index, 0, Corridors.Count - 1);
+        //Debug.Log("index" + index);
 
         for (int i = 0; i < Corridors.Count; i++)
         {

@@ -40,7 +40,7 @@ public class ButtonViewItem : TileViewItem
     public void ChangeGraphic(int index)
     {
         //index = index += direction;
-        index = Math.Clamp(index, 0, Corridors.Count - 1);
+        //index = Math.Clamp(index, 0, Corridors.Count - 1);
 
 
         for (int i = 0; i < Corridors.Count; i++)
@@ -51,13 +51,13 @@ public class ButtonViewItem : TileViewItem
 
     public void OnPress()
     {
-        Debug.Log("Pressed button " + keyID);
+        //Debug.Log("Pressed button " + keyID);
         ButtonIsPressed = true;
         onPress.Invoke();
     }
     public void OnRelease()
     {
-        Debug.Log("Released button " + keyID);
+        //Debug.Log("Released button " + keyID);
         ButtonIsPressed = false;
         onRelease.Invoke();
     }
