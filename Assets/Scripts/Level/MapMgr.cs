@@ -9,6 +9,8 @@ using UnityEngine.Tilemaps;
 using UnityEngine.UIElements;
 using UnityEngine.WSA;
 using static UnityEngine.ParticleSystem;
+using UnityEngine.UI;
+using UnityEngine.SocialPlatforms.Impl;
 /*
 public class TileData
 {
@@ -63,7 +65,7 @@ public class MapMgr : MonoBehaviour
     public bool Ski3 = false;
     public bool Ski4 = false;
 
-
+   
 
 
 
@@ -83,6 +85,7 @@ public class MapMgr : MonoBehaviour
         EventCenter.Instance.AddEventListener("CharacterMove", CharacterMoveEvent);
         EventCenter.Instance.AddEventListener("Undo", UndoEvent);
         EventCenter.Instance.AddEventListener("UndoDestroy", UndoDestroyEvent);
+
         EventCenter.Instance.AddEventListener("IceBreakingSkill1", IceBreakingEvent);
         EventCenter.Instance.AddEventListener("ThroughSpikesSkill2", ThroughSpikesEvent);
         EventCenter.Instance.AddEventListener("PullBoxSkill3", PullBoxEvent);
@@ -97,6 +100,7 @@ public class MapMgr : MonoBehaviour
         EventCenter.Instance.RemoveEventListener("CharacterMove", CharacterMoveEvent);
         EventCenter.Instance.RemoveEventListener("Undo", UndoEvent);
         EventCenter.Instance.RemoveEventListener("UndoDestroy", UndoDestroyEvent);
+
         EventCenter.Instance.RemoveEventListener("IceBreakingSkill1", IceBreakingEvent);
         EventCenter.Instance.RemoveEventListener("ThroughSpikesSkill2", ThroughSpikesEvent);
         EventCenter.Instance.RemoveEventListener("PullBoxSkill3", PullBoxEvent);
@@ -186,13 +190,15 @@ public class MapMgr : MonoBehaviour
 
                         TileViewItem Crystal = (TileViewItem)dicCrystal[transferCharacter];
 
-                        UnityEngine.Debug.Log("Crystal" + Crystal.keyID);
-                        gameData.AddCrystal(1);
+                        //UnityEngine.Debug.Log("Crystal" + Crystal.keyID);
+                        
+                        gameData.AddCrystal(Crystal.keyID);
                         gameData.GetNumActiveCrystal();
+                        //UnityEngine.Debug.Log("Crystal"+gameData.GetNumActiveCrystal());
+                        //scoreText.text = "Crystal：" + gameData.GetNumActiveCrystal();
 
 
-
-                        //?尚未实现输出能量数量
+                        
 
                         DestoryTile(Crystal.keyID, Crystal.posID);
                         // Move
@@ -214,7 +220,7 @@ public class MapMgr : MonoBehaviour
                         // if(redDoor.IsOpen())
                         if (dicRedDoor[transferCharacter].DoorIsOpened)
                         {
-                            UnityEngine.Debug.Log("RedDoorisopen");
+                           // UnityEngine.Debug.Log("RedDoorisopen");
                             //Move
                             curCharacter.Move(dir + dir);
                             //Record Move
@@ -223,7 +229,7 @@ public class MapMgr : MonoBehaviour
                         }
                         else
                         {
-                            UnityEngine.Debug.Log("RedDoorisclose");
+                            //UnityEngine.Debug.Log("RedDoorisclose");
 
                             //No effect
                         }
@@ -232,10 +238,10 @@ public class MapMgr : MonoBehaviour
 
                     else if (dicBlueDoor.ContainsKey(transferCharacter))
                     {
-                        UnityEngine.Debug.Log("BlueDoor");
+                        //UnityEngine.Debug.Log("BlueDoor");
                         if (dicBlueDoor[transferCharacter].DoorIsOpened)
                         {
-                            UnityEngine.Debug.Log("BlueDoorisopen");
+                           // UnityEngine.Debug.Log("BlueDoorisopen");
                             //Move
                             curCharacter.Move(dir + dir);
                             //Record Move
@@ -244,7 +250,7 @@ public class MapMgr : MonoBehaviour
                         }
                         else
                         {
-                            UnityEngine.Debug.Log("BlueDoorisclose");
+                            //UnityEngine.Debug.Log("BlueDoorisclose");
                             //No effect
                         }
 
@@ -402,7 +408,7 @@ public class MapMgr : MonoBehaviour
                     {
                         if (dicBlueDoor[targetPosBox].DoorIsOpened)
                         {
-                            UnityEngine.Debug.Log("Box&BlueDoor");
+                            //UnityEngine.Debug.Log("Box&BlueDoor");
                             ActionRecordData characterAction = new(-2, startCharacterPosID, targetPosCharacter);
                             listAllAction.Add(characterAction);
 
@@ -571,9 +577,12 @@ public class MapMgr : MonoBehaviour
 
                 TileViewItem Crystal = (TileViewItem)dicCrystal[targetPosCharacter];
 
-                UnityEngine.Debug.Log("Crystal" + Crystal.keyID);
-                gameData.AddCrystal(1);
+                //UnityEngine.Debug.Log("Crystal" + Crystal.keyID);
+                gameData.AddCrystal(Crystal.keyID);
                 gameData.GetNumActiveCrystal();
+                //UnityEngine.Debug.Log("Crystal" + gameData.GetNumActiveCrystal());
+                //scoreText.text = "Crystal：" + gameData.GetNumActiveCrystal();
+
 
 
 
@@ -596,7 +605,7 @@ public class MapMgr : MonoBehaviour
 
             else if (dicIce.ContainsKey(targetPosCharacter))
             {
-                UnityEngine.Debug.Log("Ice");
+                //UnityEngine.Debug.Log("Ice");
                 IceViewItem Ice = (IceViewItem)dicIce[targetPosCharacter];
                 //No effect
                 if (Ski1)
@@ -675,7 +684,7 @@ public class MapMgr : MonoBehaviour
                 // if(redDoor.IsOpen())
                 if (dicRedDoor[targetPosCharacter].DoorIsOpened)
                 {
-                    UnityEngine.Debug.Log("RedDoorisopen");
+                    //UnityEngine.Debug.Log("RedDoorisopen");
                     //Move
                     curCharacter.Move(dir);
                     //Record Move
@@ -684,7 +693,7 @@ public class MapMgr : MonoBehaviour
                 }
                 else
                 {
-                    UnityEngine.Debug.Log("RedDoorisclose");
+                    //UnityEngine.Debug.Log("RedDoorisclose");
 
                     //No effect
                 }
@@ -693,10 +702,10 @@ public class MapMgr : MonoBehaviour
 
             else if (dicBlueDoor.ContainsKey(targetPosCharacter))
             {
-                UnityEngine.Debug.Log("BlueDoor");
+                //UnityEngine.Debug.Log("BlueDoor");
                 if (dicBlueDoor[targetPosCharacter].DoorIsOpened)
                 {
-                    UnityEngine.Debug.Log("BlueDoorisopen");
+                    //UnityEngine.Debug.Log("BlueDoorisopen");
                     //Move
                     curCharacter.Move(dir);
                     //Record Move
@@ -822,17 +831,25 @@ public class MapMgr : MonoBehaviour
         {
             
             RegenerateTile(CrystalPrefab, recordData.PosID, recordData.keyID);
-            UnitViewItem Crystal = (UnitViewItem)dicCrystal[recordData.PosID];
+            TileViewItem Crystal = (TileViewItem)dicCrystal[recordData.PosID];
             //Crystal.IsDestroyed = false;
-          
-            //计数要改变，还没做
+
+            //reduce the number of crystal
+            gameData.ReduceCrystal(Crystal.keyID);
+            gameData.GetNumActiveCrystal();
+            //UnityEngine.Debug.Log("the number of crystal is" + gameData.GetNumActiveCrystal());
+            //scoreText.text = "Crystal：" + gameData.GetNumActiveCrystal();
+
+
+
+
         }
         else if (recordData.tileType == TileType.Traps)
         {
 
             TrapsViemItem Traps = (TrapsViemItem)dicTraps[recordData.PosID];
             Traps.TrapsIsFilled = false;
-            UnityEngine.Debug.Log("Traps.TrapsIsFilled" + Traps.TrapsIsFilled);
+            //UnityEngine.Debug.Log("Traps.TrapsIsFilled" + Traps.TrapsIsFilled);
 
         }
         
@@ -844,28 +861,34 @@ public class MapMgr : MonoBehaviour
 
     private void IceBreakingEvent(object arg0)
     {
-        
+        if (gameData.GetNumActiveCrystal() == 1)
+        {
             Ski1 = true;
             UnityEngine.Debug.Log("IceBreakingSki1" + Ski1);
+        }
+           
         
         
     }
 
     private void ThroughSpikesEvent(object arg0)
     {
-        
+        if (gameData.GetNumActiveCrystal() == 3)
+        {
             Ski2 = true;
             UnityEngine.Debug.Log("ThroughSpikesSki2" + Ski2);
+        }
         
        
     }
 
     private void PullBoxEvent(object arg0)
     {
-       
+        if (gameData.GetNumActiveCrystal() == 5)
+        {
             Ski3 = true;
             UnityEngine.Debug.Log("PullBoxSki3" + Ski3);
-        
+        }
 
        
 
@@ -873,9 +896,11 @@ public class MapMgr : MonoBehaviour
 
     private void TeleportatioEvent(object arg0)
     {
-        
+        if (gameData.GetNumActiveCrystal() == 7)
+        {
             Ski4 = true;
             UnityEngine.Debug.Log("TeleportatioSki4" + Ski4);
+        }
         
     }
 

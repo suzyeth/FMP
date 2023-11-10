@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class BaseRecordData
 {
@@ -54,6 +55,7 @@ public class GameData
         dicCrystal.Clear();
     }
 
+    
     #region data destroyedTiles
     public Dictionary<int, bool> destroyedTiles = new Dictionary<int, bool>();
 
@@ -76,11 +78,25 @@ public class GameData
     public void AddCrystal(int id)
     {
         if (!dicCrystal.ContainsKey(id))
+         {
+             Crystal crystal = new Crystal(id);
+             dicCrystal.Add(id, crystal);
+
+
+         }
+        
+
+    }
+
+    public void ReduceCrystal(int id)
+    {
+        if (dicCrystal.ContainsKey(id))
         {
             Crystal crystal = new Crystal(id);
-            dicCrystal.Add(id, crystal);
-
+            dicCrystal.Remove(id);
+            UnityEngine.Debug.Log("GetCrystal" );
         }
+
     }
 
     public Crystal GetCrystal(int id)
@@ -98,18 +114,20 @@ public class GameData
     //Get the number of active crystal
     public int GetNumActiveCrystal()
     {
-        //return dicCrystal.Count;
-        int count = 0;
-        foreach(var item in dicCrystal)
+        return dicCrystal.Count;
+        //int count = 0;
+        //foreach(var item in dicCrystal)
         {
-            if (!item.Value.isSubmitted)
-            {
-                count++;
-            }
+            //if (!item.Value.isSubmitted)
+            //{
+            //    count++;
+            //}
         }
-        return count;
-        
-        
+        //return count;
+
+       
+
+
     }
     #endregion
 

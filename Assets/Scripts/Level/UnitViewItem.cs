@@ -81,14 +81,14 @@ public class UnitViewItem : MonoBehaviour
     public void OpenDoor()
     {
         DoorIsOpened = true;
-        UnityEngine.Debug.Log("OpenDoor");
+        //UnityEngine.Debug.Log("OpenDoor");
 
     }
 
     public void CloseDoor()
     {
         DoorIsOpened = false;
-        UnityEngine.Debug.Log("CloseDoor");
+        //UnityEngine.Debug.Log("CloseDoor");
 
 
     }
