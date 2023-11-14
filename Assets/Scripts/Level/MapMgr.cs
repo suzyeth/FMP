@@ -293,26 +293,6 @@ public class MapMgr : MonoBehaviour
 
             }
 
-            else if (dicSpikes.ContainsKey(targetPosCharacter))
-            {
-
-                if (Ski2)
-                {
-                    curCharacter.Move(dir);
-                    //Record Move
-                    ActionRecordData characterAction = new(-2, startCharacterPosID, targetPosCharacter);
-                    listAllAction.Add(characterAction);
-                }
-                else
-                {
-                    UnityEngine.Debug.Log("Spikes");
-                    //No effect
-                }
-
-
-
-            }
-
             else if (dicSceneChange.ContainsKey(targetPosCharacter))
             {
                 UnityEngine.Debug.Log("SceneChange");
@@ -324,6 +304,8 @@ public class MapMgr : MonoBehaviour
 
 
             }
+           
+            
 
             else if (dicBox.ContainsKey(targetPosCharacter))
             {
@@ -334,7 +316,9 @@ public class MapMgr : MonoBehaviour
                 Vector2Int targetPosBox = box.posID + dir;
 
 
-                if (!dicBox.ContainsKey(targetPosBox) && !dicIce.ContainsKey(targetPosBox) && !dicCrystal.ContainsKey(targetPosBox) && !dicWall.ContainsKey(targetPosBox))
+                if (!dicBox.ContainsKey(targetPosBox) && !dicIce.ContainsKey(targetPosBox) && !dicCrystal.ContainsKey(targetPosBox) 
+                    && !dicWall.ContainsKey(targetPosBox) 
+                    && (!dicSpikes.ContainsKey(box.posID)|| (dicSpikes.ContainsKey(box.posID)&& Ski2)))
                 {
                     if (dicTraps.ContainsKey(targetPosBox))
                     {
@@ -383,6 +367,8 @@ public class MapMgr : MonoBehaviour
 
 
                     }
+                   
+
                     else if (dicRedDoor.ContainsKey(targetPosBox))
                     {
                         if (dicRedDoor[targetPosBox].DoorIsOpened)
@@ -424,9 +410,10 @@ public class MapMgr : MonoBehaviour
                         }
 
 
-                    }
+                    }                  
                     else if (dicSpikes.ContainsKey(targetPosBox))
                     {
+
                         ActionRecordData characterAction = new(-2, startCharacterPosID, targetPosCharacter);
                         listAllAction.Add(characterAction);
 
@@ -435,7 +422,11 @@ public class MapMgr : MonoBehaviour
 
                         curCharacter.Move(dir);
                         box.Move(dir);
+
+
+
                     }
+
                     else
                     {
                         ActionRecordData characterAction = new(-2, startCharacterPosID, targetPosCharacter);
@@ -454,6 +445,7 @@ public class MapMgr : MonoBehaviour
                 CheckButtonState();
             }
 
+            // pull box
             else if (dicBox.ContainsKey(startCharacterPosID - dir) && Ski3)
             {
                 UnityEngine.Debug.Log("PullBox");
@@ -571,6 +563,26 @@ public class MapMgr : MonoBehaviour
                 CheckButtonState();
             }
 
+            else if (dicSpikes.ContainsKey(targetPosCharacter))
+            {
+
+                if (Ski2)
+                {
+                    curCharacter.Move(dir);
+                    //Record Move
+                    ActionRecordData characterAction = new(-2, startCharacterPosID, targetPosCharacter);
+                    listAllAction.Add(characterAction);
+                }
+                else
+                {
+                    UnityEngine.Debug.Log("Spikes");
+                    //No effect
+                }
+
+
+
+            }
+
             else if (dicCrystal.ContainsKey(targetPosCharacter))
             {
 
@@ -653,6 +665,8 @@ public class MapMgr : MonoBehaviour
 
 
             }
+
+            
 
             else if (dicTraps.ContainsKey(targetPosCharacter))
             {
@@ -861,11 +875,11 @@ public class MapMgr : MonoBehaviour
 
     private void IceBreakingEvent(object arg0)
     {
-        if (gameData.GetNumActiveCrystal() == 1)
-        {
+        //if (gameData.GetNumActiveCrystal() == 1)
+        //{
             Ski1 = true;
             UnityEngine.Debug.Log("IceBreakingSki1" + Ski1);
-        }
+        //}
            
         
         
@@ -873,22 +887,22 @@ public class MapMgr : MonoBehaviour
 
     private void ThroughSpikesEvent(object arg0)
     {
-        if (gameData.GetNumActiveCrystal() == 3)
-        {
+        //if (gameData.GetNumActiveCrystal() == 3)
+        //{
             Ski2 = true;
             UnityEngine.Debug.Log("ThroughSpikesSki2" + Ski2);
-        }
+        //}
         
        
     }
 
     private void PullBoxEvent(object arg0)
     {
-        if (gameData.GetNumActiveCrystal() == 5)
-        {
+        //if (gameData.GetNumActiveCrystal() == 5)
+        //{
             Ski3 = true;
             UnityEngine.Debug.Log("PullBoxSki3" + Ski3);
-        }
+       // }
 
        
 
