@@ -29,6 +29,15 @@ public partial class InputMgr : MonoSingleton<InputMgr>
     private bool isInitInput = false;
     private bool isPressWASD = false;
 
+    private float currentCooldown=0.2f;
+    private float moveCooldown=0.2f;
+
+    private bool isHoldingS = false;
+    private bool isHoldingW = false;
+    private bool isHoldingA = false;
+    private bool isHoldingD = false;
+    
+
     public IEnumerator IE_Init()
     {
         InitInput();
@@ -78,9 +87,13 @@ public partial class InputMgr : MonoSingleton<InputMgr>
 
         playerInput.Enable();
         UpAction.started += Up_started;
+        UpAction.canceled += Up_canceled;
         DownAction.started += Down_started;
+        DownAction.canceled += Down_canceled;
         LeftAction.started += Left_started;
+        LeftAction.canceled += Left_canceled;
         RightAction.started += Right_started;
+        RightAction.canceled += Right_canceled;
         touchAction.performed += Touch_performed;
         undoAction.performed += Undo_performed;
         SkillAction1.performed += IceBreakingSkill1_performed;
@@ -172,34 +185,60 @@ public partial class InputMgr : MonoSingleton<InputMgr>
 
     private void Up_started(InputAction.CallbackContext obj)
     {
-        if (!isPressWASD)
-        {
-            EventCenter.Instance.EventTrigger("CharacterMove", new Vector2Int(0, 1));
-        }
+     isHoldingW = true;
+        
     }
 
+    private void Up_canceled(InputAction.CallbackContext obj)
+    {
+        isHoldingW = false;
+       
+
+    }
+
+    
     private void Down_started(InputAction.CallbackContext obj)
     {
-        if (!isPressWASD)
+        isHoldingS = true;
+        /*if (!isPressWASD)
         {
             EventCenter.Instance.EventTrigger("CharacterMove", new Vector2Int(0, -1));
-        }
+        }*/
+    }
+
+    private void Down_canceled(InputAction.CallbackContext obj)
+    {
+        isHoldingS = false;
+        
     }
 
     private void Left_started(InputAction.CallbackContext obj)
     {
-        if (!isPressWASD)
-        {
-            EventCenter.Instance.EventTrigger("CharacterMove", new Vector2Int(-1, 0));
-        }
+       isHoldingA = true;
+    /*if (!isPressWASD)
+    {
+        EventCenter.Instance.EventTrigger("CharacterMove", new Vector2Int(-1, 0));
+    }*/
+    }
+    private void Left_canceled(InputAction.CallbackContext obj)
+    {
+        isHoldingA = false;
+        
     }
 
     private void Right_started(InputAction.CallbackContext obj)
     {
-        if (!isPressWASD)
+        isHoldingD = true;
+        /*if (!isPressWASD)
         {
             EventCenter.Instance.EventTrigger("CharacterMove", new Vector2Int(1, 0));
-        }
+        }*/
+    }
+
+    private void Right_canceled(InputAction.CallbackContext obj)
+    {
+        isHoldingD = false;
+       
     }
 
     #endregion
@@ -207,16 +246,44 @@ public partial class InputMgr : MonoSingleton<InputMgr>
 
     private void Update()
     {
-        if (isInitInput)
+        
+
+       if (isInitInput)
         {
-            if (UpAction.IsPressed() || DownAction.IsPressed() || LeftAction.IsPressed() || RightAction.IsPressed())
+
+
+            if (isHoldingW && currentCooldown <= 0f)
+            {
+                EventCenter.Instance.EventTrigger("CharacterMove", new Vector2Int(0, 1));
+                currentCooldown = moveCooldown;
+            }
+            else if (isHoldingS && currentCooldown <= 0f)
+            {
+                EventCenter.Instance.EventTrigger("CharacterMove", new Vector2Int(0, -1));
+                currentCooldown = moveCooldown;
+            }
+            else if (isHoldingA && currentCooldown <= 0f)
+            {
+                EventCenter.Instance.EventTrigger("CharacterMove", new Vector2Int(-1, 0));
+                currentCooldown = moveCooldown;
+            }
+            else if (isHoldingD && currentCooldown <= 0f)
+            {
+                EventCenter.Instance.EventTrigger("CharacterMove", new Vector2Int(1, 0));
+                currentCooldown = moveCooldown;
+            }
+           
+                currentCooldown -= Time.deltaTime;
+            /*if (UpAction.IsPressed() || DownAction.IsPressed() || LeftAction.IsPressed() || RightAction.IsPressed())
             {
                 isPressWASD = true;
             }
             else
             {
                 isPressWASD = false;
-            }
+            }*/
+
         }
+       
     }
 }

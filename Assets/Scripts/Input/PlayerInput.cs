@@ -125,6 +125,15 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Move"",
+                    ""type"": ""Value"",
+                    ""id"": ""09cd40cb-d27d-4bc0-9ba6-cc6ac661066e"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -248,6 +257,61 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""action"": ""ThroughSpikesSkill2"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""WASD"",
+                    ""id"": ""1670e55c-4768-44ae-8965-b77f860171db"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""3c457f6c-6458-4d99-8c63-09b7de710f6f"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""060fa9a2-552d-4dac-b8f0-be60d59a7c26"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""750e6f47-44e7-4dbf-ba68-9e7c18aa15a4"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""57d005e7-dd64-4807-8bf7-cb1317ef68c4"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -267,6 +331,7 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         m_Gameplay_PullBoxSkill3 = m_Gameplay.FindAction("PullBoxSkill3", throwIfNotFound: true);
         m_Gameplay_IceBreakingSkill1 = m_Gameplay.FindAction("IceBreakingSkill1", throwIfNotFound: true);
         m_Gameplay_ThroughSpikesSkill2 = m_Gameplay.FindAction("ThroughSpikesSkill2", throwIfNotFound: true);
+        m_Gameplay_Move = m_Gameplay.FindAction("Move", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -337,6 +402,7 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_PullBoxSkill3;
     private readonly InputAction m_Gameplay_IceBreakingSkill1;
     private readonly InputAction m_Gameplay_ThroughSpikesSkill2;
+    private readonly InputAction m_Gameplay_Move;
     public struct GameplayActions
     {
         private @PlayerInput m_Wrapper;
@@ -352,6 +418,7 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         public InputAction @PullBoxSkill3 => m_Wrapper.m_Gameplay_PullBoxSkill3;
         public InputAction @IceBreakingSkill1 => m_Wrapper.m_Gameplay_IceBreakingSkill1;
         public InputAction @ThroughSpikesSkill2 => m_Wrapper.m_Gameplay_ThroughSpikesSkill2;
+        public InputAction @Move => m_Wrapper.m_Gameplay_Move;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -394,6 +461,9 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                 @ThroughSpikesSkill2.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnThroughSpikesSkill2;
                 @ThroughSpikesSkill2.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnThroughSpikesSkill2;
                 @ThroughSpikesSkill2.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnThroughSpikesSkill2;
+                @Move.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMove;
+                @Move.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMove;
+                @Move.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMove;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -431,6 +501,9 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                 @ThroughSpikesSkill2.started += instance.OnThroughSpikesSkill2;
                 @ThroughSpikesSkill2.performed += instance.OnThroughSpikesSkill2;
                 @ThroughSpikesSkill2.canceled += instance.OnThroughSpikesSkill2;
+                @Move.started += instance.OnMove;
+                @Move.performed += instance.OnMove;
+                @Move.canceled += instance.OnMove;
             }
         }
     }
@@ -448,5 +521,6 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         void OnPullBoxSkill3(InputAction.CallbackContext context);
         void OnIceBreakingSkill1(InputAction.CallbackContext context);
         void OnThroughSpikesSkill2(InputAction.CallbackContext context);
+        void OnMove(InputAction.CallbackContext context);
     }
 }
