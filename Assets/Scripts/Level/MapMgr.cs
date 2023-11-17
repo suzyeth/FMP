@@ -22,6 +22,8 @@ public class TileData
 public class MapMgr : MonoBehaviour
 {
     private GameData gameData;
+    
+    
 
     public Transform tfCharacter;
     private CharacterViewItem curCharacter;
@@ -53,6 +55,7 @@ public class MapMgr : MonoBehaviour
     private Dictionary<int, TileViewItem> dicAllTile = new Dictionary<int, TileViewItem>();
 
     public int keyID = -1;
+    private int levelID;
     
 
 
@@ -69,10 +72,10 @@ public class MapMgr : MonoBehaviour
 
 
 
-    public void Init()
+    public void Init(int levelID)
     {
         gameData = PublicTool.GetGameData();
-
+        this.levelID = levelID;
         CheckAllCharacter();
         CheckAllTilePos();
         ScanAllPos(true);
@@ -86,8 +89,8 @@ public class MapMgr : MonoBehaviour
         EventCenter.Instance.AddEventListener("Undo", UndoEvent);
         EventCenter.Instance.AddEventListener("UndoDestroy", UndoDestroyEvent);
 
-        EventCenter.Instance.AddEventListener("IceBreakingSkill1", IceBreakingEvent);
-        EventCenter.Instance.AddEventListener("ThroughSpikesSkill2", ThroughSpikesEvent);
+        //EventCenter.Instance.AddEventListener("IceBreakingSkill1", IceBreakingEvent);
+        //EventCenter.Instance.AddEventListener("ThroughSpikesSkill2", ThroughSpikesEvent);
         EventCenter.Instance.AddEventListener("PullBoxSkill3", PullBoxEvent);
         EventCenter.Instance.AddEventListener("TeleportationSkill4", TeleportatioEvent);
 
@@ -101,8 +104,8 @@ public class MapMgr : MonoBehaviour
         EventCenter.Instance.RemoveEventListener("Undo", UndoEvent);
         EventCenter.Instance.RemoveEventListener("UndoDestroy", UndoDestroyEvent);
 
-        EventCenter.Instance.RemoveEventListener("IceBreakingSkill1", IceBreakingEvent);
-        EventCenter.Instance.RemoveEventListener("ThroughSpikesSkill2", ThroughSpikesEvent);
+        //EventCenter.Instance.RemoveEventListener("IceBreakingSkill1", IceBreakingEvent);
+        //EventCenter.Instance.RemoveEventListener("ThroughSpikesSkill2", ThroughSpikesEvent);
         EventCenter.Instance.RemoveEventListener("PullBoxSkill3", PullBoxEvent);
         EventCenter.Instance.RemoveEventListener("TeleportationSkill4", TeleportatioEvent);
 
@@ -117,7 +120,9 @@ public class MapMgr : MonoBehaviour
     private void CharacterMoveEvent(object arg0)
     {
         Vector2Int dir = (Vector2Int)arg0;
-        
+
+        IceBreakingEvent(1);
+        ThroughSpikesEvent(1);
 
         if (curCharacter != null)
         {
@@ -142,9 +147,16 @@ public class MapMgr : MonoBehaviour
                             UnityEngine.Debug.Log("TrapsIsFilled");
                             //Move
                             curCharacter.Move(dir + dir);
+
                             //Record Move
                             ActionRecordData characterAction = new(-2, startCharacterPosID, transferCharacter);
                             listAllAction.Add(characterAction);
+                            //close skill4
+
+                            gameData.UseSkills4Action();
+                            Ski4=false;
+
+
                         }
                         else
                         {
@@ -161,6 +173,7 @@ public class MapMgr : MonoBehaviour
                         ChangeScenceViewItem SceneChange = (ChangeScenceViewItem)dicSceneChange[transferCharacter];
                         DestoryTile(SceneChange.keyID, SceneChange.posID);
                         SceneChange.ChangeScence();
+                        gameData.SaveLevelData();
 
 
 
@@ -174,6 +187,9 @@ public class MapMgr : MonoBehaviour
                             //Record Move
                             ActionRecordData characterAction = new(-2, startCharacterPosID, transferCharacter);
                             listAllAction.Add(characterAction);
+                            gameData.UseSkills2Action();
+                            gameData.UseSkills4Action();
+                            Ski4=false;
                         }
                         else
                         {
@@ -189,17 +205,10 @@ public class MapMgr : MonoBehaviour
 
 
                         TileViewItem Crystal = (TileViewItem)dicCrystal[transferCharacter];
-
-                        //UnityEngine.Debug.Log("Crystal" + Crystal.keyID);
-                        
+                                             
                         gameData.AddCrystal(Crystal.keyID);
                         gameData.GetNumActiveCrystal();
-                        //UnityEngine.Debug.Log("Crystal"+gameData.GetNumActiveCrystal());
-                        //scoreText.text = "Crystal：" + gameData.GetNumActiveCrystal();
-
-
                         
-
                         DestoryTile(Crystal.keyID, Crystal.posID);
                         // Move
                         curCharacter.Move(dir + dir);
@@ -210,6 +219,9 @@ public class MapMgr : MonoBehaviour
                         DestoryStateRecordData CrystalAction = new(Crystal.keyID, transferCharacter, TileType.Crystal);
                         listAllAction.Add(CrystalAction);
 
+
+                        gameData.UseSkills4Action();
+                        Ski4=false;
 
 
 
@@ -226,6 +238,9 @@ public class MapMgr : MonoBehaviour
                             //Record Move
                             ActionRecordData characterAction = new(-2, startCharacterPosID, transferCharacter);
                             listAllAction.Add(characterAction);
+
+                            gameData.UseSkills4Action();
+                            Ski4=false;
                         }
                         else
                         {
@@ -247,6 +262,8 @@ public class MapMgr : MonoBehaviour
                             //Record Move
                             ActionRecordData characterAction = new(-2, startCharacterPosID, transferCharacter);
                             listAllAction.Add(characterAction);
+                            gameData.UseSkills4Action();
+                            Ski4 = false;
                         }
                         else
                         {
@@ -264,7 +281,8 @@ public class MapMgr : MonoBehaviour
                         //Record Move
                         ActionRecordData characterAction = new(-2, startCharacterPosID, transferCharacter);
                         listAllAction.Add(characterAction);
-
+                        gameData.UseSkills4Action();
+                        Ski4 = false;
 
                     }
 
@@ -277,9 +295,20 @@ public class MapMgr : MonoBehaviour
                         //Record Move
                         ActionRecordData characterAction = new(-2, startCharacterPosID, transferCharacter);
                         listAllAction.Add(characterAction);
+                        //close skill4
+                        
+                       
+                        gameData.UseSkills4Action();
+                        Ski4 = false;
+
+
+
                     }
 
+
+
                 }
+                
 
 
             }
@@ -300,6 +329,7 @@ public class MapMgr : MonoBehaviour
                 ChangeScenceViewItem SceneChange = (ChangeScenceViewItem)dicSceneChange[targetPosCharacter];
                 DestoryTile(SceneChange.keyID, SceneChange.posID);
                 SceneChange.ChangeScence();
+                gameData.SaveLevelData();
 
 
 
@@ -457,6 +487,7 @@ public class MapMgr : MonoBehaviour
 
                 if (!dicBox.ContainsKey(targetPosCharacter) && !dicIce.ContainsKey(targetPosCharacter) && !dicCrystal.ContainsKey(targetPosCharacter) && !dicWall.ContainsKey(targetPosCharacter))
                 {
+                    gameData.UseSkills3Action();
                     if (dicTraps.ContainsKey(targetPosCharacter))
                     {
                         TrapsViemItem Traps = (TrapsViemItem)dicTraps[targetPosCharacter];
@@ -478,6 +509,7 @@ public class MapMgr : MonoBehaviour
 
                             ActionRecordData boxAction = new(box.keyID, box.posID, box.posID + dir);
                             listAllAction.Add(boxAction);
+                            Ski3 = false;
                         }
 
 
@@ -496,6 +528,7 @@ public class MapMgr : MonoBehaviour
 
                             curCharacter.Move(dir);
                             box.Move(dir);
+                            Ski3 = false;
                         }
                         else
                         {
@@ -517,6 +550,7 @@ public class MapMgr : MonoBehaviour
 
                             curCharacter.Move(dir);
                             box.Move(dir);
+                            Ski3 = false;
                         }
                         else
                         {
@@ -537,6 +571,8 @@ public class MapMgr : MonoBehaviour
 
                             curCharacter.Move(dir);
                             box.Move(dir);
+                            Ski3 = false;
+                            gameData.UseSkills2Action();
                         }
                         else
                         {
@@ -555,12 +591,15 @@ public class MapMgr : MonoBehaviour
 
                         curCharacter.Move(dir);
                         box.Move(dir);
+                        Ski3 = false;
                     }
                 }
 
 
 
                 CheckButtonState();
+                
+
             }
 
             else if (dicSpikes.ContainsKey(targetPosCharacter))
@@ -572,6 +611,7 @@ public class MapMgr : MonoBehaviour
                     //Record Move
                     ActionRecordData characterAction = new(-2, startCharacterPosID, targetPosCharacter);
                     listAllAction.Add(characterAction);
+                    gameData.UseSkills2Action();
                 }
                 else
                 {
@@ -588,17 +628,9 @@ public class MapMgr : MonoBehaviour
 
 
                 TileViewItem Crystal = (TileViewItem)dicCrystal[targetPosCharacter];
-
-                //UnityEngine.Debug.Log("Crystal" + Crystal.keyID);
+              
                 gameData.AddCrystal(Crystal.keyID);
                 gameData.GetNumActiveCrystal();
-                //UnityEngine.Debug.Log("Crystal" + gameData.GetNumActiveCrystal());
-                //scoreText.text = "Crystal：" + gameData.GetNumActiveCrystal();
-
-
-
-
-                //?尚未实现输出能量数量
 
                 DestoryTile(Crystal.keyID, Crystal.posID);
                 // Move
@@ -622,6 +654,7 @@ public class MapMgr : MonoBehaviour
                 //No effect
                 if (Ski1)
                 {
+                    gameData.UseSkills1Action();
                     if (Ice.iceIsCracked)
                     {
 
@@ -640,7 +673,7 @@ public class MapMgr : MonoBehaviour
                         DestoryStateRecordData IceAction = new(Ice.keyID, targetPosCharacter, TileType.Ice);
                         listAllAction.Add(IceAction);
 
-
+                        
 
 
 
@@ -658,16 +691,8 @@ public class MapMgr : MonoBehaviour
                     UnityEngine.Debug.Log("Ice");
                 }
 
-
-
-
-
-
-
             }
-
-            
-
+           
             else if (dicTraps.ContainsKey(targetPosCharacter))
             {
                 UnityEngine.Debug.Log("Traps");
@@ -764,10 +789,7 @@ public class MapMgr : MonoBehaviour
 
             CheckButtonState();
             ScanAllPos(false);
-            Ski1 = false;
-            Ski2 = false;
-            Ski3 = false;
-            Ski4 = false;
+            
         }
 
         
@@ -873,13 +895,19 @@ public class MapMgr : MonoBehaviour
     }
 
 
+   
+
     private void IceBreakingEvent(object arg0)
     {
-        //if (gameData.GetNumActiveCrystal() == 1)
-        //{
+        if (gameData.SkillPoint1 == 1)
+        {
             Ski1 = true;
             UnityEngine.Debug.Log("IceBreakingSki1" + Ski1);
-        //}
+        }
+        else
+        {
+            Ski1 = false;
+        }
            
         
         
@@ -887,22 +915,30 @@ public class MapMgr : MonoBehaviour
 
     private void ThroughSpikesEvent(object arg0)
     {
-        //if (gameData.GetNumActiveCrystal() == 3)
-        //{
+        if (gameData.SkillPoint2 == 3)
+        {
             Ski2 = true;
             UnityEngine.Debug.Log("ThroughSpikesSki2" + Ski2);
-        //}
+        }
+        else
+        {
+            Ski2 = false;
+        }
         
        
     }
 
     private void PullBoxEvent(object arg0)
     {
-        //if (gameData.GetNumActiveCrystal() == 5)
-        //{
+        if (gameData.SkillPoint3 ==  5)
+        {
             Ski3 = true;
             UnityEngine.Debug.Log("PullBoxSki3" + Ski3);
-       // }
+        }
+        else
+        {
+            Ski3 = false;
+        }
 
        
 
@@ -910,10 +946,14 @@ public class MapMgr : MonoBehaviour
 
     private void TeleportatioEvent(object arg0)
     {
-        if (gameData.GetNumActiveCrystal() == 7)
+        if (gameData.SkillPoint4 ==  7)
         {
             Ski4 = true;
             UnityEngine.Debug.Log("TeleportatioSki4" + Ski4);
+        }
+        else
+        {
+            Ski4 = false;
         }
         
     }
@@ -948,30 +988,6 @@ public class MapMgr : MonoBehaviour
 
         
 
-        /*if (dicAllTile.ContainsKey(keyID))
-        {
-            UnityEngine.Debug.Log("DestoryTile" );
-            if (dicBox.ContainsKey(posID))
-            {
-                dicBox.Remove(posID);
-            }
-            else if (dicCrystal.ContainsKey(posID))
-            {
-                dicCrystal.Remove(posID);
-            }
-            else if (dicIce.ContainsKey(posID))
-            {
-                dicIce.Remove(posID);
-            }
-        TileViewItem tileViewItem = dicAllTile[keyID];
-            //tileViewItem.IsDestroyed = true;       
-            
-            listTile.Remove(tileViewItem);
-            dicAllTile.Remove(keyID);          
-            Destroy(tileViewItem.gameObject);
-
-            ScanAllPos(false);
-        }*/
 
     }
     #endregion
@@ -1100,10 +1116,11 @@ public class MapMgr : MonoBehaviour
         {
             //Only record when map start
             keyID++;
-            tile.keyID = keyID;
+            int levelKeyID = int.Parse(levelID.ToString() + keyID.ToString());
+            tile.keyID = levelKeyID;
 
             //Pos Refresh Every time
-            dicAllTile.Add(keyID, tile);
+            dicAllTile.Add(levelKeyID, tile);
             switch (tile.tileType)
             {
                 case TileType.Box:

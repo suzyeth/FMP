@@ -96,8 +96,8 @@ public partial class InputMgr : MonoSingleton<InputMgr>
         RightAction.canceled += Right_canceled;
         touchAction.performed += Touch_performed;
         undoAction.performed += Undo_performed;
-        SkillAction1.performed += IceBreakingSkill1_performed;
-        SkillAction12.performed += ThroughSpikesSkill2_performed;
+        //SkillAction1.performed += IceBreakingSkill1_performed;
+        //SkillAction12.performed += ThroughSpikesSkill2_performed;
         SkillAction13.performed += PullBoxSkill3_performed;
         SkillAction14.performed += TeleportationSkill4_performed;
      
@@ -113,6 +113,10 @@ public partial class InputMgr : MonoSingleton<InputMgr>
         touchAction.performed -= Touch_performed;
         undoAction.performed -= Undo_performed;
 
+       // SkillAction1.performed -= IceBreakingSkill1_performed;
+        //SkillAction12.performed -= ThroughSpikesSkill2_performed;
+        //SkillAction13.performed -= PullBoxSkill3_performed;
+        //SkillAction14.performed -= TeleportationSkill4_performed;
         playerInput.Disable();
     }
 

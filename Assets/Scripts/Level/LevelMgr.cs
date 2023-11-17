@@ -44,7 +44,7 @@ public class LevelMgr : MonoBehaviour
         GameObject gobjMap = Instantiate(objMap, tfMap) as GameObject;
         Debug.Log("Map/Map" + id);
         curMap = gobjMap.GetComponent<MapMgr>();
-        curMap.Init();
+        curMap.Init(id);
     }
 
 
@@ -62,6 +62,20 @@ public class LevelMgr : MonoBehaviour
 
     }
 
-    
+
+    #endregion
+
+    #region RestartThisMap
+    public void RestartThisMap()
+    {
+        curMap.ClearDataChangScence();
+        
+        Debug.Log("id" + id);
+        GenerateMap(id);
+
+
+    }
+
+
     #endregion
 }

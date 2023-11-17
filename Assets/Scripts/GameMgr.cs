@@ -14,6 +14,8 @@ public class GameMgr : MonoSingleton<GameMgr>
 
     public GameData gameData;
 
+   
+
 
 
     #region Init
@@ -28,6 +30,7 @@ public class GameMgr : MonoSingleton<GameMgr>
 
         //Init Data
         gameData = new GameData();
+      
 
         //Init Input
         yield return StartCoroutine(InputMgr.Instance.IE_Init());
@@ -35,6 +38,7 @@ public class GameMgr : MonoSingleton<GameMgr>
         levelMgr.Init();
         Debug.Log("Init Game Manager");
         isInit = true;
+
     }
     #endregion
 

@@ -53,6 +53,11 @@ public class GameData
     {
         energy = 0;
         dicCrystal.Clear();
+
+        skillPoint1 = 0;
+        skillPoint2 = 0;
+        skillPoint3 = 0;
+        skillPoint4 = 0;
     }
 
     
@@ -169,6 +174,130 @@ public class GameData
 
     #endregion
 
+    #region SkillPoints
+
+    private int skillPoint1;
+    private int skillPoint2;
+    private int skillPoint3;
+    private int skillPoint4;
+    private float skillAllPonit;
+
+    public int SkillPoint1
+    {
+        get { return skillPoint1; }
+        set { skillPoint1 = value; }
+    }
+
+    public int SkillPoint2
+    {
+        get { return skillPoint2; }
+        set { skillPoint2 = value; }
+    }
+
+    public int SkillPoint3
+    {
+        get { return skillPoint3; }
+        set { skillPoint3 = value; }
+    }
+
+    public int SkillPoint4
+    {
+        get { return skillPoint4; }
+        set { skillPoint4 = value; }
+    }
+
+    public float SkillAllPonit
+    {
+        get { return skillAllPonit; }
+        set { skillAllPonit = value; }
+    }
+
+    #endregion
+
+    #region UseSkills
+    private bool Ski1Used=false;
+    private bool Ski2Used=false;
+    private bool Ski3Used=false;
+    private bool Ski4Used=false;
+
+    public void UseSkills1Action()
+    {
+        //SkillPoint1 = 0;
+        Ski1Used = true;
+        //EventCenter.Instance.EventTrigger("UseSkills", 1);
+    }
+    public void UseSkills2Action()
+    {
+        //SkillPoint2 = 0;
+        Ski2Used = true;
+        //EventCenter.Instance.EventTrigger("UseSkills", 1);
+    }
+    public void UseSkills3Action()
+    {
+        //SkillPoint3 = 0;
+        Ski3Used=true;
+        //EventCenter.Instance.EventTrigger("UseSkills", 1);
+    }
+    public void UseSkills4Action()
+    {
+        //SkillPoint4 = 0;
+        Ski4Used = true;
+       // EventCenter.Instance.EventTrigger("UseSkills", 1);
+    }
+
+    #endregion
+
+    #region SaveLevelData
+    private int OldSkillPoint1;
+    private int OldSkillPoint2;
+    private int OldSkillPoint3;
+    private int OldSkillPoint4;
+    private float OldSkillAllPonit;
+    public void SaveLevelData()
+    {
+        //使用技能之后等到下一关刷新在重新刷新技能表
+        if (Ski1Used)
+        {
+            SkillPoint1 = 0;
+            Ski1Used= false;
+        }
+        if (Ski2Used)
+        {
+            SkillPoint2 = 0;
+            Ski2Used= false;
+        }
+        if (Ski3Used)
+        {
+            SkillPoint3 = 0;
+            Ski3Used= false;
+        }
+        if (Ski4Used)
+        {
+            SkillPoint4 = 0;
+            Ski4Used= false;
+        }
+        
+        EventCenter.Instance.EventTrigger("UseSkills", 1);
+
+        //记录关卡初始内容：水晶数量，allpoint,skilllpoint
+        OldSkillPoint1 = skillPoint1;
+        OldSkillPoint2 = skillPoint2;
+        OldSkillPoint3 = skillPoint3;
+        OldSkillPoint4 = skillPoint4;
+        OldSkillAllPonit=skillAllPonit;
+
+    }
+    public void LoadLevelData()
+    {
+        //加载关卡初始内容：
+        skillPoint1 = OldSkillPoint1  ;
+        skillPoint2 = OldSkillPoint2  ;
+        skillPoint3 = OldSkillPoint3  ;
+        skillPoint4 = OldSkillPoint4  ;
+        skillAllPonit = OldSkillAllPonit  ;
+        EventCenter.Instance.EventTrigger("UseSkills", 1);
+    }
+    #endregion
 }
 
 public class Crystal
