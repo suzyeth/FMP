@@ -115,8 +115,8 @@ public partial class InputMgr : MonoSingleton<InputMgr>
 
        // SkillAction1.performed -= IceBreakingSkill1_performed;
         //SkillAction12.performed -= ThroughSpikesSkill2_performed;
-        //SkillAction13.performed -= PullBoxSkill3_performed;
-        //SkillAction14.performed -= TeleportationSkill4_performed;
+        SkillAction13.performed -= PullBoxSkill3_performed;
+        SkillAction14.performed -= TeleportationSkill4_performed;
         playerInput.Disable();
     }
 
