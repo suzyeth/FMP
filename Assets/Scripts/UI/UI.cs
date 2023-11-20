@@ -15,6 +15,8 @@ public class UI : MonoBehaviour
     //public GameObject winText;  //将胜利的UI定位为游戏物体（默认不显示，结束后显示）
     private GameData gameData;
 
+    public Text CurrentLevelText;
+
     //SkillList
     public Image Bar1;
     public Image Bar2;
@@ -53,17 +55,32 @@ public class UI : MonoBehaviour
     public GameObject SkillImage3Submitted;
     public GameObject SkillImage4Submitted;
 
+    //display PanelPage Skills Image
+    public GameObject PPSkillImage1Active;
+    public GameObject PPSkillImage2Active;
+    public GameObject PPSkillImage3Active;
+    public GameObject PPSkillImage4Active;
+    public GameObject PPSkillImage1Submitted;
+    public GameObject PPSkillImage2Submitted;
+    public GameObject PPSkillImage3Submitted;
+    public GameObject PPSkillImage4Submitted;
+
+    #region SettingPage
+    //SettingPage
+    public GameObject LevelPage;
+    public GameObject MusicPage;
+    public GameObject ControlPage;
+    public GameObject CreditsPage;
+
+    #endregion
 
     //display craystal amount
     public Image CrystalBar;
     public float CrystalAmount;
     public float CurrentCrystalAmount;
-    private const float maxCrystalAmount = 10f;
+    private const float maxCrystalAmount = 20f;
 
     public float AllPoint=0f;
-
-
-
 
 
     public bool intial = false;
@@ -73,22 +90,47 @@ public class UI : MonoBehaviour
     public GameObject PanelPage;
     public GameObject SettingPage;
 
-    public bool Skill1 = false;
-    public bool Skill2 = false;
-    public bool Skill3 = false;
-    public bool Skill4 = false;
+    //GivingUpPage
+    public GameObject GivesUpSkillsPage;
+    public GameObject CloseButton1;
+    public GameObject GUSSkillButton1;
+    public GameObject GUSSkillButton2;
+    public GameObject GUSSkillButton3;
+    public GameObject GUSSkillButton4;
+    public GameObject GUSSkillSubmitted1;
+    public GameObject GUSSkillSubmitted2;
+    public GameObject GUSSkillSubmitted3;
+    public GameObject GUSSkillSubmitted4;
+    public GameObject GUSUnableConfirmButton;
+    public GameObject GUSActiveConfirmButton;
+
+    //public GameObject CloseButton2;
+    //public GameObject SelectAllSkills;
+    //public GameObject AllSkillsImage; 
+    private bool OpenGiveUpSkillsPage=false;
+
+
+    public bool GUSSkill1 = false;
+    public bool GUSSkill2 = false;
+    public bool GUSSkill3 = false;
+    public bool GUSSkill4 = false;
+
+    public GameObject EphemeralUI;
 
 
     // Start is called before the first frame update
     void Start()
     {
+
         gameData = PublicTool.GetGameData();
         SkillListPage.SetActive(false);
         PanelPage.SetActive(false);
         SettingPage.SetActive(false);
         CrystalAmount = 0;
 
+        EphemeralUI.SetActive(false);
 
+        
 
     }
 
@@ -102,12 +144,26 @@ public class UI : MonoBehaviour
 
     }
 
+
+    private void InitCheck()
+    {
+        GUSSkillButton1.SetActive(false);
+        GUSSkillButton2.SetActive(false);
+        GUSSkillButton3.SetActive(false);
+        GUSSkillButton4.SetActive(false);
+    
+    }
+
     #region Event
 
     private void OnEnable()
     {
-        EventCenter.Instance.AddEventListener("UseSkills", UseSkillsEvent);
        
+        EventCenter.Instance.AddEventListener("UseSkills", UseSkillsEvent);
+        EventCenter.Instance.AddEventListener("ChangeLevelText", ChangeLevelTextEvent);
+        EventCenter.Instance.AddEventListener("PartEnd", PartEndEvent);
+
+
 
     }
 
@@ -115,6 +171,8 @@ public class UI : MonoBehaviour
     {
         
         EventCenter.Instance.RemoveEventListener("UseSkills", UseSkillsEvent);
+        EventCenter.Instance.RemoveEventListener("ChangeLevelText", ChangeLevelTextEvent);
+        EventCenter.Instance.RemoveEventListener("PartEnd", PartEndEvent);
 
     }
 
@@ -124,30 +182,28 @@ public class UI : MonoBehaviour
         UnityEngine.Debug.Log("USEDSKILLS" );
         ActiveUpSkillImage();
     }
+
+    private void ChangeLevelTextEvent(object arg0)
+    {
+        int id = GameMgr.Instance.levelMgr.CurrentMapID();
+        if (id == 1)
+        {
+            EphemeralUI.SetActive(true);
+        }
+        CurrentLevelText.text = ("LEVEL  " + id);
+
+
+    }
+
+    private void PartEndEvent(object arg0)
+    {
+
+        OpenGiveingupSkillsPage();
+        OpenGiveUpSkillsPage = true;
+
+
+    }
     #endregion
-
-
-
-    /* private void RefreshAddPoint()
-     {
-       //退回存档之前的加点
-
-         int currentSkillPoint1 = gameData.SkillPoint1; // Get the current value
-         int currentSkillPoint2 = gameData.SkillPoint2;
-         int currentSkillPoint3 = gameData.SkillPoint3;
-         int currentSkillPoint4 = gameData.SkillPoint4;
-         float currentAllPoint = gameData.SkillAllPonit;
-         RefreshSkillBar1(currentSkillPoint1);
-         RefreshSkillBar2(currentSkillPoint2);
-         RefreshSkillBar3(currentSkillPoint3);
-         RefreshSkillBar4(currentSkillPoint4);
-
-
-         //gameData.SkillPoint1 = 10; // Set a new value
-     }*/
-
-
-
 
 
 
@@ -393,8 +449,6 @@ public class UI : MonoBehaviour
 
     #endregion
 
-   
-
     #region OpenClosePage
 
     public void OpenSkillListPage()
@@ -404,17 +458,27 @@ public class UI : MonoBehaviour
             SkillListPage.SetActive(true);
 
             //RefreshAddPoint();
-            
 
+            GivesUpSkillsPage.SetActive(false);
             PanelPage.SetActive(false);
         }
 
     }
     public void OpenPanelPage()
     {
-        SkillListPage.SetActive(false);
-        PanelPage.SetActive(true);
-        ResetSkillPoints();
+        if (!OpenGiveUpSkillsPage)
+        {
+            SkillListPage.SetActive(false);
+            PanelPage.SetActive(true);
+            //ResetSkillPoints();
+        }
+        else
+        {
+            SkillListPage.SetActive(false);
+            OpenGiveingupSkillsPage();
+
+        }
+        
     }
 
     public void CloseMainPanel()
@@ -447,77 +511,362 @@ public class UI : MonoBehaviour
 
     }
 
+    public void OpenLevelPage()
+    {
+        LevelPage.SetActive(true);
+        SettingPage.SetActive(false);
+    }
+
+    public void CloseLevelPage()
+    {
+        LevelPage.SetActive(false);
+        SettingPage.SetActive(true);
+    }
+
+    public void OpenMusicPage()
+    {
+        MusicPage.SetActive(true);
+        SettingPage.SetActive(false);
+    }
+
+    public void CloseMusicPage()
+    {
+        MusicPage.SetActive(false);
+        SettingPage.SetActive(true);
+    }
+
+    public void OpenControlPage()
+    {
+        ControlPage.SetActive(true);
+        SettingPage.SetActive(false);
+    }
+
+    public void CloseControlPage()
+    {
+        ControlPage.SetActive(false);
+        SettingPage.SetActive(true);
+    }
+
+    public void OpenCreditsPage()
+    { 
+        CreditsPage.SetActive(true);
+        SettingPage.SetActive(false);
+
+    }
+
+    public void CloseCreditsPage()
+    {
+        CreditsPage.SetActive(false);
+        SettingPage.SetActive(true);
+
+    }
+
+    public void OpenGiveingupSkillsPage()
+    {
+        GivesUpSkillsPage.SetActive(true);
+        CloseButton1.SetActive(false);
+       
+
+    }
+
+    public void CloseGiveingupSkillsPage()
+    {
+        GivesUpSkillsPage.SetActive(false);
+        CloseButton1.SetActive(true);
+        //CloseButton2.SetActive(true);
+        GameMgr.Instance.levelMgr.ChangeMap();
+        
+    }
+
     #endregion
 
-
-
-    #region GiveUpSkills
-    public void GiveUpSkill1()
-    {
-        Skill1 = true;
-        Skill2 = false;
-        Skill3 = false;
-        Skill4 = false;
-        SkillImage1Submitted.SetActive(true);
-    }
-
-    public void GiveUpSkill2()
-    {
-        Skill2 = true;
-        Skill1 = false;
-        Skill3 = false;
-        Skill4 = false;
-        SkillImage2Submitted.SetActive(true);
-    }
-
-    public void GiveUpSkill3()
-    {
-        Skill3 = true;
-        Skill1 = false;
-        Skill2 = false;
-        Skill4 = false;
-        SkillImage3Submitted.SetActive(true);
-    }
-
-    public void GiveUpSkill4()
-    {
-        Skill4 = true;
-        Skill1 = false;
-        Skill2 = false;
-        Skill3 = false;
-        SkillImage4Submitted.SetActive(true);
-    }
-
-    #endregion
-
+  
+    
     #region ActiveUpSkillsImage
+   //when fill up skills Active Image(Up ui & panel page for display which skills are SUbmitted &)
     private void ActiveUpSkillImage()
     {
+       
         if (gameData.SkillPoint1 == maxHealth1)
-        { SkillImage1Active.SetActive(true); }
+        { 
+            //UP ui
+            SkillImage1Active.SetActive(true);
+            //Panel Page
+            PPSkillImage1Active.SetActive(true);
+            //GIving UP Skills PAGE
+            GUSSkillButton1.SetActive(true);
+   
+        }
         else
-        { SkillImage1Active.SetActive(false); }
+        { 
+            SkillImage1Active.SetActive(false);
+            PPSkillImage1Active.SetActive(false);
+            GUSSkillButton1.SetActive(false);
+            //GUSUnableConfirmButton.SetActive(true);
+        }
 
         if (gameData.SkillPoint2 == maxHealth2)
-        { SkillImage2Active.SetActive(true); }
+        { 
+            SkillImage2Active.SetActive(true);
+            PPSkillImage2Active.SetActive(true);
+            GUSSkillButton2.SetActive(true);
+
+        }
         else
-        { SkillImage2Active.SetActive(false); }
+        { 
+            SkillImage2Active.SetActive(false);
+            PPSkillImage2Active.SetActive(false);
+            GUSSkillButton2.SetActive(false);
+        }
 
         if (gameData.SkillPoint3 == maxHealth3)
-        {SkillImage3Active.SetActive(true);}
+        {
+            SkillImage3Active.SetActive(true);
+            PPSkillImage3Active.SetActive(true);
+            GUSSkillButton3.SetActive(true);
+        }
         else
-        { SkillImage3Active.SetActive(false);}
+        { 
+            SkillImage3Active.SetActive(false);
+            PPSkillImage3Active.SetActive(false);
+            GUSSkillButton3.SetActive(false);
+            
+        }
 
         if (gameData.SkillPoint4 == maxHealth4)
-        {SkillImage4Active.SetActive(true);}
+        {
+            SkillImage4Active.SetActive(true);
+            PPSkillImage4Active.SetActive(true);
+            GUSSkillButton4.SetActive(true);
+        }
         else
-        {SkillImage4Active.SetActive(false);}
+        {
+            SkillImage4Active.SetActive(false);
+            PPSkillImage4Active.SetActive(false);
+            GUSSkillButton4.SetActive(false);
+        }
        
 
 
     }
 
+   
 
+    #endregion
+
+    #region GiveUpSkillsPage
+  
+  
+
+   
+
+    
+    private void CheckImage()
+    {
+
+
+        //givingup-skills-page when chose which skill to give up,上方常显UI图标显示
+        if (GUSSkill1|| GUSSkill2|| GUSSkill3|| GUSSkill4)
+        {
+            if (GUSSkill1)
+            {
+                SkillImage1Submitted.SetActive(true);
+            }
+            else
+            {
+                SkillImage1Submitted.SetActive(false);
+            }
+            if (GUSSkill2)
+            {
+                SkillImage2Submitted.SetActive(true);
+            }
+            else 
+            {
+                SkillImage2Submitted.SetActive(false);
+            }
+            if (GUSSkill3)
+            {
+                SkillImage3Submitted.SetActive(true);
+            }
+            else
+            {
+                SkillImage3Submitted.SetActive(false);
+            }
+            if (GUSSkill4)
+            {
+                SkillImage4Submitted.SetActive(true);
+            }
+            else
+            {
+                SkillImage4Submitted.SetActive(false);
+            }
+            //选中放弃的技能按钮之后才显现确认按钮，否则是失效状态
+            GUSUnableConfirmButton.SetActive(false);
+            GUSActiveConfirmButton.SetActive(true);
+        }
+       
+    }
+
+    //givingup-skills-page Click confirmBUTTON change image,close page,next level
+    private bool submittedSkill1=false;
+    private bool submittedSkill2=false;
+    private bool submittedSkill3 = false;
+    private bool submittedSkill4 = false;
+    public void GUSConfirmButton()
+    {
+        SubmittedSkillImage();
+        if (submittedSkill1 || submittedSkill2 || submittedSkill3 || submittedSkill4)
+        {
+            OpenGiveUpSkillsPage = false;
+            GivesUpSkillsPage.SetActive(false);
+            GameMgr.Instance.levelMgr.ChangeMap();
+        }
+        else 
+        { 
+        //必须选中一项技能进行提交
+        }
+       
+    }
+    //givingup-skills-page when click Confirm Button
+    private void SubmittedSkillImage()
+    {
+        submittedSkill1 = false;
+        submittedSkill2 = false;
+        submittedSkill3 = false;
+        submittedSkill4 = false;
+
+        //上方常显UI已经显示过,点击确认之后,panel page展示页面显示,gusPage
+        if (GUSSkill1 && gameData.SkillPoint1 == maxHealth1)
+        {
+            //panel page
+            PPSkillImage1Submitted.SetActive(true);
+            //giveupskills page 关闭技能选择按钮，开启图像无法选择
+            GUSSkillButton1.SetActive(false);
+            GUSSkillSubmitted1.SetActive(true);
+            
+            submittedSkill1=true;
+
+        }
+        else
+        {
+            SkillImage1Submitted.SetActive(false);
+            PPSkillImage1Submitted.SetActive(false);           
+        }
+
+        if (GUSSkill2 && gameData.SkillPoint2 == maxHealth2)
+        {
+            //SkillImage2Submitted.SetActive(true);
+            PPSkillImage2Submitted.SetActive(true);
+            GUSSkillButton2.SetActive(false);
+            GUSSkillSubmitted2.SetActive(true);
+            submittedSkill2 = true;
+
+        }
+        else
+        {
+            SkillImage2Submitted.SetActive(false);
+            PPSkillImage2Submitted.SetActive(false);
+        }
+
+        if (GUSSkill3 && gameData.SkillPoint3 == maxHealth3)
+        {
+            SkillImage3Submitted.SetActive(true);
+            PPSkillImage3Submitted.SetActive(true);
+            GUSSkillButton3.SetActive(false);
+            GUSSkillSubmitted3.SetActive(true);
+
+            submittedSkill3 = true;
+
+        }
+        else
+        {
+            SkillImage3Submitted.SetActive(false);
+            PPSkillImage3Submitted.SetActive(false);          
+        }
+
+        if (GUSSkill4 && gameData.SkillPoint4 == maxHealth4)
+        {
+            SkillImage4Submitted.SetActive(true);
+            PPSkillImage4Submitted.SetActive(true);
+            GUSSkillButton4.SetActive(false);
+            GUSSkillSubmitted4.SetActive(true);
+            submittedSkill4= true;
+        }
+        else
+        {
+            SkillImage4Submitted.SetActive(false);
+            PPSkillImage4Submitted.SetActive(false);
+        }
+
+
+    }
+
+    
+
+    public void GUSSelectSkills1()
+    {
+        GUSSkill1 = true;
+        GUSSkill2 = false;
+        GUSSkill3 = false;
+        GUSSkill4 = false;
+        CheckImage();
+
+    }
+    public void GUSSelectSkills2()
+    {
+        GUSSkill2 = true;
+        GUSSkill1 = false;
+        GUSSkill3 = false;
+        GUSSkill4 = false;
+        CheckImage();
+
+    }
+    public void GUSSelectSkills3()
+    {
+        GUSSkill3 = true;
+        GUSSkill1 = false;
+        GUSSkill2 = false;
+        GUSSkill4 = false;
+        CheckImage();
+
+    }
+    public void GUSSelectSkills4()
+    {
+        GUSSkill4 = true;
+        GUSSkill1 = false;
+        GUSSkill2 = false;
+        GUSSkill3 = false;
+        CheckImage();
+
+    }
+
+    public void GUSCancelSelectSkills1()
+    {
+        GUSSkill1 = false;
+        CheckImage();
+
+    }
+    public void GUSCancelSelectSkills2()
+    {
+        GUSSkill2 = false ;
+        CheckImage();
+
+
+    }
+
+    public void GUSCancelSelectSkills3()
+    {
+        GUSSkill3 = false;
+        CheckImage();
+        
+    }
+
+    public void GUSCancelSelectSkills4()
+    {
+        GUSSkill4 = false;
+        CheckImage();
+        
+    }
     #endregion
 
 
@@ -536,8 +885,7 @@ public class UI : MonoBehaviour
         GameMgr.Instance.levelMgr.RestartThisMap();
     }
 
-
-
+   
 }
 
 
