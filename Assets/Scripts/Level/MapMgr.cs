@@ -50,6 +50,7 @@ public class MapMgr : MonoBehaviour
     private Dictionary<Vector2Int, TrapsViemItem> dicTraps = new Dictionary<Vector2Int, TrapsViemItem>();
     private Dictionary<Vector2Int, UnitViewItem> dicSceneChange = new Dictionary<Vector2Int, UnitViewItem>();
     private Dictionary<Vector2Int, UnitViewItem> dicSpikes = new Dictionary<Vector2Int, UnitViewItem>();
+    private Dictionary<Vector2Int, UnitViewItem> dicGiveupSkills = new Dictionary<Vector2Int, UnitViewItem>();
 
     //Store the relationship between keyID ----- Particular tile
     private Dictionary<int, TileViewItem> dicAllTile = new Dictionary<int, TileViewItem>();
@@ -136,9 +137,9 @@ public class MapMgr : MonoBehaviour
 
             //Add Character Action
             if (Ski4)
-            { 
-               if (!dicWall.ContainsKey(transferCharacter) && !dicBox.ContainsKey(transferCharacter) && !dicIce.ContainsKey(transferCharacter))
-               {
+            {
+                if (!dicWall.ContainsKey(transferCharacter) && !dicBox.ContainsKey(transferCharacter) && !dicIce.ContainsKey(transferCharacter))
+                {
                     if (dicTraps.ContainsKey(transferCharacter))
                     {
                         TrapsViemItem Traps = (TrapsViemItem)dicTraps[transferCharacter];
@@ -154,7 +155,7 @@ public class MapMgr : MonoBehaviour
                             //close skill4
 
                             gameData.UseSkills4Action();
-                            Ski4=false;
+                            Ski4 = false;
 
 
                         }
@@ -178,6 +179,15 @@ public class MapMgr : MonoBehaviour
 
 
                     }
+                    else if (dicGiveupSkills.ContainsKey(transferCharacter))
+                    {
+                     
+                            GivingUpSkillsViewItem GiveupSkills = (GivingUpSkillsViewItem)dicGiveupSkills[transferCharacter];
+                            DestoryTile(GiveupSkills.keyID, GiveupSkills.posID);
+                            GiveupSkills.OpenGiveupSkillsPage();
+                            gameData.SaveLevelData();
+                        
+                    }
                     else if (dicSpikes.ContainsKey(transferCharacter))
                     {
 
@@ -189,7 +199,7 @@ public class MapMgr : MonoBehaviour
                             listAllAction.Add(characterAction);
                             gameData.UseSkills2Action();
                             gameData.UseSkills4Action();
-                            Ski4=false;
+                            Ski4 = false;
                         }
                         else
                         {
@@ -205,10 +215,10 @@ public class MapMgr : MonoBehaviour
 
 
                         TileViewItem Crystal = (TileViewItem)dicCrystal[transferCharacter];
-                                             
+
                         gameData.AddCrystal(Crystal.keyID);
                         gameData.GetNumActiveCrystal();
-                        
+
                         DestoryTile(Crystal.keyID, Crystal.posID);
                         // Move
                         curCharacter.Move(dir + dir);
@@ -221,7 +231,7 @@ public class MapMgr : MonoBehaviour
 
 
                         gameData.UseSkills4Action();
-                        Ski4=false;
+                        Ski4 = false;
 
 
 
@@ -232,7 +242,7 @@ public class MapMgr : MonoBehaviour
                         // if(redDoor.IsOpen())
                         if (dicRedDoor[transferCharacter].DoorIsOpened)
                         {
-                           // UnityEngine.Debug.Log("RedDoorisopen");
+                            // UnityEngine.Debug.Log("RedDoorisopen");
                             //Move
                             curCharacter.Move(dir + dir);
                             //Record Move
@@ -240,7 +250,7 @@ public class MapMgr : MonoBehaviour
                             listAllAction.Add(characterAction);
 
                             gameData.UseSkills4Action();
-                            Ski4=false;
+                            Ski4 = false;
                         }
                         else
                         {
@@ -256,7 +266,7 @@ public class MapMgr : MonoBehaviour
                         //UnityEngine.Debug.Log("BlueDoor");
                         if (dicBlueDoor[transferCharacter].DoorIsOpened)
                         {
-                           // UnityEngine.Debug.Log("BlueDoorisopen");
+                            // UnityEngine.Debug.Log("BlueDoorisopen");
                             //Move
                             curCharacter.Move(dir + dir);
                             //Record Move
@@ -296,8 +306,8 @@ public class MapMgr : MonoBehaviour
                         ActionRecordData characterAction = new(-2, startCharacterPosID, transferCharacter);
                         listAllAction.Add(characterAction);
                         //close skill4
-                        
-                       
+
+
                         gameData.UseSkills4Action();
                         Ski4 = false;
 
@@ -308,7 +318,7 @@ public class MapMgr : MonoBehaviour
 
 
                 }
-                
+
 
 
             }
@@ -334,8 +344,18 @@ public class MapMgr : MonoBehaviour
 
 
             }
-           
-            
+
+            else if (dicGiveupSkills.ContainsKey(targetPosCharacter))
+            {
+                UnityEngine.Debug.Log("GivingUpSkillsViewItem");
+
+                GivingUpSkillsViewItem GiveupSkills = (GivingUpSkillsViewItem)dicGiveupSkills[targetPosCharacter];
+                DestoryTile(GiveupSkills.keyID, GiveupSkills.posID);
+                GiveupSkills.OpenGiveupSkillsPage();
+                gameData.SaveLevelData();
+            }
+
+
 
             else if (dicBox.ContainsKey(targetPosCharacter))
             {
@@ -346,9 +366,9 @@ public class MapMgr : MonoBehaviour
                 Vector2Int targetPosBox = box.posID + dir;
 
 
-                if (!dicBox.ContainsKey(targetPosBox) && !dicIce.ContainsKey(targetPosBox) && !dicCrystal.ContainsKey(targetPosBox) 
-                    && !dicWall.ContainsKey(targetPosBox) 
-                    && (!dicSpikes.ContainsKey(box.posID)|| (dicSpikes.ContainsKey(box.posID)&& Ski2)))
+                if (!dicBox.ContainsKey(targetPosBox) && !dicIce.ContainsKey(targetPosBox) && !dicCrystal.ContainsKey(targetPosBox)
+                    && !dicWall.ContainsKey(targetPosBox)
+                    && (!dicSpikes.ContainsKey(box.posID) || (dicSpikes.ContainsKey(box.posID) && Ski2)))
                 {
                     if (dicTraps.ContainsKey(targetPosBox))
                     {
@@ -397,7 +417,7 @@ public class MapMgr : MonoBehaviour
 
 
                     }
-                   
+
 
                     else if (dicRedDoor.ContainsKey(targetPosBox))
                     {
@@ -440,7 +460,7 @@ public class MapMgr : MonoBehaviour
                         }
 
 
-                    }                  
+                    }
                     else if (dicSpikes.ContainsKey(targetPosBox))
                     {
 
@@ -598,7 +618,7 @@ public class MapMgr : MonoBehaviour
 
 
                 CheckButtonState();
-                
+
 
             }
 
@@ -628,7 +648,7 @@ public class MapMgr : MonoBehaviour
 
 
                 TileViewItem Crystal = (TileViewItem)dicCrystal[targetPosCharacter];
-              
+
                 gameData.AddCrystal(Crystal.keyID);
                 gameData.GetNumActiveCrystal();
 
@@ -673,7 +693,7 @@ public class MapMgr : MonoBehaviour
                         DestoryStateRecordData IceAction = new(Ice.keyID, targetPosCharacter, TileType.Ice);
                         listAllAction.Add(IceAction);
 
-                        
+
 
 
 
@@ -692,7 +712,7 @@ public class MapMgr : MonoBehaviour
                 }
 
             }
-           
+
             else if (dicTraps.ContainsKey(targetPosCharacter))
             {
                 UnityEngine.Debug.Log("Traps");
@@ -1108,6 +1128,7 @@ public class MapMgr : MonoBehaviour
         dicTraps.Clear();
         dicSceneChange.Clear();
         dicSpikes.Clear();
+        dicGiveupSkills.Clear();
 
 
 
@@ -1153,6 +1174,9 @@ public class MapMgr : MonoBehaviour
                 case TileType.SceneChange:
                     dicSceneChange.Add(tile.posID, tile);
                     break;
+                case TileType.GivingUpSkills:
+                    dicGiveupSkills.Add(tile.posID, tile);
+                    break ;
             }
         }
     }
@@ -1171,6 +1195,7 @@ public class MapMgr : MonoBehaviour
         dicTraps.Clear();
         dicSceneChange.Clear();
         dicSpikes.Clear();
+        dicGiveupSkills.Clear();
 
 
 
@@ -1212,6 +1237,9 @@ public class MapMgr : MonoBehaviour
                     break;
                 case TileType.SceneChange:
                     dicSceneChange.Add(tile.posID, tile);
+                    break;
+                case TileType.GivingUpSkills:
+                    dicGiveupSkills.Add(tile.posID, tile);
                     break;
             }
         }
@@ -1290,6 +1318,7 @@ public class MapMgr : MonoBehaviour
         dicTraps.Clear();
         dicSceneChange.Clear();
         dicSpikes.Clear();
+        dicGiveupSkills.Clear();
     }
 
 }

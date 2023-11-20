@@ -17,6 +17,8 @@ public enum TileType
     Traps,
     SceneChange,
 
+    GivingUpSkills,
+
 
 
 
