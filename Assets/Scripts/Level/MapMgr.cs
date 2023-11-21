@@ -919,7 +919,7 @@ public class MapMgr : MonoBehaviour
 
     private void IceBreakingEvent(object arg0)
     {
-        if (gameData.SkillPoint1 == 1)
+        if (gameData.SkillPoint1 == 1 && !gameData.GiveUpSkills1)
         {
             Ski1 = true;
             UnityEngine.Debug.Log("IceBreakingSki1" + Ski1);
@@ -935,7 +935,7 @@ public class MapMgr : MonoBehaviour
 
     private void ThroughSpikesEvent(object arg0)
     {
-        if (gameData.SkillPoint2 == 3)
+        if (gameData.SkillPoint2 == 3 && !gameData.GiveUpSkills2)
         {
             Ski2 = true;
             UnityEngine.Debug.Log("ThroughSpikesSki2" + Ski2);
@@ -950,7 +950,7 @@ public class MapMgr : MonoBehaviour
 
     private void PullBoxEvent(object arg0)
     {
-        if (gameData.SkillPoint3 ==  5)
+        if (gameData.SkillPoint3 ==  5 && !gameData.GiveUpSkills3)
         {
             Ski3 = true;
             UnityEngine.Debug.Log("PullBoxSki3" + Ski3);
@@ -966,7 +966,7 @@ public class MapMgr : MonoBehaviour
 
     private void TeleportatioEvent(object arg0)
     {
-        if (gameData.SkillPoint4 ==  7)
+        if (gameData.SkillPoint4 ==  7 && !gameData.GiveUpSkills4)
         {
             Ski4 = true;
             UnityEngine.Debug.Log("TeleportatioSki4" + Ski4);

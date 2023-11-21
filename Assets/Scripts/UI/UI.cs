@@ -769,11 +769,19 @@ public class UI : MonoBehaviour
         {
             OpenGiveUpSkillsPage = false;
             GivesUpSkillsPage.SetActive(false);
+            if (submittedSkill1)
+            { gameData.GiveUpSkills1 = true; }
+            if (submittedSkill2)
+            {gameData.GiveUpSkills2 = true; }
+            if(submittedSkill3)
+            { gameData.GiveUpSkills3 = true; }
+            if (submittedSkill4)
+            { gameData.GiveUpSkills4 = true; }
             GameMgr.Instance.levelMgr.ChangeMap();
         }
         else 
         { 
-        //必须选中一项技能进行提交
+        //提示必须选中一项技能进行提交
         }
        
     }

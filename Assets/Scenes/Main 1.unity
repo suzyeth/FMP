@@ -1197,7 +1197,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &190877264
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2837,8 +2837,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1.12, y: -2.8}
-  m_SizeDelta: {x: 454, y: 57}
+  m_AnchoredPosition: {x: -2.5787, y: -2.8}
+  m_SizeDelta: {x: 228.95, y: 57}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &417622087
 MonoBehaviour:
@@ -2865,7 +2865,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
-  m_FillAmount: 0.5
+  m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
@@ -10567,8 +10567,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1.12, y: -2.8}
-  m_SizeDelta: {x: 454, y: 57}
+  m_AnchoredPosition: {x: 0.3701, y: -2.8}
+  m_SizeDelta: {x: 224.091, y: 57}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1444305044
 MonoBehaviour:
@@ -10595,7 +10595,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
-  m_FillAmount: 0.5
+  m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 1
   m_UseSpriteMesh: 0
@@ -11035,7 +11035,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1508476641
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12697,14 +12697,6 @@ MonoBehaviour:
   Bar2Text: {fileID: 1263133133}
   Bar3Text: {fileID: 522519362}
   Bar4Text: {fileID: 1582649751}
-  SK1Amount: 0
-  TargetSK1Amount: 0
-  SK2Amount: 0
-  TargetSK2Amount: 0
-  health3: 0
-  health33: 0
-  health4: 0
-  health44: 0
   SkillImage1Active: {fileID: 1987800277}
   SkillImage2Active: {fileID: 22137430}
   SkillImage3Active: {fileID: 1219610587}
@@ -12726,10 +12718,6 @@ MonoBehaviour:
   ControlPage: {fileID: 2140317461}
   CreditsPage: {fileID: 652876177}
   CrystalBar: {fileID: 2005715603}
-  CrystalAmount: 0
-  CurrentCrystalAmount: 0
-  AllPoint: 0
-  intial: 0
   SkillListPage: {fileID: 1691320718}
   PanelPage: {fileID: 530978667}
   SettingPage: {fileID: 1727776122}
@@ -12745,11 +12733,16 @@ MonoBehaviour:
   GUSSkillSubmitted4: {fileID: 1030931998}
   GUSUnableConfirmButton: {fileID: 346213936}
   GUSActiveConfirmButton: {fileID: 974301962}
-  GUSSkill1: 0
-  GUSSkill2: 0
-  GUSSkill3: 0
-  GUSSkill4: 0
   EphemeralUI: {fileID: 1902611969}
+  SPStartingImage1: {fileID: 417622087}
+  SPStartingImage2: {fileID: 1444305044}
+  SPSettingImage1: {fileID: 279002036}
+  SPSettingImage2: {fileID: 1029671699}
+  transitionTime: 5
+  StartingPanel: {fileID: 840549756}
+  fillSpeed: 0.5
+  resetSpeed: 0.2
+  requiredFillAmount: 1
 --- !u!1 &1848903912
 GameObject:
   m_ObjectHideFlags: 0

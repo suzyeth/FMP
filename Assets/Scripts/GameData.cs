@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 using UnityEngine.Playables;
+using static UnityEngine.Rendering.DebugUI;
 
 public class BaseRecordData
 {
@@ -296,6 +298,35 @@ public class GameData
         skillPoint4 = OldSkillPoint4  ;
         skillAllPonit = OldSkillAllPonit  ;
         EventCenter.Instance.EventTrigger("UseSkills", 1);
+    }
+    #endregion
+
+
+    #region GivingUpSkills
+    private bool giveUpSkills1=false;
+    private bool giveUpSkills2=false;
+    private bool giveUpSkills3=false;
+    private bool giveUpSkills4 = false;
+
+    public bool GiveUpSkills1
+    {
+        get { return giveUpSkills1; }
+        set { giveUpSkills1 = value; }
+    }
+    public bool GiveUpSkills2
+    {
+        get { return giveUpSkills2; }
+        set { giveUpSkills2 = value; }
+    }
+    public bool GiveUpSkills3
+    {
+        get { return giveUpSkills3; }
+        set { giveUpSkills3 = value; }
+    }
+    public bool GiveUpSkills4
+    {
+        get { return giveUpSkills4; }
+        set { giveUpSkills4 = value; }
     }
     #endregion
 }
