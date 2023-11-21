@@ -155,7 +155,7 @@ public class MapMgr : MonoBehaviour
                             //close skill4
 
                             gameData.UseSkills4Action();
-                            Ski4 = false;
+                            //Ski4 = false;
 
 
                         }
@@ -199,7 +199,7 @@ public class MapMgr : MonoBehaviour
                             listAllAction.Add(characterAction);
                             gameData.UseSkills2Action();
                             gameData.UseSkills4Action();
-                            Ski4 = false;
+                            //Ski4 = false;
                         }
                         else
                         {
@@ -231,7 +231,7 @@ public class MapMgr : MonoBehaviour
 
 
                         gameData.UseSkills4Action();
-                        Ski4 = false;
+                       // Ski4 = false;
 
 
 
@@ -250,7 +250,7 @@ public class MapMgr : MonoBehaviour
                             listAllAction.Add(characterAction);
 
                             gameData.UseSkills4Action();
-                            Ski4 = false;
+                            //Ski4 = false;
                         }
                         else
                         {
@@ -273,7 +273,7 @@ public class MapMgr : MonoBehaviour
                             ActionRecordData characterAction = new(-2, startCharacterPosID, transferCharacter);
                             listAllAction.Add(characterAction);
                             gameData.UseSkills4Action();
-                            Ski4 = false;
+                            //Ski4 = false;
                         }
                         else
                         {
@@ -292,7 +292,7 @@ public class MapMgr : MonoBehaviour
                         ActionRecordData characterAction = new(-2, startCharacterPosID, transferCharacter);
                         listAllAction.Add(characterAction);
                         gameData.UseSkills4Action();
-                        Ski4 = false;
+                       // Ski4 = false;
 
                     }
 
@@ -309,7 +309,7 @@ public class MapMgr : MonoBehaviour
 
 
                         gameData.UseSkills4Action();
-                        Ski4 = false;
+                        //Ski4 = false;
 
 
 
@@ -318,7 +318,7 @@ public class MapMgr : MonoBehaviour
 
 
                 }
-
+                Ski4 = false;
 
 
             }
