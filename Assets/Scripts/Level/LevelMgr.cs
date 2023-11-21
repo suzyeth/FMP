@@ -8,8 +8,8 @@ public class LevelMgr : MonoBehaviour
     public Transform tfMap;
 
     private MapMgr curMap;
-    public  int CurMapID=1 ;
-    private int id = 1;
+    public  int CurMapID=0 ;
+    private int id = 0;
     
 
     #region Init
@@ -59,9 +59,10 @@ public class LevelMgr : MonoBehaviour
         Debug.Log("id" + id);
         GenerateMap(id);
 
-
+       EventCenter.Instance.EventTrigger("ChangeLevelText", 1);
     }
 
+    
 
     #endregion
 
@@ -78,4 +79,10 @@ public class LevelMgr : MonoBehaviour
 
 
     #endregion
+
+    public int CurrentMapID()
+    {
+        return id;
+    }
+
 }

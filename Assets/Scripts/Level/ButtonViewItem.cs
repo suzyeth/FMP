@@ -61,4 +61,39 @@ public class ButtonViewItem : TileViewItem
         ButtonIsPressed = false;
         onRelease.Invoke();
     }
+
+    public void PlayerOnStartingLeftButton()
+    {
+        EventCenter.Instance.EventTrigger("PlayerOnButton", 1);
+    }
+    public void PlayerExitStartingLeftButton()
+    {
+        EventCenter.Instance.EventTrigger("PlayerOnButton", -1);
+    }
+
+    public void PlayerOnStartingRightButton()
+    {
+        EventCenter.Instance.EventTrigger("PlayerOnButton", 2);
+    }
+    public void PlayerExitStartingRightButton()
+    {
+        EventCenter.Instance.EventTrigger("PlayerOnButton", -2);
+    }
+
+    public void PlayerOnSettingLeftButton()
+    {
+        EventCenter.Instance.EventTrigger("PlayerOnButton", 3);
+    }
+    public void PlayerExitSettingLeftButton()
+    {
+        EventCenter.Instance.EventTrigger("PlayerOnButton", -3);
+    }
+    public void PlayerOnSettingRightButton()
+    {
+        EventCenter.Instance.EventTrigger("PlayerOnButton", 4);
+    }
+    public void PlayerExitSettingRightButton()
+    {
+        EventCenter.Instance.EventTrigger("PlayerOnButton", -4);
+    }
 }

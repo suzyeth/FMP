@@ -10,6 +10,7 @@ public class ChangeScenceViewItem : TileViewItem
     {
 
         GameMgr.Instance.levelMgr.ChangeMap();
-      
+        
+
     }
 }

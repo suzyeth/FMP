@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Color = UnityEngine.Color;
 
 public class UI : MonoBehaviour
 {
@@ -26,10 +29,10 @@ public class UI : MonoBehaviour
     public Text Bar2Text;
     public Text Bar3Text;
     public Text Bar4Text;
-    public float SK1Amount, TargetSK1Amount;
-    public float SK2Amount, TargetSK2Amount;
-    public float health3, health33;
-    public float health4, health44;
+    private float SK1Amount, TargetSK1Amount;
+    private float SK2Amount, TargetSK2Amount;
+    private float health3, health33;
+    private float health4, health44;
 
     private const float maxHealth1 = 1f;
     private const float maxHealth2 = 3f;
@@ -76,14 +79,14 @@ public class UI : MonoBehaviour
 
     //display craystal amount
     public Image CrystalBar;
-    public float CrystalAmount;
-    public float CurrentCrystalAmount;
+    private float CrystalAmount;
+    private float CurrentCrystalAmount;
     private const float maxCrystalAmount = 20f;
 
-    public float AllPoint=0f;
+    private float AllPoint=0f;
 
 
-    public bool intial = false;
+    private bool intial = false;
     
 
     public GameObject SkillListPage;
@@ -110,12 +113,28 @@ public class UI : MonoBehaviour
     private bool OpenGiveUpSkillsPage=false;
 
 
-    public bool GUSSkill1 = false;
-    public bool GUSSkill2 = false;
-    public bool GUSSkill3 = false;
-    public bool GUSSkill4 = false;
+    private bool GUSSkill1 = false;
+    private bool GUSSkill2 = false;
+    private bool GUSSkill3 = false;
+    private bool GUSSkill4 = false;
 
+    //Starting Level
     public GameObject EphemeralUI;
+
+    public Image SPStartingImage1;
+    public Image SPStartingImage2;
+    public Image SPSettingImage1;
+    public Image SPSettingImage2;
+    public float transitionTime = 5f; // 过渡时间
+    
+    
+    private bool StartingLeftButtonIsPressd=false;
+    private bool StartingRightButtonIsPressd = false;
+    private bool EndingLeftButtonIsPressd = false;
+    private bool EndingRightButtonIsPressd = false;
+    public GameObject StartingPanel;
+    private bool hasEnteredGame = false;
+    private bool hasEnteredSetting = false;
 
 
     // Start is called before the first frame update
@@ -130,7 +149,9 @@ public class UI : MonoBehaviour
 
         EphemeralUI.SetActive(false);
 
+
         
+
 
     }
 
@@ -139,8 +160,13 @@ public class UI : MonoBehaviour
     {
 
         BarFiller();
-       
 
+
+        FillProgress();
+        ResetProgress();
+
+        // 更新进度条
+        UpdateProgress();
 
     }
 
@@ -162,7 +188,9 @@ public class UI : MonoBehaviour
         EventCenter.Instance.AddEventListener("UseSkills", UseSkillsEvent);
         EventCenter.Instance.AddEventListener("ChangeLevelText", ChangeLevelTextEvent);
         EventCenter.Instance.AddEventListener("PartEnd", PartEndEvent);
-
+        EventCenter.Instance.AddEventListener("PlayerOnButton", PlayerOnButtonEvent);
+       
+       
 
 
     }
@@ -173,7 +201,9 @@ public class UI : MonoBehaviour
         EventCenter.Instance.RemoveEventListener("UseSkills", UseSkillsEvent);
         EventCenter.Instance.RemoveEventListener("ChangeLevelText", ChangeLevelTextEvent);
         EventCenter.Instance.RemoveEventListener("PartEnd", PartEndEvent);
-
+        EventCenter.Instance.RemoveEventListener("PlayerOnButton", PlayerOnButtonEvent);
+        
+        
     }
 
     private void UseSkillsEvent(object arg0)
@@ -203,6 +233,20 @@ public class UI : MonoBehaviour
 
 
     }
+
+
+    private void PlayerOnButtonEvent(object arg0)
+    {
+        int direction = (int)arg0;
+        StartPAGECheckButtonState(direction);
+       
+        
+    }
+
+    
+
+   
+    
     #endregion
 
 
@@ -501,6 +545,12 @@ public class UI : MonoBehaviour
     public void CloseSettingPage()
     {
         SettingPage.SetActive(false);
+        if (StartingPanel.activeSelf)
+        {
+            GameMgr.Instance.levelMgr.RestartThisMap();
+            hasEnteredSetting = false;
+        }
+        
     }
     public void OpenSettingPage()
     {
@@ -885,7 +935,191 @@ public class UI : MonoBehaviour
         GameMgr.Instance.levelMgr.RestartThisMap();
     }
 
+
+
+
+
+
+
+
+
+
+
+
+    #region StartGames
+
+  
+    public float fillSpeed = 0.3f; // 进度条填充速度
+    public float resetSpeed = 0.5f; // 进度条重置速度
+    public float requiredFillAmount = 2.0f; // 需要填充的最小量
+
+    private float currentFillAmount1 = 0.0f; // 当前填充的量
+    private float currentFillAmount2 = 0.0f;
+    private float currentFillAmount3 = 0.0f;
+    private float currentFillAmount4 = 0.0f;
+
+    private void StartPAGECheckButtonState(int button)
+    {
+        //检查button的状态
+        if (button == 1)
+        {
+            StartingLeftButtonIsPressd = true;
+            Debug.Log("StartingLeftButtonIsPressd"+ StartingLeftButtonIsPressd);
+        }
+        if (button == 2)
+        {
+            StartingRightButtonIsPressd = true;
+        }
+        if (button == 3)
+        {
+            EndingLeftButtonIsPressd = true;
+        }
+        if (button == 4)
+        {
+            EndingRightButtonIsPressd = true;
+        }
+        if (button == -1)
+        {
+            StartingLeftButtonIsPressd = false;
+            Debug.Log("StartingLeftButtonIsPressd" + StartingLeftButtonIsPressd);
+        }
+        if (button == -2)
+        {
+            StartingRightButtonIsPressd = false;
+        }
+        if (button == -3)
+        {
+            EndingLeftButtonIsPressd = false;          
+        }
+        if (button == -4)
+        {
+            EndingRightButtonIsPressd = false;
+        }
+
+      
+    
+    }
+
+    private void FillProgress()
+    {
+
+        //判断是哪个按钮被按下，stratbuttonLeft=1,stratbuttonRight=2,settingbuttonLeft=3,settingbuttonRight=4
+        if (StartingLeftButtonIsPressd)
+        {
+           
+            //触发开始左按钮
+            currentFillAmount1 += fillSpeed * Time.deltaTime;
+            currentFillAmount1 = Mathf.Clamp01(currentFillAmount1);
+        }
+        if (StartingRightButtonIsPressd)
+        {
+            
+            //触发开始右按钮
+            currentFillAmount2 += fillSpeed * Time.deltaTime;
+            currentFillAmount2 = Mathf.Clamp01(currentFillAmount2);
+        }
+       if (EndingLeftButtonIsPressd)
+        {
+            
+            //触发开始设置左按钮
+            currentFillAmount3 += fillSpeed * Time.deltaTime;
+            currentFillAmount3 = Mathf.Clamp01(currentFillAmount3);
+        }
+        if(EndingRightButtonIsPressd)
+        {
+            
+            //触发开始设置右按钮
+            currentFillAmount4 += fillSpeed * Time.deltaTime;
+            currentFillAmount4 = Mathf.Clamp01(currentFillAmount4);
+        }
+
+
+        // 在按钮按下时逐渐增加填充量
+       
+
+        // 如果填充达到所需量，可以进入游戏
+        //startingPage
+       
+    }
+
+    private void ResetProgress()
+    {
+        // 在按钮释放时逐渐减小填充量
+ 
+        //判断是哪个按钮被释放，stratbuttonLeft=1,stratbuttonRight=2,settingbuttonLeft=3,settingbuttonRight=4
+        if (!StartingLeftButtonIsPressd)
+        {
+
+            //释放开始左按钮
+            currentFillAmount1 -= fillSpeed * Time.deltaTime;
+            currentFillAmount1 = Mathf.Clamp01(currentFillAmount1);
+        }
+        if (!StartingRightButtonIsPressd)
+        {
+
+            //释放开始右按钮
+            currentFillAmount2 -= fillSpeed * Time.deltaTime;
+            currentFillAmount2 = Mathf.Clamp01(currentFillAmount2);
+        }
+        if (!EndingLeftButtonIsPressd)
+        {
+
+            //释放开始设置左按钮
+            currentFillAmount3 -= fillSpeed * Time.deltaTime;
+            currentFillAmount3 = Mathf.Clamp01(currentFillAmount3);
+        }
+        if(!EndingRightButtonIsPressd)
+        {
+
+            //释放开始设置右按钮
+            currentFillAmount4 -= fillSpeed * Time.deltaTime;
+            currentFillAmount4 = Mathf.Clamp01(currentFillAmount4);
+        }
+    }
+
    
+    private void UpdateProgress()
+    {
+        // 更新 UI 中的填充量
+        //starting setting 两左两右一共四个
+
+        SPStartingImage1.fillAmount = currentFillAmount1;
+        SPStartingImage2.fillAmount = currentFillAmount2;
+        SPSettingImage1.fillAmount = currentFillAmount3;
+        SPSettingImage2.fillAmount = currentFillAmount4;
+        if (SPStartingImage1.fillAmount == 1 && SPStartingImage2.fillAmount == 1 && !hasEnteredGame)
+        {
+
+            EnterGame();
+            hasEnteredGame = true;
+
+        }
+        
+        if (SPSettingImage1.fillAmount == 1 && SPSettingImage2.fillAmount == 1 && !hasEnteredSetting)
+        {
+            EnterSettingPage();
+            hasEnteredSetting = true;
+        }
+       
+            
+    }
+
+    private void EnterGame()
+    {
+        // 进入游戏的逻辑
+        //Debug.Log("Enter Game!");
+        StartingPanel.SetActive(false);
+        
+        GameMgr.Instance.levelMgr.ChangeMap();
+    }
+
+    private void EnterSettingPage()
+    {
+        OpenSettingPage();
+        //Debug.Log("Enter SettingPage!");
+    }
+
+    #endregion
 }
 
 
