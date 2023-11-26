@@ -34,10 +34,10 @@ public class UI : MonoBehaviour
     private float health3, health33;
     private float health4, health44;
 
-    private const float maxHealth1 = 1f;
-    private const float maxHealth2 = 3f;
-    private const float maxHealth3 = 5f;
-    private const float maxHealth4 = 7f;
+    private const float maxHealth1 = 4f;
+    private const float maxHealth2 = 5f;
+    private const float maxHealth3 = 7f;
+    private const float maxHealth4 = 6f;
     
 
 
