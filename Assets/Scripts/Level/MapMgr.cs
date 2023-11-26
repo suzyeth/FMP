@@ -185,7 +185,7 @@ public class MapMgr : MonoBehaviour
                             GivingUpSkillsViewItem GiveupSkills = (GivingUpSkillsViewItem)dicGiveupSkills[transferCharacter];
                             DestoryTile(GiveupSkills.keyID, GiveupSkills.posID);
                             GiveupSkills.OpenGiveupSkillsPage();
-                            gameData.SaveLevelData();
+                            //gameData.SaveLevelData();
                         
                     }
                     else if (dicSpikes.ContainsKey(transferCharacter))
@@ -352,7 +352,7 @@ public class MapMgr : MonoBehaviour
                 GivingUpSkillsViewItem GiveupSkills = (GivingUpSkillsViewItem)dicGiveupSkills[targetPosCharacter];
                 DestoryTile(GiveupSkills.keyID, GiveupSkills.posID);
                 GiveupSkills.OpenGiveupSkillsPage();
-                gameData.SaveLevelData();
+                //gameData.SaveLevelData();
             }
 
 

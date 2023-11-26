@@ -215,8 +215,15 @@ public class UI : MonoBehaviour
 
     private void ChangeLevelTextEvent(object arg0)
     {
+        LevelPage.SetActive(false);
+       
+        StartingPanel.SetActive(false);
         int id = GameMgr.Instance.levelMgr.CurrentMapID();
-        if (id == 1)
+        if (id == 0)
+        {
+            EphemeralUI.SetActive(false);
+        }
+        else
         {
             EphemeralUI.SetActive(true);
         }
@@ -544,13 +551,22 @@ public class UI : MonoBehaviour
 
     public void CloseSettingPage()
     {
-        SettingPage.SetActive(false);
+       
         if (StartingPanel.activeSelf)
         {
-            GameMgr.Instance.levelMgr.RestartThisMap();
-            hasEnteredSetting = false;
+            
+            
+                GameMgr.Instance.levelMgr.RestartThisMap();
+                hasEnteredSetting = false;
+                EndingLeftButtonIsPressd = false;
+                EndingRightButtonIsPressd = false;
+            
+            
+            
         }
-        
+        SettingPage.SetActive(false);
+        Debug.Log("SettingPage.SetActive" + SettingPage.activeSelf);
+
     }
     public void OpenSettingPage()
     {
@@ -778,6 +794,8 @@ public class UI : MonoBehaviour
             if (submittedSkill4)
             { gameData.GiveUpSkills4 = true; }
             GameMgr.Instance.levelMgr.ChangeMap();
+            CloseButton1.SetActive(true);
+            gameData.SaveLevelData();
         }
         else 
         { 
