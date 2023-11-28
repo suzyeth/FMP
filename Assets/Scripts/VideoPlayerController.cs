@@ -47,8 +47,8 @@ public class VideoPlayerController : MonoBehaviour
         vp.loopPointReached -= OnStartVideoEnd;
         // 在这里处理视频播放完成后的逻辑，例如加载下一个场景
         start.SetActive(false);
-       // GameMgr.Instance.levelMgr.ChangeMap();
-        //AudioManager.Instance.PlayBackGroundMusic();
+        GameMgr.Instance.levelMgr.ChangeMap();
+        AudioManager.Instance.PlayBackGroundMusic();
     }
 
 
