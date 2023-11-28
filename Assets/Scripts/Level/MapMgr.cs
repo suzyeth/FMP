@@ -156,7 +156,7 @@ public class MapMgr : MonoBehaviour
 
                             gameData.UseSkills4Action();
                             //Ski4 = false;
-
+                            AudioManager.Instance.teleportationSound();
 
                         }
                         else
@@ -173,6 +173,7 @@ public class MapMgr : MonoBehaviour
 
                         ChangeScenceViewItem SceneChange = (ChangeScenceViewItem)dicSceneChange[transferCharacter];
                         DestoryTile(SceneChange.keyID, SceneChange.posID);
+                        AudioManager.Instance.ChangeScenceSound();
                         SceneChange.ChangeScence();
                         gameData.SaveLevelData();
 
@@ -184,6 +185,7 @@ public class MapMgr : MonoBehaviour
                      
                             GivingUpSkillsViewItem GiveupSkills = (GivingUpSkillsViewItem)dicGiveupSkills[transferCharacter];
                             DestoryTile(GiveupSkills.keyID, GiveupSkills.posID);
+                            AudioManager.Instance.GiveUpSkillsSound();
                             GiveupSkills.OpenGiveupSkillsPage();
                             //gameData.SaveLevelData();
                         
@@ -200,6 +202,8 @@ public class MapMgr : MonoBehaviour
                             gameData.UseSkills2Action();
                             gameData.UseSkills4Action();
                             //Ski4 = false;
+                            AudioManager.Instance.teleportationSound();
+                            AudioManager.Instance.SpikesSound();
                         }
                         else
                         {
@@ -220,6 +224,7 @@ public class MapMgr : MonoBehaviour
                         gameData.GetNumActiveCrystal();
 
                         DestoryTile(Crystal.keyID, Crystal.posID);
+                        AudioManager.Instance.CrystalSound();
                         // Move
                         curCharacter.Move(dir + dir);
                         //Record Move
@@ -231,7 +236,8 @@ public class MapMgr : MonoBehaviour
 
 
                         gameData.UseSkills4Action();
-                       // Ski4 = false;
+                        AudioManager.Instance.teleportationSound();
+                        // Ski4 = false;
 
 
 
@@ -250,6 +256,7 @@ public class MapMgr : MonoBehaviour
                             listAllAction.Add(characterAction);
 
                             gameData.UseSkills4Action();
+                            AudioManager.Instance.teleportationSound();
                             //Ski4 = false;
                         }
                         else
@@ -273,6 +280,7 @@ public class MapMgr : MonoBehaviour
                             ActionRecordData characterAction = new(-2, startCharacterPosID, transferCharacter);
                             listAllAction.Add(characterAction);
                             gameData.UseSkills4Action();
+                            AudioManager.Instance.teleportationSound();
                             //Ski4 = false;
                         }
                         else
@@ -291,8 +299,10 @@ public class MapMgr : MonoBehaviour
                         //Record Move
                         ActionRecordData characterAction = new(-2, startCharacterPosID, transferCharacter);
                         listAllAction.Add(characterAction);
+
                         gameData.UseSkills4Action();
-                       // Ski4 = false;
+                        AudioManager.Instance.teleportationSound();
+                        // Ski4 = false;
 
                     }
 
@@ -309,6 +319,7 @@ public class MapMgr : MonoBehaviour
 
 
                         gameData.UseSkills4Action();
+                        AudioManager.Instance.teleportationSound();
                         //Ski4 = false;
 
 
@@ -338,6 +349,7 @@ public class MapMgr : MonoBehaviour
 
                 ChangeScenceViewItem SceneChange = (ChangeScenceViewItem)dicSceneChange[targetPosCharacter];
                 DestoryTile(SceneChange.keyID, SceneChange.posID);
+                AudioManager.Instance.ChangeScenceSound();
                 SceneChange.ChangeScence();
                 gameData.SaveLevelData();
 
@@ -351,6 +363,7 @@ public class MapMgr : MonoBehaviour
 
                 GivingUpSkillsViewItem GiveupSkills = (GivingUpSkillsViewItem)dicGiveupSkills[targetPosCharacter];
                 DestoryTile(GiveupSkills.keyID, GiveupSkills.posID);
+                AudioManager.Instance.GiveUpSkillsSound();
                 GiveupSkills.OpenGiveupSkillsPage();
                 //gameData.SaveLevelData();
             }
@@ -390,7 +403,7 @@ public class MapMgr : MonoBehaviour
 
 
                             DestoryTile(box.keyID, box.posID);
-
+                            AudioManager.Instance.TrapsFilledSound();
                             //Record changes in status
                             DestoryStateRecordData trapAction = new(Traps.keyID, targetPosBox, TileType.Traps);
                             listAllAction.Add(trapAction);
@@ -593,6 +606,7 @@ public class MapMgr : MonoBehaviour
                             box.Move(dir);
                             Ski3 = false;
                             gameData.UseSkills2Action();
+                            AudioManager.Instance.SpikesSound();
                         }
                         else
                         {
@@ -632,6 +646,8 @@ public class MapMgr : MonoBehaviour
                     ActionRecordData characterAction = new(-2, startCharacterPosID, targetPosCharacter);
                     listAllAction.Add(characterAction);
                     gameData.UseSkills2Action();
+
+                    AudioManager.Instance.SpikesSound();
                 }
                 else
                 {
@@ -653,6 +669,7 @@ public class MapMgr : MonoBehaviour
                 gameData.GetNumActiveCrystal();
 
                 DestoryTile(Crystal.keyID, Crystal.posID);
+                AudioManager.Instance.CrystalSound();
                 // Move
                 curCharacter.Move(dir);
                 //Record Move
@@ -682,7 +699,7 @@ public class MapMgr : MonoBehaviour
                         UnityEngine.Debug.Log("IceDisappear");
 
                         DestoryTile(Ice.keyID, Ice.posID);
-
+                        AudioManager.Instance.IceBreak();
                         //Move
                         curCharacter.Move(dir);
                         //Record Move

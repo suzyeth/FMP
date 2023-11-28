@@ -27,18 +27,23 @@ public class CharacterViewItem : UnitViewItem
     private Vector2Int UpMove = new Vector2Int(0, 1);
     private Vector2Int DownMove = new Vector2Int(0, -1);
 
-    private Vector2Int currentMoveDir;
+    private Vector2Int currentMoveDir= new Vector2Int(0, 0);
+    private Vector2Int oldMoveDir = new Vector2Int(0, 0);
+    private Vector2Int stopMoveDir = new Vector2Int(0, 0);
 
     public void Move(Vector2Int moveDir)
     {
-
-      
-     PlayMoveAnimation(moveDir);
-             
-     posID = posID + moveDir;
+        posID = posID + moveDir;
         this.transform.DOMove(PublicTool.ConvertPosFromID(posID), 0.2f);
-        currentMoveDir = moveDir;
+        if (oldMoveDir != moveDir)
+        {
+            currentMoveDir = moveDir;
+            PlayMoveAnimation(moveDir);
 
+        }
+       oldMoveDir = moveDir;
+        
+ 
     }
 
 
@@ -63,9 +68,18 @@ public class CharacterViewItem : UnitViewItem
     
     public void StopCharacterMoveEvent(object arg0)
     {
-       
-        PlayIdleAnimation(currentMoveDir);
- 
+        if (stopMoveDir != currentMoveDir)
+        {
+            PlayIdleAnimation(currentMoveDir);
+        }
+        else
+        { 
+        
+        }
+        stopMoveDir=currentMoveDir;
+
+
+
     }
     #endregion
 
@@ -89,7 +103,7 @@ public class CharacterViewItem : UnitViewItem
             animator.ResetTrigger("LeftMove");
             animator.ResetTrigger("UpMove");
 
-            //Debug.Log("RightMove");
+            Debug.Log("RightMove");
 
         }
         else if (currentMoveDir == LeftMove)
@@ -100,7 +114,7 @@ public class CharacterViewItem : UnitViewItem
             animator.ResetTrigger("RightMove");            
             animator.ResetTrigger("UpMove");
 
-            //Debug.Log("LeftMove");
+            Debug.Log("LeftMove");
 
         }
         else if (currentMoveDir == UpMove)
@@ -168,7 +182,48 @@ public class CharacterViewItem : UnitViewItem
         }
     }
 
-  
-   
+    private void PlayDianAnAnimation(Vector2Int moveDir)
+    {
+        //Debug.Log(moveDir);
+        animator.ResetTrigger("D");
+        animator.ResetTrigger("W");
+        animator.ResetTrigger("A");
+        animator.ResetTrigger("S");
+
+        animator.ResetTrigger("DownMove");
+        animator.ResetTrigger("RightMove");
+        animator.ResetTrigger("LeftMove");
+        animator.ResetTrigger("UpMove");
+
+        if (moveDir == RightMove)
+        {
+            animator.SetTrigger("D");
+            // animator.ResetTrigger("RightMove", false);
+            // Debug.Log("StopRight");
+        }
+
+        if (moveDir == UpMove)
+        {
+            animator.SetTrigger("W");
+            // animator.ResetTrigger("UpMove", false);           
+            //  Debug.Log("StopUp");
+
+        }
+        if (moveDir == LeftMove)
+        {
+            animator.SetTrigger("diananA");
+            // animator.ResetTrigger("LeftMove");
+        }
+        if (moveDir == DownMove)
+        {
+            animator.SetTrigger("S");
+            // animator.ResetTrigger("DownMove", false);            
+            //Debug.Log("StopDown");
+
+        }
+    }
+
+
+
 
 }

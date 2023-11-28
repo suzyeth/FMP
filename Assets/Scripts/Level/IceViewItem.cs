@@ -10,8 +10,8 @@ public class IceViewItem : TileViewItem
 
     public List<GameObject> Corridors = new List<GameObject>();
 
+    private bool playSound = false;
 
-   
 
 
     // Start is called before the first frame update
@@ -28,13 +28,18 @@ public class IceViewItem : TileViewItem
         {
 
             ChangeGraphic(1);
-            
+            if (!playSound)
+            {
+                AudioManager.Instance.IceCrack();
+                playSound = true;
+            }
+
         }
         else
         {
 
             ChangeGraphic(0);
-            
+            playSound = false;
         }
 
     }

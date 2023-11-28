@@ -127,13 +127,31 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Move"",
-                    ""type"": ""Value"",
-                    ""id"": ""09cd40cb-d27d-4bc0-9ba6-cc6ac661066e"",
-                    ""expectedControlType"": ""Vector2"",
+                    ""name"": ""Dialogue"",
+                    ""type"": ""Button"",
+                    ""id"": ""17ccbbbd-2a44-48d1-b625-e7cbce7e045d"",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": true
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Reset"",
+                    ""type"": ""Button"",
+                    ""id"": ""a60ed9f4-91b4-4c23-8944-8987ed25869f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Esc"",
+                    ""type"": ""Button"",
+                    ""id"": ""6feff5a6-6c6e-467b-b96a-40c4bf7c2c0d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -259,59 +277,37 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""WASD"",
-                    ""id"": ""1670e55c-4768-44ae-8965-b77f860171db"",
-                    ""path"": ""2DVector"",
+                    ""name"": """",
+                    ""id"": ""c6c5add7-4e9b-4ce2-9b18-f9eb339d48bc"",
+                    ""path"": ""<Keyboard>/q"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Move"",
-                    ""isComposite"": true,
+                    ""action"": ""Dialogue"",
+                    ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""up"",
-                    ""id"": ""3c457f6c-6458-4d99-8c63-09b7de710f6f"",
-                    ""path"": ""<Keyboard>/w"",
+                    ""name"": """",
+                    ""id"": ""3aec660e-f6ed-4fdc-ab87-fb1d5c1ef0e1"",
+                    ""path"": ""<Keyboard>/r"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Move"",
+                    ""action"": ""Reset"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": true
+                    ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""down"",
-                    ""id"": ""060fa9a2-552d-4dac-b8f0-be60d59a7c26"",
-                    ""path"": ""<Keyboard>/s"",
+                    ""name"": """",
+                    ""id"": ""324128e2-5654-49b2-a93d-f1df9e813c20"",
+                    ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Move"",
+                    ""action"": ""Esc"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""750e6f47-44e7-4dbf-ba68-9e7c18aa15a4"",
-                    ""path"": ""<Keyboard>/a"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""57d005e7-dd64-4807-8bf7-cb1317ef68c4"",
-                    ""path"": ""<Keyboard>/d"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -331,7 +327,9 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         m_Gameplay_PullBoxSkill3 = m_Gameplay.FindAction("PullBoxSkill3", throwIfNotFound: true);
         m_Gameplay_IceBreakingSkill1 = m_Gameplay.FindAction("IceBreakingSkill1", throwIfNotFound: true);
         m_Gameplay_ThroughSpikesSkill2 = m_Gameplay.FindAction("ThroughSpikesSkill2", throwIfNotFound: true);
-        m_Gameplay_Move = m_Gameplay.FindAction("Move", throwIfNotFound: true);
+        m_Gameplay_Dialogue = m_Gameplay.FindAction("Dialogue", throwIfNotFound: true);
+        m_Gameplay_Reset = m_Gameplay.FindAction("Reset", throwIfNotFound: true);
+        m_Gameplay_Esc = m_Gameplay.FindAction("Esc", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -402,7 +400,9 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_PullBoxSkill3;
     private readonly InputAction m_Gameplay_IceBreakingSkill1;
     private readonly InputAction m_Gameplay_ThroughSpikesSkill2;
-    private readonly InputAction m_Gameplay_Move;
+    private readonly InputAction m_Gameplay_Dialogue;
+    private readonly InputAction m_Gameplay_Reset;
+    private readonly InputAction m_Gameplay_Esc;
     public struct GameplayActions
     {
         private @PlayerInput m_Wrapper;
@@ -418,7 +418,9 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         public InputAction @PullBoxSkill3 => m_Wrapper.m_Gameplay_PullBoxSkill3;
         public InputAction @IceBreakingSkill1 => m_Wrapper.m_Gameplay_IceBreakingSkill1;
         public InputAction @ThroughSpikesSkill2 => m_Wrapper.m_Gameplay_ThroughSpikesSkill2;
-        public InputAction @Move => m_Wrapper.m_Gameplay_Move;
+        public InputAction @Dialogue => m_Wrapper.m_Gameplay_Dialogue;
+        public InputAction @Reset => m_Wrapper.m_Gameplay_Reset;
+        public InputAction @Esc => m_Wrapper.m_Gameplay_Esc;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -461,9 +463,15 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                 @ThroughSpikesSkill2.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnThroughSpikesSkill2;
                 @ThroughSpikesSkill2.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnThroughSpikesSkill2;
                 @ThroughSpikesSkill2.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnThroughSpikesSkill2;
-                @Move.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMove;
-                @Move.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMove;
-                @Move.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMove;
+                @Dialogue.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDialogue;
+                @Dialogue.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDialogue;
+                @Dialogue.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDialogue;
+                @Reset.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnReset;
+                @Reset.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnReset;
+                @Reset.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnReset;
+                @Esc.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnEsc;
+                @Esc.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnEsc;
+                @Esc.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnEsc;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -501,9 +509,15 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                 @ThroughSpikesSkill2.started += instance.OnThroughSpikesSkill2;
                 @ThroughSpikesSkill2.performed += instance.OnThroughSpikesSkill2;
                 @ThroughSpikesSkill2.canceled += instance.OnThroughSpikesSkill2;
-                @Move.started += instance.OnMove;
-                @Move.performed += instance.OnMove;
-                @Move.canceled += instance.OnMove;
+                @Dialogue.started += instance.OnDialogue;
+                @Dialogue.performed += instance.OnDialogue;
+                @Dialogue.canceled += instance.OnDialogue;
+                @Reset.started += instance.OnReset;
+                @Reset.performed += instance.OnReset;
+                @Reset.canceled += instance.OnReset;
+                @Esc.started += instance.OnEsc;
+                @Esc.performed += instance.OnEsc;
+                @Esc.canceled += instance.OnEsc;
             }
         }
     }
@@ -521,6 +535,8 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         void OnPullBoxSkill3(InputAction.CallbackContext context);
         void OnIceBreakingSkill1(InputAction.CallbackContext context);
         void OnThroughSpikesSkill2(InputAction.CallbackContext context);
-        void OnMove(InputAction.CallbackContext context);
+        void OnDialogue(InputAction.CallbackContext context);
+        void OnReset(InputAction.CallbackContext context);
+        void OnEsc(InputAction.CallbackContext context);
     }
 }

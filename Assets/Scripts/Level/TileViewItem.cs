@@ -20,6 +20,7 @@ public class TileViewItem : UnitViewItem
         posID = posID + moveDir;
 
         this.transform.DOMove(PublicTool.ConvertPosFromID(posID), 0.2f);
+        AudioManager.Instance.PullBoxSound();
     }
 
 

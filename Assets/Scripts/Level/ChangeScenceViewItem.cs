@@ -8,8 +8,16 @@ public class ChangeScenceViewItem : TileViewItem
 
     public void ChangeScence()
     {
-
-        GameMgr.Instance.levelMgr.ChangeMap();
+        int id = GameMgr.Instance.levelMgr.CurrentMapID();
+        if (id == 24)
+        {
+            VideoPlayerController.Instance.PlayendingVdeo();
+        }
+        else
+        {
+            GameMgr.Instance.levelMgr.ChangeMap();
+        }
+        
         
 
     }

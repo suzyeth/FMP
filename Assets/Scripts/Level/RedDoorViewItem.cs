@@ -6,6 +6,7 @@ using System;
 public class RedDoorViewItem : TileViewItem
 {
     public List<GameObject> Corridors = new List<GameObject>();
+    private bool playSound=false;
     public override void Init()
     {
         base.Init();
@@ -19,11 +20,17 @@ public class RedDoorViewItem : TileViewItem
         {
             //spriteRenderer.sprite = iceCracked;
             ChangeGraphic(1);
+            if (!playSound)
+            { 
+                AudioManager.Instance.OpenDoor();
+                playSound = true;
+            }
         }
         else
         {
             //spriteRenderer.sprite = iceUnCracked;
             ChangeGraphic(0);
+            playSound = false;
         }
 
     }

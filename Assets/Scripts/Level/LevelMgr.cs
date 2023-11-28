@@ -6,6 +6,7 @@ public class LevelMgr : MonoBehaviour
 {
     [Header("Map")]
     public Transform tfMap;
+    public GameObject tfmap;
 
     private MapMgr curMap;
     public  int CurMapID=0 ;
@@ -47,6 +48,8 @@ public class LevelMgr : MonoBehaviour
         curMap.Init(id);
     }
 
+   
+
 
 
     #endregion
@@ -84,5 +87,13 @@ public class LevelMgr : MonoBehaviour
     {
         return id;
     }
+
+    public void ChangLevel(int id)
+    {
+        GenerateMap(id);
+        EventCenter.Instance.EventTrigger("ChangeLevelText", 1);
+    }
+
+    
 
 }

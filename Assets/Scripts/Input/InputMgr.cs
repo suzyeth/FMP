@@ -23,6 +23,9 @@ public partial class InputMgr : MonoSingleton<InputMgr>
     private InputAction SkillAction13;
     private InputAction SkillAction14;
 
+    private InputAction EscAction;
+    private InputAction ResetAction;
+
     public Vector2 moveVector;
 
 
@@ -62,7 +65,8 @@ public partial class InputMgr : MonoSingleton<InputMgr>
             SkillAction12 = playerInput.Gameplay.ThroughSpikesSkill2;
             SkillAction13 = playerInput.Gameplay.PullBoxSkill3;
             SkillAction14 = playerInput.Gameplay.TeleportationSkill4;
-
+            EscAction = playerInput.Gameplay.Esc;
+            ResetAction = playerInput.Gameplay.Reset;
 
             isInitInput = true;
         }
@@ -100,7 +104,9 @@ public partial class InputMgr : MonoSingleton<InputMgr>
         //SkillAction12.performed += ThroughSpikesSkill2_performed;
         SkillAction13.performed += PullBoxSkill3_performed;
         SkillAction14.performed += TeleportationSkill4_performed;
-     
+        EscAction.performed += Esc_performed;
+        ResetAction.performed += Reset_performed;
+       
 
     }
 
@@ -117,6 +123,8 @@ public partial class InputMgr : MonoSingleton<InputMgr>
         //SkillAction12.performed -= ThroughSpikesSkill2_performed;
         SkillAction13.performed -= PullBoxSkill3_performed;
         SkillAction14.performed -= TeleportationSkill4_performed;
+        EscAction.performed -= Esc_performed;
+        ResetAction.performed -= Reset_performed;
         playerInput.Disable();
     }
 
@@ -183,6 +191,21 @@ public partial class InputMgr : MonoSingleton<InputMgr>
 
     #endregion
 
+    private void Esc_performed(InputAction.CallbackContext obj)
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
+
+    }
+    private void Reset_performed(InputAction.CallbackContext obj)
+    {
+        PublicTool.GetGameData().LoadLevelData();
+        GameMgr.Instance.levelMgr.RestartThisMap();
+
+    }
 
 
     #region WASD
@@ -249,7 +272,7 @@ public partial class InputMgr : MonoSingleton<InputMgr>
     }
 
     #endregion
-
+    int OldmoveDir = -2;
 
     private void Update()
     {
@@ -257,31 +280,31 @@ public partial class InputMgr : MonoSingleton<InputMgr>
 
        if (isInitInput)
         {
-            Vector2Int moveDir = Vector2Int.zero;
-
+            int moveDir = -1;
+            //W-1,A-2,S-3,D-4,Release All Button-0
             if (isHoldingW && currentCooldown <= 0f)
             {
                 EventCenter.Instance.EventTrigger("CharacterMove", new Vector2Int(0, 1));
                 currentCooldown = moveCooldown;
-                moveDir += new Vector2Int(0, 1);
+                moveDir = 1;
             }
             else if (isHoldingS && currentCooldown <= 0f)
             {
                 EventCenter.Instance.EventTrigger("CharacterMove", new Vector2Int(0, -1));
                 currentCooldown = moveCooldown;
-                moveDir += new Vector2Int(0, -1);
+                moveDir = 2;
             }
             else if (isHoldingA && currentCooldown <= 0f)
             {
                 EventCenter.Instance.EventTrigger("CharacterMove", new Vector2Int(-1, 0));
                 currentCooldown = moveCooldown;
-                moveDir += new Vector2Int(-1, 0);
+                moveDir = 3;
             }
             else if (isHoldingD && currentCooldown <= 0f)
             {
                 EventCenter.Instance.EventTrigger("CharacterMove", new Vector2Int(1, 0));
                 currentCooldown = moveCooldown;
-                moveDir += new Vector2Int(1, 0);
+                moveDir = 4;
             }
             else if (!isHoldingA && !isHoldingW && !isHoldingS && !isHoldingD)
            
@@ -289,10 +312,10 @@ public partial class InputMgr : MonoSingleton<InputMgr>
                 
                
                     EventCenter.Instance.EventTrigger("StopCharacterMove", new Vector2Int(1, 0));
-                
-                
+                moveDir = 0;
+
             }
-           
+            checkButtonState(moveDir);
                 currentCooldown -= Time.deltaTime;
             
             
@@ -310,4 +333,17 @@ public partial class InputMgr : MonoSingleton<InputMgr>
         }
        
     }
+
+    public void checkButtonState(int moveDir)
+    {
+        if (OldmoveDir != moveDir)
+        {
+            if (moveDir == 1)
+            { 
+            
+            }
+            OldmoveDir = moveDir;
+        }
+    }
+
 }
