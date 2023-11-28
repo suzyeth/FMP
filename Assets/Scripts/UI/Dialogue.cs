@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using UnityEngine.InputSystem;
 using System;
 using UnityEngine.SceneManagement;
+using UnityEditor.VersionControl;
 
 public class Dialogue : MonoBehaviour
 {
@@ -50,7 +51,9 @@ public class Dialogue : MonoBehaviour
 
     private int currentMap=0;
 
+
    
+
     private void Awake()
     {
         inputs = new PlayerInput();
@@ -73,6 +76,8 @@ public class Dialogue : MonoBehaviour
        // ReadText(dialogDataFile);
        // ShowDialog();
     }
+
+    
     
     private void checkMapChange()
     {
@@ -80,60 +85,45 @@ public class Dialogue : MonoBehaviour
         
         if (currentMap != id && id<=8)
         {
+            dialogIndex = 0;
+            NPCDialog.SetActive(true);
+            
             if (id == 1)
-            { 
-                NPCDialog.SetActive(true);
+            {
                 ReadText(dialogLevel1);
-                ShowDialog();
             }
             if (id == 2)
             {
-                               
                 ReadText(dialogLevel2);
-                dialogIndex = 0;
-                ShowNPCDialog();
             }
             if (id == 3)
             {
-                dialogIndex = 0;
+                
                 ReadText(dialogLevel3);
-                ShowNPCDialog();
             }
             if (id == 4)
-            {
-                
+            {                
                 ReadText(dialogLevel4);
-                dialogIndex = 0;
-                ShowNPCDialog();
             }
             if (id == 5)
             {
-                
                 ReadText(dialogLevel5);
-                dialogIndex = 0;
-                ShowNPCDialog();
             }
             if (id == 6)
             {
-                
-                ReadText(dialogLevel6);
-                dialogIndex = 0;
-                ShowNPCDialog();
+                ReadText(dialogLevel6);               
             }
             if (id == 7)
             {
-                
-                ReadText(dialogLevel7);
-                dialogIndex = 0;
-                ShowNPCDialog();
+               
+                ReadText(dialogLevel7);                
             }
             if (id == 8)
-            {
-                
-                ReadText(dialogLevel8);
-                dialogIndex = 0;
-                ShowNPCDialog();
+            {               
+                ReadText(dialogLevel8);               
             }
+
+            ShowDialog();
 
             currentMap = id;
         }
@@ -172,21 +162,26 @@ public class Dialogue : MonoBehaviour
 
     public void ShowDialog()
     {
+        dialogText.text = string.Empty;
         for (int i = 0; i < dialogRows.Length; i++)
         {
             string[] cells = dialogRows[i].Split(',');
-            if (cells[0] == "#" && int.Parse(cells[1]) == dialogIndex)
+            if (cells[0] == "#" && int.Parse(cells[1]) == dialogIndex )
             {
                 UpdateText(cells[2]);
                 UpdateName(cells[6]);
                 //UpdateImage(int.Parse(cells[5]));
                 dialogIndex = int.Parse(cells[3]);
+                
                 break;
+               
             }
-            else if (cells[0] == "END" && int.Parse(cells[1]) == dialogIndex)
+            else if (cells[0] == "END" && int.Parse(cells[1]) == dialogIndex )
             {
+               
                 NPCDialog.SetActive(false);
                
+
             }
         }
     }
@@ -233,8 +228,8 @@ public class Dialogue : MonoBehaviour
     private void ShowNPCDialog()
     {
         NPCDialog.SetActive(true);
-       
+        dialogIndex = 0;
         isDone = true;
-        this.gameObject.tag = "Untagged";
+        //this.gameObject.tag = "Untagged";
     }
 }
