@@ -18471,8 +18471,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.5203, y: 3.1242}
-  m_SizeDelta: {x: 1955.1678, y: 1085.5579}
+  m_AnchoredPosition: {x: 0.47, y: 3.2624}
+  m_SizeDelta: {x: 1962.923, y: 1106.8845}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!82 &1405624080
 AudioSource:
@@ -26756,8 +26756,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.5203, y: 3.182}
-  m_SizeDelta: {x: 1937.3301, y: 1085.5579}
+  m_AnchoredPosition: {x: 0.4323, y: 3.2448}
+  m_SizeDelta: {x: 1950.9019, y: 1095.2517}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2114187077
 MonoBehaviour:
@@ -27492,7 +27492,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8629681919657996651, guid: cdac9212e6983294da57821b8f6b9cac, type: 3}
       propertyPath: CurMapID
-      value: 24
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cdac9212e6983294da57821b8f6b9cac, type: 3}
