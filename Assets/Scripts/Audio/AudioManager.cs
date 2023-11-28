@@ -46,7 +46,7 @@ public class AudioManager : MonoBehaviour
        
         audioSource.clip = BackgroundClip;
         audioSource.Play();
-        audioSource.Stop();
+       
     }
     public void StopPlayBackGroundMusic()
     {

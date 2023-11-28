@@ -84,7 +84,7 @@ public class UI : MonoBehaviour
     public Image CrystalBar;
     private float CrystalAmount;
     private float CurrentCrystalAmount;
-    private const float maxCrystalAmount = 20f;
+    private const float maxCrystalAmount = 45f;
 
     private float AllPoint = 0f;
 
