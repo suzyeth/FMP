@@ -1228,10 +1228,10 @@ public class UI : MonoBehaviour
 
     private void EnterGame()
     {
-        
+        VideoPlayerController.Instance.PlayStartVideo();
         StartingPanel.SetActive(false);
         //GameMgr.Instance.levelMgr.ChangeMap();
-        VideoPlayerController.Instance.PlayStartVideo();
+       
        
     }
 
