@@ -1,0 +1,8 @@
+Tag,ID,Content,Jump,Effect,Image,Name
+#,0,The spaceship's panels are shattered into four pieces... ,1,,0,Jake
+#,1,I must repair them to leave this place.,2,,0,Jake
+#,2,Those yellow crystals are glowing; they seem to be useful.,3,,0,Jake
+#,3,If needed@ use the button in the upper right to refresh the current level. ,4,,0,Jake
+#,4,Alternatively@ you can press the 'Z' key to undo the last move.,5,,0,Jake
+#,5,Let's move on.,6,,0,Jake
+END,6,,,,,
