@@ -10,8 +10,8 @@ using UnityEngine.Experimental.GlobalIllumination;
 public class CharacterViewItem : UnitViewItem
 {
     public Animator animator;
-    public bool WhetherMove;
-   
+    public bool WhetherMove=false;
+    
 
     public override void Init()
     {
@@ -35,13 +35,14 @@ public class CharacterViewItem : UnitViewItem
     {
         posID = posID + moveDir;
         this.transform.DOMove(PublicTool.ConvertPosFromID(posID), 0.2f);
-        if (oldMoveDir != moveDir)
-        {
+        //if (oldMoveDir != moveDir)
+       // {
             currentMoveDir = moveDir;
             PlayMoveAnimation(moveDir);
 
-        }
-       oldMoveDir = moveDir;
+       // }
+       
+       //oldMoveDir = moveDir;
         
  
     }
@@ -68,15 +69,17 @@ public class CharacterViewItem : UnitViewItem
     
     public void StopCharacterMoveEvent(object arg0)
     {
-        if (stopMoveDir != currentMoveDir)
-        {
+
+
+        //if (stopMoveDir != currentMoveDir)
+        //{
             PlayIdleAnimation(currentMoveDir);
-        }
-        else
-        { 
+       // }
+       // else
+        //{ 
         
-        }
-        stopMoveDir=currentMoveDir;
+       // }
+       // stopMoveDir=currentMoveDir;
 
 
 
@@ -127,7 +130,7 @@ public class CharacterViewItem : UnitViewItem
   
            // Debug.Log("UpMove");
         }
-        else
+        else if(currentMoveDir == DownMove)
         {
             animator.SetTrigger("DownMove");
 
