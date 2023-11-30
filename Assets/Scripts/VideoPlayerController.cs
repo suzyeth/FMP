@@ -1,9 +1,12 @@
+using DG.Tweening.Plugins.Core.PathCore;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Video;
+using System.IO;
+using Path = System.IO.Path;
 
 public class VideoPlayerController : MonoBehaviour
 {
@@ -15,12 +18,16 @@ public class VideoPlayerController : MonoBehaviour
     public static VideoPlayerController Instance; // 单例实例
 
 
+    string startingvideo_Path = "";//视频路径
+    string endingVdeo_Path = "";//视频路径
     void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
             
+            
+
         }
         else
         {
@@ -32,6 +39,10 @@ public class VideoPlayerController : MonoBehaviour
 
     public void PlayStartVideo()
     {
+        //startingVideo = GetComponent<VideoPlayer>();
+        startingvideo_Path = Application.streamingAssetsPath + "/Opennin.mp4";
+        startingVideo.url = startingvideo_Path;
+
         start.SetActive(true);
         AudioManager.Instance.StopPlayBackGroundMusic();
         // 订阅loopPointReached事件
@@ -55,6 +66,10 @@ public class VideoPlayerController : MonoBehaviour
 
     public void PlayendingVdeo()
     {
+        //endingVdeo = GetComponent<VideoPlayer>();
+        endingVdeo_Path = Application.streamingAssetsPath + "/Endin.mp4";
+        endingVdeo.url = endingVdeo_Path;
+
         end.SetActive(true);
         AudioManager.Instance.StopPlayBackGroundMusic();
         // 订阅loopPointReached事件
