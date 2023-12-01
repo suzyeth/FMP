@@ -148,9 +148,6 @@ public class UI : MonoBehaviour
        
         CrystalAmount = 0;
 
-       
-
-
         InitCheck();
 
 
@@ -226,8 +223,9 @@ public class UI : MonoBehaviour
     private void ChangeLevelTextEvent(object arg0)
     {
         LevelPage.SetActive(false);
-
         StartingPanel.SetActive(false);
+        EphemeralUI.SetActive(true);
+
         int id = GameMgr.Instance.levelMgr.CurrentMapID();
         if (id == 0)
         {
