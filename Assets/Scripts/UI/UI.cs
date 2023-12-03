@@ -172,10 +172,16 @@ public class UI : MonoBehaviour
 
     private void InitCheck()
     {
+        
+        StartingPanel.SetActive(true);
         SkillListPage.SetActive(false);
         PanelPage.SetActive(false);
         SettingPage.SetActive(false);
         EphemeralUI.SetActive(false);
+        LevelPage.SetActive(false); 
+        MusicPage.SetActive(false);
+        ControlPage.SetActive(false);
+        CreditsPage.SetActive(false);
 
         GUSSkillButton1.SetActive(false);
         GUSSkillButton2.SetActive(false);
@@ -185,6 +191,10 @@ public class UI : MonoBehaviour
         SkillListSubmitted3.SetActive(false);
         SkillListSubmitted2.SetActive(false);
         SkillListSubmitted1.SetActive(false);
+        PPSkillImage1Submitted.SetActive(false);
+        PPSkillImage2Submitted.SetActive(false);
+        PPSkillImage3Submitted.SetActive(false);
+        PPSkillImage4Submitted.SetActive(false);
     }
 
     #region Event
@@ -216,24 +226,42 @@ public class UI : MonoBehaviour
     private void UseSkillsEvent(object arg0)
     {
         ResetSkillPoints();
-        UnityEngine.Debug.Log("USEDSKILLS");
+        //UnityEngine.Debug.Log("USEDSKILLS");
         ActiveUpSkillImage();
     }
 
     private void ChangeLevelTextEvent(object arg0)
     {
         LevelPage.SetActive(false);
-        StartingPanel.SetActive(false);
-        EphemeralUI.SetActive(true);
+        
+        
 
         int id = GameMgr.Instance.levelMgr.CurrentMapID();
         if (id == 0)
         {
-            EphemeralUI.SetActive(false);
+            InitCheck();
+            gameData.RestartClearData();
+            CurrentLevelText.text = ("");
+           
+            
+            hasEnteredGame = false;
+            hasEnteredSetting = false;
+
+            StartingLeftButtonIsPressd = false;
+            StartingRightButtonIsPressd = false;
+            EndingLeftButtonIsPressd = false;
+            EndingRightButtonIsPressd = false;
+
+            ResetSkillPoints();
+            ActiveUpSkillImage();
+            CheckImage();
+            PPSkillImage4Submitted.SetActive(false);
+
         }
         else
         {
             EphemeralUI.SetActive(true);
+            StartingPanel.SetActive(false);
         }
         if (id == 1)
         {

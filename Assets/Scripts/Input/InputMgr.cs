@@ -25,6 +25,10 @@ public partial class InputMgr : MonoSingleton<InputMgr>
 
     private InputAction EscAction;
     private InputAction ResetAction;
+    private InputAction RestartGameAction;
+    private InputAction SkipAnimationAction;
+
+
 
     public Vector2 moveVector;
 
@@ -67,7 +71,9 @@ public partial class InputMgr : MonoSingleton<InputMgr>
             SkillAction14 = playerInput.Gameplay.TeleportationSkill4;
             EscAction = playerInput.Gameplay.Esc;
             ResetAction = playerInput.Gameplay.Reset;
+            SkipAnimationAction = playerInput.Gameplay.SkipAnimation; 
 
+            RestartGameAction = playerInput.Gameplay.RestartGame;
             isInitInput = true;
         }
     }
@@ -106,7 +112,10 @@ public partial class InputMgr : MonoSingleton<InputMgr>
         SkillAction14.performed += TeleportationSkill4_performed;
         EscAction.performed += Esc_performed;
         ResetAction.performed += Reset_performed;
-       
+
+        SkipAnimationAction.performed += SkipAnimation_performed;
+        RestartGameAction.performed += RestartGame_performed;
+
 
     }
 
@@ -125,6 +134,9 @@ public partial class InputMgr : MonoSingleton<InputMgr>
         SkillAction14.performed -= TeleportationSkill4_performed;
         EscAction.performed -= Esc_performed;
         ResetAction.performed -= Reset_performed;
+
+        SkipAnimationAction.performed -= SkipAnimation_performed;
+        RestartGameAction.performed -= RestartGame_performed;
         playerInput.Disable();
     }
 
@@ -200,12 +212,37 @@ public partial class InputMgr : MonoSingleton<InputMgr>
 #endif
 
     }
+
+    private void RestartGame_performed(InputAction.CallbackContext obj)
+    {
+        
+        //RestartGame
+        GameMgr.Instance.levelMgr.ChangLevel(0);
+
+    }
     private void Reset_performed(InputAction.CallbackContext obj)
     {
         PublicTool.GetGameData().LoadLevelData();
         GameMgr.Instance.levelMgr.RestartThisMap();
 
     }
+
+    private void SkipAnimation_performed(InputAction.CallbackContext obj)
+    {
+        int id = GameMgr.Instance.levelMgr.CurrentMapID();
+        if(id==0)
+        {
+            VideoPlayerController.Instance.SkipStartVideo();
+        }
+        if (id == 24)
+        {
+            VideoPlayerController.Instance.SkipEndVideo();
+
+        }
+
+    }
+
+
 
 
     #region WASD

@@ -329,6 +329,36 @@ public class GameData
         set { giveUpSkills4 = value; }
     }
     #endregion
+
+    public void RestartClearData()
+    {
+        dicCrystal.Clear();
+
+
+        stackActionRecord.Clear();
+
+        SkillPoint4 = 0;
+        SkillPoint3 = 0;
+        SkillPoint2 = 0;
+        SkillPoint1 = 0;
+        SkillAllPonit = 0;
+
+        Ski1Used = false;
+        Ski2Used = false;
+        Ski3Used = false;
+        Ski4Used = false;
+
+        OldSkillPoint1=0;
+        OldSkillPoint2=0;
+        OldSkillPoint3 = 0;
+        OldSkillPoint4 = 0;
+        OldSkillAllPonit = 0;
+
+        GiveUpSkills1 = false;
+        GiveUpSkills2 = false;
+        GiveUpSkills3 = false;
+        GiveUpSkills4 = false;
+    }
 }
 
 public class Crystal

@@ -6,7 +6,7 @@ public class LevelMgr : MonoBehaviour
 {
     [Header("Map")]
     public Transform tfMap;
-    public GameObject tfmap;
+   
 
     private MapMgr curMap;
     public  int CurMapID=0 ;
@@ -88,10 +88,16 @@ public class LevelMgr : MonoBehaviour
         return id;
     }
 
-    public void ChangLevel(int id)
+    public void ChangLevel(int Lecvelid)
     {
-        GenerateMap(id);
-        EventCenter.Instance.EventTrigger("ChangeLevelText", 1);
+        
+        curMap.ClearDataChangScence();
+        
+        
+        id = Lecvelid;
+        Debug.Log("id" + id);
+        GenerateMap(Lecvelid);
+       EventCenter.Instance.EventTrigger("ChangeLevelText", 1);
     }
 
     

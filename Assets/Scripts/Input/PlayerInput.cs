@@ -152,6 +152,24 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RestartGame"",
+                    ""type"": ""Button"",
+                    ""id"": ""153ed9ef-bc32-4ee1-92c8-c9d3eafa1229"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SkipAnimation"",
+                    ""type"": ""Button"",
+                    ""id"": ""63429ca4-939e-45e1-93d6-56200dd071db"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -308,6 +326,28 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""action"": ""Esc"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8e38d10d-dd7d-436c-8fa6-c7e3df641b58"",
+                    ""path"": ""<Keyboard>/backquote"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RestartGame"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f6685c53-1059-49ca-81be-e79385d69943"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SkipAnimation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -330,6 +370,8 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         m_Gameplay_Dialogue = m_Gameplay.FindAction("Dialogue", throwIfNotFound: true);
         m_Gameplay_Reset = m_Gameplay.FindAction("Reset", throwIfNotFound: true);
         m_Gameplay_Esc = m_Gameplay.FindAction("Esc", throwIfNotFound: true);
+        m_Gameplay_RestartGame = m_Gameplay.FindAction("RestartGame", throwIfNotFound: true);
+        m_Gameplay_SkipAnimation = m_Gameplay.FindAction("SkipAnimation", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -403,6 +445,8 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Dialogue;
     private readonly InputAction m_Gameplay_Reset;
     private readonly InputAction m_Gameplay_Esc;
+    private readonly InputAction m_Gameplay_RestartGame;
+    private readonly InputAction m_Gameplay_SkipAnimation;
     public struct GameplayActions
     {
         private @PlayerInput m_Wrapper;
@@ -421,6 +465,8 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         public InputAction @Dialogue => m_Wrapper.m_Gameplay_Dialogue;
         public InputAction @Reset => m_Wrapper.m_Gameplay_Reset;
         public InputAction @Esc => m_Wrapper.m_Gameplay_Esc;
+        public InputAction @RestartGame => m_Wrapper.m_Gameplay_RestartGame;
+        public InputAction @SkipAnimation => m_Wrapper.m_Gameplay_SkipAnimation;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -472,6 +518,12 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                 @Esc.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnEsc;
                 @Esc.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnEsc;
                 @Esc.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnEsc;
+                @RestartGame.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnRestartGame;
+                @RestartGame.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnRestartGame;
+                @RestartGame.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnRestartGame;
+                @SkipAnimation.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSkipAnimation;
+                @SkipAnimation.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSkipAnimation;
+                @SkipAnimation.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSkipAnimation;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -518,6 +570,12 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                 @Esc.started += instance.OnEsc;
                 @Esc.performed += instance.OnEsc;
                 @Esc.canceled += instance.OnEsc;
+                @RestartGame.started += instance.OnRestartGame;
+                @RestartGame.performed += instance.OnRestartGame;
+                @RestartGame.canceled += instance.OnRestartGame;
+                @SkipAnimation.started += instance.OnSkipAnimation;
+                @SkipAnimation.performed += instance.OnSkipAnimation;
+                @SkipAnimation.canceled += instance.OnSkipAnimation;
             }
         }
     }
@@ -538,5 +596,7 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         void OnDialogue(InputAction.CallbackContext context);
         void OnReset(InputAction.CallbackContext context);
         void OnEsc(InputAction.CallbackContext context);
+        void OnRestartGame(InputAction.CallbackContext context);
+        void OnSkipAnimation(InputAction.CallbackContext context);
     }
 }
