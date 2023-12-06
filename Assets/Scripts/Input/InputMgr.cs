@@ -229,16 +229,16 @@ public partial class InputMgr : MonoSingleton<InputMgr>
 
     private void SkipAnimation_performed(InputAction.CallbackContext obj)
     {
-        int id = GameMgr.Instance.levelMgr.CurrentMapID();
-        if(id==0)
-        {
-            VideoPlayerController.Instance.SkipStartVideo();
-        }
-        if (id == 24)
-        {
-            VideoPlayerController.Instance.SkipEndVideo();
+        //int id = GameMgr.Instance.levelMgr.CurrentMapID();
+        //if(id==0)
+        //{
+        //    VideoPlayerController.Instance.SkipStartVideo();
+        //}
+        //if (id == 24)
+        //{
+          //  VideoPlayerController.Instance.SkipEndVideo();
 
-        }
+        //}
 
     }
 
@@ -352,7 +352,7 @@ public partial class InputMgr : MonoSingleton<InputMgr>
                 moveDir = 0;
 
             }
-            checkButtonState(moveDir);
+            //checkButtonState(moveDir);
                 currentCooldown -= Time.deltaTime;
             
             

@@ -1070,11 +1070,14 @@ public class UI : MonoBehaviour
 
     public void OnExitGame()
     {
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-            Application.Quit();
-#endif
+        /*#if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;
+        #else
+                    Application.Quit();
+        #endif*/
+        //for itcho
+        GameMgr.Instance.levelMgr.ChangLevel(0);
+
     }
 
     public void UndoButton()

@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Tilemaps;
 using UnityEngine.UIElements;
-using UnityEngine.WSA;
+
 using static UnityEngine.ParticleSystem;
 using UnityEngine.UI;
 using UnityEngine.SocialPlatforms.Impl;
@@ -120,6 +120,9 @@ public class MapMgr : MonoBehaviour
     //CharacterMove
     private void CharacterMoveEvent(object arg0)
     {
+        if (!gameData.WhetherDialogue)
+        { 
+        
         Vector2Int dir = (Vector2Int)arg0;
 
         IceBreakingEvent(1);
@@ -829,7 +832,7 @@ public class MapMgr : MonoBehaviour
             
         }
 
-        
+        }
     }
 
 

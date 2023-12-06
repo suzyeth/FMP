@@ -359,6 +359,14 @@ public class GameData
         GiveUpSkills3 = false;
         GiveUpSkills4 = false;
     }
+
+    private bool whetherDialogue = false;
+    public bool WhetherDialogue
+    {
+        get { return whetherDialogue; }
+        set { whetherDialogue = value; }
+    }
+
 }
 
 public class Crystal

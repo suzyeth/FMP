@@ -8,6 +8,8 @@ public class LevelButton : MonoBehaviour
 
     public void changeLevel()
     {
+        
         GameMgr.Instance.levelMgr.ChangLevel(id);
+       
     }
 }

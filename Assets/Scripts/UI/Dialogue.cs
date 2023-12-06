@@ -7,7 +7,8 @@ using System.Text.RegularExpressions;
 using UnityEngine.InputSystem;
 using System;
 using UnityEngine.SceneManagement;
-using UnityEditor.VersionControl;
+using UnityEngine.Playables;
+
 
 public class Dialogue : MonoBehaviour
 {
@@ -49,15 +50,15 @@ public class Dialogue : MonoBehaviour
     public float pressTimer;
     float pressTime;
 
-    private int currentMap=0;
+    private int currentMap=-1;
+    private GameData gameData;
 
-
-   
 
     private void Awake()
     {
         inputs = new PlayerInput();
         inputs.Enable();
+        gameData = PublicTool.GetGameData();
     }
     private void OnEnable()
     {
@@ -82,12 +83,13 @@ public class Dialogue : MonoBehaviour
     private void checkMapChange()
     {
         int id = GameMgr.Instance.levelMgr.CurrentMapID();
-        
-        if (currentMap != id && id<=8)
+
+        if (currentMap != id && id <= 8 && id>0)
         {
+            gameData.WhetherDialogue = true;
             dialogIndex = 0;
             NPCDialog.SetActive(true);
-            
+
             if (id == 1)
             {
                 ReadText(dialogLevel1);
@@ -98,11 +100,10 @@ public class Dialogue : MonoBehaviour
             }
             if (id == 3)
             {
-                
                 ReadText(dialogLevel3);
             }
             if (id == 4)
-            {                
+            {
                 ReadText(dialogLevel4);
             }
             if (id == 5)
@@ -111,20 +112,27 @@ public class Dialogue : MonoBehaviour
             }
             if (id == 6)
             {
-                ReadText(dialogLevel6);               
+                ReadText(dialogLevel6);
             }
             if (id == 7)
             {
-               
-                ReadText(dialogLevel7);                
+
+                ReadText(dialogLevel7);
             }
             if (id == 8)
-            {               
-                ReadText(dialogLevel8);               
+            {
+                ReadText(dialogLevel8);
             }
 
             ShowDialog();
 
+            currentMap = id;
+        }
+
+        if(id==0 && currentMap != id || id>8 && currentMap != id)
+        {
+            NPCDialog.SetActive(false);
+            gameData.WhetherDialogue = false;
             currentMap = id;
         }
     }
@@ -180,7 +188,7 @@ public class Dialogue : MonoBehaviour
             {
                
                 NPCDialog.SetActive(false);
-               
+                gameData.WhetherDialogue = false;
 
             }
         }
@@ -188,18 +196,7 @@ public class Dialogue : MonoBehaviour
 
 
 
-    public void OptionEffect(string effect)
-    {
-        //if (effect == "M1")
-        //{
-        //    currentDistance = Mathf.Max(currentDistance - 1, 0);
-        //}
-        //if (effect == "P1")
-        //{
-        //    currentDistance += 1;
-        //}
-
-    }
+    
 
     public void OnClickNext()
     {
@@ -216,20 +213,5 @@ public class Dialogue : MonoBehaviour
         }
     }
 
-    public void TriggerAction()
-    {
-        if (!isDone)
-        {
-            dialogIndex = 0;
-            ShowNPCDialog();
-        }
-    }
-
-    private void ShowNPCDialog()
-    {
-        NPCDialog.SetActive(true);
-        dialogIndex = 0;
-        isDone = true;
-        //this.gameObject.tag = "Untagged";
-    }
+   
 }
