@@ -509,6 +509,7 @@ public class MapMgr : MonoBehaviour
 
 
                 CheckButtonState();
+                
             }
 
             // pull box
@@ -824,13 +825,15 @@ public class MapMgr : MonoBehaviour
 
             if (listAllAction != null && listAllAction.Count > 0)
             {
-                gameData.AddRecordAction(listAllAction);
+                gameData.AddRecordAction(new List<BaseRecordData>(listAllAction));
+                
             }
 
             CheckButtonState();
             ScanAllPos(false);
-            
-        }
+                
+
+            }
 
         }
     }

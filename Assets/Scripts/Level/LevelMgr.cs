@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class LevelMgr : MonoBehaviour
 {
@@ -11,12 +12,13 @@ public class LevelMgr : MonoBehaviour
     private MapMgr curMap;
     public  int CurMapID=0 ;
     private int id = 0;
-    
+    public GameData gameData;
 
     #region Init
     public void Init()
     {
         StartLevel(CurMapID);
+        gameData = new GameData();
     }
 
 /*    public void InitCharacter()
@@ -58,6 +60,7 @@ public class LevelMgr : MonoBehaviour
     public void ChangeMap()
     {
         curMap.ClearDataChangScence();
+        gameData.ClearUndoStack();
          id++;
         Debug.Log("id" + id);
         GenerateMap(id);
@@ -92,8 +95,8 @@ public class LevelMgr : MonoBehaviour
     {
         
         curMap.ClearDataChangScence();
-        
-        
+        gameData.ClearUndoStack();
+
         id = Lecvelid;
         Debug.Log("id" + id);
         GenerateMap(Lecvelid);

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
@@ -141,21 +142,24 @@ public class GameData
     #region Undo
 
     private Stack<List<BaseRecordData>> stackActionRecord = new Stack<List<BaseRecordData>>();
+    int stackCount;
+    
 
     public void AddRecordAction(List<BaseRecordData> listAction)
     {
-        stackActionRecord.Push(listAction);
+        List<BaseRecordData> newListAction = new List<BaseRecordData>(listAction);
+        stackActionRecord.Push(newListAction);
+         
     }
 
     public void UndoAction()
     {
-        if (stackActionRecord.Count > 0)
+        
+        if (stackActionRecord.Count > stackCount)
         {
+            
             List<BaseRecordData> listUndoAction = stackActionRecord.Pop();
-
-
-            if (listUndoAction != null)
-            {
+            
                 foreach (var action in listUndoAction)
                 {
                     if (action.GetType() == typeof(DestoryStateRecordData))
@@ -168,10 +172,30 @@ public class GameData
                         EventCenter.Instance.EventTrigger("Undo", action);
                     }
                     
-
                 }
-            }
+          
         }
+        else
+        {
+            Debug.LogWarning("Stack is empty, cannot undo.");
+        }
+    }
+
+    public void ClearUndoStack()
+    {
+
+        stackCount= stackActionRecord.Count;
+        stackActionRecord.Clear();
+        
+        if (stackActionRecord.Count==0)
+        {
+            Debug.Log("no record");
+        }
+        else
+        {
+            Debug.Log("still have record");
+        }
+            
     }
 
     #endregion
