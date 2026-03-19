@@ -123,57 +123,36 @@ public class GameData
     public int GetNumActiveCrystal()
     {
         return dicCrystal.Count;
-        //int count = 0;
-        //foreach(var item in dicCrystal)
-        {
-            //if (!item.Value.isSubmitted)
-            //{
-            //    count++;
-            //}
-        }
-        //return count;
-
-       
-
-
     }
     #endregion
 
     #region Undo
 
     private Stack<List<BaseRecordData>> stackActionRecord = new Stack<List<BaseRecordData>>();
-    int stackCount;
-    
 
     public void AddRecordAction(List<BaseRecordData> listAction)
     {
         List<BaseRecordData> newListAction = new List<BaseRecordData>(listAction);
         stackActionRecord.Push(newListAction);
-         
     }
 
     public void UndoAction()
     {
-        
-        if (stackActionRecord.Count > stackCount)
+        if (stackActionRecord.Count > 0)
         {
-            
             List<BaseRecordData> listUndoAction = stackActionRecord.Pop();
-            
-                foreach (var action in listUndoAction)
+
+            foreach (var action in listUndoAction)
+            {
+                if (action.GetType() == typeof(DestoryStateRecordData))
                 {
-                    if (action.GetType() == typeof(DestoryStateRecordData))
-                    {
-                        EventCenter.Instance.EventTrigger("UndoDestroy", action);
-                        
-                    }
-                    else if(action.GetType() == typeof(ActionRecordData))
-                    {
-                        EventCenter.Instance.EventTrigger("Undo", action);
-                    }
-                    
+                    EventCenter.Instance.EventTrigger("UndoDestroy", action);
                 }
-          
+                else if (action.GetType() == typeof(ActionRecordData))
+                {
+                    EventCenter.Instance.EventTrigger("Undo", action);
+                }
+            }
         }
         else
         {
@@ -183,19 +162,8 @@ public class GameData
 
     public void ClearUndoStack()
     {
-
-        stackCount= stackActionRecord.Count;
         stackActionRecord.Clear();
-        
-        if (stackActionRecord.Count==0)
-        {
-            Debug.Log("no record");
-        }
-        else
-        {
-            Debug.Log("still have record");
-        }
-            
+        Debug.Log("Undo stack cleared.");
     }
 
     #endregion
@@ -281,7 +249,7 @@ public class GameData
     private float OldSkillAllPonit;
     public void SaveLevelData()
     {
-        //Ê¹ÓÃ¼¼ÄÜÖ®ºóµÈµ½ÏÂÒ»¹ØË¢ÐÂÔÚÖØÐÂË¢ÐÂ¼¼ÄÜ±í
+        //Ê¹ï¿½Ã¼ï¿½ï¿½ï¿½Ö®ï¿½ï¿½Èµï¿½ï¿½ï¿½Ò»ï¿½ï¿½Ë¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë¢ï¿½Â¼ï¿½ï¿½Ü±ï¿½
         if (Ski1Used)
         {
             SkillPoint1 = 0;
@@ -305,7 +273,7 @@ public class GameData
         
         EventCenter.Instance.EventTrigger("UseSkills", 1);
 
-        //¼ÇÂ¼¹Ø¿¨³õÊ¼ÄÚÈÝ£ºË®¾§ÊýÁ¿£¬allpoint,skilllpoint
+        //ï¿½ï¿½Â¼ï¿½Ø¿ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½Ý£ï¿½Ë®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½allpoint,skilllpoint
         OldSkillPoint1 = skillPoint1;
         OldSkillPoint2 = skillPoint2;
         OldSkillPoint3 = skillPoint3;
@@ -315,7 +283,7 @@ public class GameData
     }
     public void LoadLevelData()
     {
-        //¼ÓÔØ¹Ø¿¨³õÊ¼ÄÚÈÝ£º
+        //ï¿½ï¿½ï¿½Ø¹Ø¿ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½Ý£ï¿½
         skillPoint1 = OldSkillPoint1  ;
         skillPoint2 = OldSkillPoint2  ;
         skillPoint3 = OldSkillPoint3  ;

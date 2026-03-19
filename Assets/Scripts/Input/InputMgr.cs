@@ -122,14 +122,16 @@ public partial class InputMgr : MonoSingleton<InputMgr>
     private void DisableInput()
     {
         UpAction.started -= Up_started;
+        UpAction.canceled -= Up_canceled;
         DownAction.started -= Down_started;
+        DownAction.canceled -= Down_canceled;
         LeftAction.started -= Left_started;
+        LeftAction.canceled -= Left_canceled;
         RightAction.started -= Right_started;
+        RightAction.canceled -= Right_canceled;
         touchAction.performed -= Touch_performed;
         undoAction.performed -= Undo_performed;
 
-       // SkillAction1.performed -= IceBreakingSkill1_performed;
-        //SkillAction12.performed -= ThroughSpikesSkill2_performed;
         SkillAction13.performed -= PullBoxSkill3_performed;
         SkillAction14.performed -= TeleportationSkill4_performed;
         EscAction.performed -= Esc_performed;

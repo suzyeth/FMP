@@ -12,7 +12,7 @@ using UnityEngine.Playables;
 
 public class Dialogue : MonoBehaviour
 {
-    //Òª²»ÒªÔÙ´Î½»»¥
+    //Òªï¿½ï¿½Òªï¿½Ù´Î½ï¿½ï¿½ï¿½
     public bool isDone;
     public GameObject NPCDialog;
     
@@ -30,17 +30,17 @@ public class Dialogue : MonoBehaviour
     public TextAsset dialogLevel8;
 
 
-    //¶Ô»°ÄÚÈÝÎÄ±¾
+    //ï¿½Ô»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä±ï¿½
     public Text dialogText;
     public Text nameText;
 
-    //¶Ô»°ÎÄ±¾-°´ÐÐ·Ö¸î
+    //ï¿½Ô»ï¿½ï¿½Ä±ï¿½-ï¿½ï¿½ï¿½Ð·Ö¸ï¿½
     public string[] dialogRows;
 
-    //¶Ô»°Ë÷Òý
+    //ï¿½Ô»ï¿½ï¿½ï¿½ï¿½ï¿½
     public int dialogIndex;
 
-    //¶Ô»°Í¼Æ¬
+    //ï¿½Ô»ï¿½Í¼Æ¬
     //public List<Sprite> sprites = new List<Sprite>();
    // public Image speakingProfile;
 
@@ -129,7 +129,7 @@ public class Dialogue : MonoBehaviour
             currentMap = id;
         }
 
-        if(id==0 && currentMap != id || id>8 && currentMap != id)
+        if ((id == 0 || id > 8) && currentMap != id)
         {
             NPCDialog.SetActive(false);
             gameData.WhetherDialogue = false;
@@ -174,22 +174,24 @@ public class Dialogue : MonoBehaviour
         for (int i = 0; i < dialogRows.Length; i++)
         {
             string[] cells = dialogRows[i].Split(',');
-            if (cells[0] == "#" && int.Parse(cells[1]) == dialogIndex )
+
+            if (cells.Length < 7)
+            {
+                continue;
+            }
+
+            if (cells[0] == "#" && int.Parse(cells[1]) == dialogIndex)
             {
                 UpdateText(cells[2]);
                 UpdateName(cells[6]);
-                //UpdateImage(int.Parse(cells[5]));
                 dialogIndex = int.Parse(cells[3]);
-                
+
                 break;
-               
             }
-            else if (cells[0] == "END" && int.Parse(cells[1]) == dialogIndex )
+            else if (cells[0] == "END" && int.Parse(cells[1]) == dialogIndex)
             {
-               
                 NPCDialog.SetActive(false);
                 gameData.WhetherDialogue = false;
-
             }
         }
     }
