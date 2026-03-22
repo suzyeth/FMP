@@ -12,13 +12,13 @@ public class LevelMgr : MonoBehaviour
     private MapMgr curMap;
     public  int CurMapID=0 ;
     private int id = 0;
-    public GameData gameData;
+    private GameData gameData;
 
     #region Init
     public void Init()
     {
+        gameData = GameMgr.Instance.gameData;
         StartLevel(CurMapID);
-        gameData = new GameData();
     }
 
 /*    public void InitCharacter()
@@ -76,11 +76,10 @@ public class LevelMgr : MonoBehaviour
     public void RestartThisMap()
     {
         curMap.ClearDataChangScence();
-        
+        gameData.ClearUndoStack();
+
         Debug.Log("id" + id);
         GenerateMap(id);
-
-
     }
 
 

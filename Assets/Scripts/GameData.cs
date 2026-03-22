@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
@@ -325,7 +324,7 @@ public class GameData
     public void RestartClearData()
     {
         dicCrystal.Clear();
-
+        destroyedTiles.Clear();
 
         stackActionRecord.Clear();
 

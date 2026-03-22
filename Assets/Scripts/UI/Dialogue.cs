@@ -63,11 +63,19 @@ public class Dialogue : MonoBehaviour
     private void OnEnable()
     {
         inputs.Gameplay.Dialogue.started += OnDialogChange;
+        EventCenter.Instance.AddEventListener("ShowHint", OnShowHintEvent);
     }
     private void OnDisable()
     {
         inputs.Gameplay.Dialogue.started -= OnDialogChange;
+        EventCenter.Instance.RemoveEventListener("ShowHint", OnShowHintEvent);
+    }
 
+    private void OnShowHintEvent(object arg0)
+    {
+        string message = arg0 as string;
+        if (!string.IsNullOrEmpty(message))
+            ShowHint(message);
     }
 
     void Start()
@@ -209,11 +217,52 @@ public class Dialogue : MonoBehaviour
     {
         if (pressTime <= 0)
         {
+            if (isShowingHint)
+            {
+                HideHint();
+                return;
+            }
             ShowDialog();
             pressTime = pressTimer;
-
         }
     }
 
-   
+    #region Hint
+
+    private bool isShowingHint = false;
+    private Coroutine hintCoroutine;
+
+    public void ShowHint(string message, float duration = 3f)
+    {
+        if (gameData.WhetherDialogue) return;
+
+        if (isShowingHint && hintCoroutine != null)
+            StopCoroutine(hintCoroutine);
+
+        isShowingHint = true;
+        NPCDialog.SetActive(true);
+        nameText.text = "";
+        dialogText.text = message;
+
+        hintCoroutine = StartCoroutine(AutoHideHint(duration));
+    }
+
+    private IEnumerator AutoHideHint(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        HideHint();
+    }
+
+    private void HideHint()
+    {
+        if (hintCoroutine != null)
+        {
+            StopCoroutine(hintCoroutine);
+            hintCoroutine = null;
+        }
+        isShowingHint = false;
+        NPCDialog.SetActive(false);
+    }
+
+    #endregion
 }

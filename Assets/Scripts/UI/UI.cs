@@ -12,10 +12,10 @@ using Color = UnityEngine.Color;
 
 public class UI : MonoBehaviour
 {
-    //public Rigidbody rd;    //public»òÕßprivate£¨½Ó¿Ú£©
-    //public int score = 0;   //·ÖÊý³õÖµ
-    public Text scoreText;  //¶¨Òå·ÖÊýUI
-    //public GameObject winText;  //½«Ê¤ÀûµÄUI¶¨Î»ÎªÓÎÏ·ÎïÌå£¨Ä¬ÈÏ²»ÏÔÊ¾£¬½áÊøºóÏÔÊ¾£©
+    //public Rigidbody rd;    //publicï¿½ï¿½ï¿½ï¿½privateï¿½ï¿½ï¿½Ó¿Ú£ï¿½
+    //public int score = 0;   //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµ
+    public Text scoreText;  //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½UI
+    //public GameObject winText;  //ï¿½ï¿½Ê¤ï¿½ï¿½ï¿½ï¿½UIï¿½ï¿½Î»Îªï¿½ï¿½Ï·ï¿½ï¿½ï¿½å£¨Ä¬ï¿½Ï²ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½
     private GameData gameData;
 
     public Text CurrentLevelText;
@@ -128,7 +128,7 @@ public class UI : MonoBehaviour
     public Image SPStartingImage2;
     public Image SPSettingImage1;
     public Image SPSettingImage2;
-    public float transitionTime = 5f; // ¹ý¶ÉÊ±¼ä
+    public float transitionTime = 5f; // ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
 
 
     private bool StartingLeftButtonIsPressd = false;
@@ -164,7 +164,7 @@ public class UI : MonoBehaviour
         FillProgress();
         ResetProgress();
 
-        // ¸üÐÂ½ø¶ÈÌõ
+        // ï¿½ï¿½ï¿½Â½ï¿½ï¿½ï¿½ï¿½ï¿½
         UpdateProgress();
 
     }
@@ -803,11 +803,11 @@ public class UI : MonoBehaviour
 
         }
 
-        //givingup-skills-page when chose which skill to give up,ÉÏ·½³£ÏÔUIÍ¼±êÏÔÊ¾
+        //givingup-skills-page when chose which skill to give up,ï¿½Ï·ï¿½ï¿½ï¿½ï¿½ï¿½UIÍ¼ï¿½ï¿½ï¿½ï¿½Ê¾
         if (GUSSkill1 || GUSSkill2 || GUSSkill3 || GUSSkill4)
         {
            
-            //Ñ¡ÖÐ·ÅÆúµÄ¼¼ÄÜ°´Å¥Ö®ºó²ÅÏÔÏÖÈ·ÈÏ°´Å¥£¬·ñÔòÊÇÊ§Ð§×´Ì¬
+            //Ñ¡ï¿½Ð·ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½Ü°ï¿½Å¥Ö®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È·ï¿½Ï°ï¿½Å¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê§Ð§×´Ì¬
             GUSUnableConfirmButton.SetActive(false);
             GUSActiveConfirmButton.SetActive(true);
         }
@@ -857,7 +857,7 @@ public class UI : MonoBehaviour
             }
         }
       
-        //¹Ø±ÕÈ·ÈÏ°´Å¥
+        //ï¿½Ø±ï¿½È·ï¿½Ï°ï¿½Å¥
         if (!GUSSkill1 && !GUSSkill2 && !GUSSkill3 && !GUSSkill4)
         {
             GUSUnableConfirmButton.SetActive(true);
@@ -893,7 +893,7 @@ public class UI : MonoBehaviour
         }
         else
         {
-            //ÌáÊ¾±ØÐëÑ¡ÖÐÒ»Ïî¼¼ÄÜ½øÐÐÌá½»
+            //ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½Ò»ï¿½î¼¼ï¿½Ü½ï¿½ï¿½ï¿½ï¿½á½»
         }
 
         GUSSkill1 = false;
@@ -912,7 +912,7 @@ public class UI : MonoBehaviour
         submittedSkill2 = false;
         submittedSkill3 = false;
         submittedSkill4 = false;
-        //ÉÏ·½³£ÏÔUIÒÑ¾­ÏÔÊ¾¹ý,µã»÷È·ÈÏÖ®ºó,panel pageÕ¹Ê¾Ò³ÃæÏÔÊ¾,gusPage
+        //ï¿½Ï·ï¿½ï¿½ï¿½ï¿½ï¿½UIï¿½Ñ¾ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½,ï¿½ï¿½ï¿½È·ï¿½ï¿½Ö®ï¿½ï¿½,panel pageÕ¹Ê¾Ò³ï¿½ï¿½ï¿½ï¿½Ê¾,gusPage
         if (!gameData.GiveUpSkills1)
         {
 
@@ -921,7 +921,7 @@ public class UI : MonoBehaviour
                 //panel page
                 PPSkillImage1Submitted.SetActive(true);
                 SkillListSubmitted1.SetActive(true);
-                //giveupskills page ¹Ø±Õ¼¼ÄÜÑ¡Ôñ°´Å¥£¬¿ªÆôÍ¼ÏñÎÞ·¨Ñ¡Ôñ
+                //giveupskills page ï¿½Ø±Õ¼ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½Å¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ï¿½ï¿½Þ·ï¿½Ñ¡ï¿½ï¿½
                 GUSSkillButton1.SetActive(false);
                 GUSSkillSubmitted1.SetActive(true);
 
@@ -1100,18 +1100,18 @@ public class UI : MonoBehaviour
     #region StartGames
 
 
-    public float fillSpeed = 0.3f; // ½ø¶ÈÌõÌî³äËÙ¶È
-    public float resetSpeed = 0.5f; // ½ø¶ÈÌõÖØÖÃËÙ¶È
-    public float requiredFillAmount = 2.0f; // ÐèÒªÌî³äµÄ×îÐ¡Á¿
+    public float fillSpeed = 0.3f; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ù¶ï¿½
+    public float resetSpeed = 0.5f; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ù¶ï¿½
+    public float requiredFillAmount = 2.0f; // ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¡ï¿½ï¿½
 
-    private float currentFillAmount1 = 0.0f; // µ±Ç°Ìî³äµÄÁ¿
+    private float currentFillAmount1 = 0.0f; // ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     private float currentFillAmount2 = 0.0f;
     private float currentFillAmount3 = 0.0f;
     private float currentFillAmount4 = 0.0f;
 
     private void StartPAGECheckButtonState(int button)
     {
-        //¼ì²ébuttonµÄ×´Ì¬
+        //ï¿½ï¿½ï¿½buttonï¿½ï¿½×´Ì¬
         if (button == 1)
         {
             StartingLeftButtonIsPressd = true;
@@ -1154,75 +1154,75 @@ public class UI : MonoBehaviour
     private void FillProgress()
     {
 
-        //ÅÐ¶ÏÊÇÄÄ¸ö°´Å¥±»°´ÏÂ£¬stratbuttonLeft=1,stratbuttonRight=2,settingbuttonLeft=3,settingbuttonRight=4
+        //ï¿½Ð¶ï¿½ï¿½ï¿½ï¿½Ä¸ï¿½ï¿½ï¿½Å¥ï¿½ï¿½ï¿½ï¿½ï¿½Â£ï¿½stratbuttonLeft=1,stratbuttonRight=2,settingbuttonLeft=3,settingbuttonRight=4
         if (StartingLeftButtonIsPressd)
         {
 
-            //´¥·¢¿ªÊ¼×ó°´Å¥
+            //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½Å¥
             currentFillAmount1 += fillSpeed * Time.deltaTime;
             currentFillAmount1 = Mathf.Clamp01(currentFillAmount1);
         }
         if (StartingRightButtonIsPressd)
         {
 
-            //´¥·¢¿ªÊ¼ÓÒ°´Å¥
+            //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½Ò°ï¿½Å¥
             currentFillAmount2 += fillSpeed * Time.deltaTime;
             currentFillAmount2 = Mathf.Clamp01(currentFillAmount2);
         }
         if (EndingLeftButtonIsPressd)
         {
 
-            //´¥·¢¿ªÊ¼ÉèÖÃ×ó°´Å¥
+            //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å¥
             currentFillAmount3 += fillSpeed * Time.deltaTime;
             currentFillAmount3 = Mathf.Clamp01(currentFillAmount3);
         }
         if (EndingRightButtonIsPressd)
         {
 
-            //´¥·¢¿ªÊ¼ÉèÖÃÓÒ°´Å¥
+            //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½Ò°ï¿½Å¥
             currentFillAmount4 += fillSpeed * Time.deltaTime;
             currentFillAmount4 = Mathf.Clamp01(currentFillAmount4);
         }
 
 
-        // ÔÚ°´Å¥°´ÏÂÊ±Öð½¥Ôö¼ÓÌî³äÁ¿
+        // ï¿½Ú°ï¿½Å¥ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 
-        // Èç¹ûÌî³ä´ïµ½ËùÐèÁ¿£¬¿ÉÒÔ½øÈëÓÎÏ·
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ïµ½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô½ï¿½ï¿½ï¿½ï¿½ï¿½Ï·
         //startingPage
 
     }
 
     private void ResetProgress()
     {
-        // ÔÚ°´Å¥ÊÍ·ÅÊ±Öð½¥¼õÐ¡Ìî³äÁ¿
+        // ï¿½Ú°ï¿½Å¥ï¿½Í·ï¿½Ê±ï¿½ð½¥¼ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½ï¿½
 
-        //ÅÐ¶ÏÊÇÄÄ¸ö°´Å¥±»ÊÍ·Å£¬stratbuttonLeft=1,stratbuttonRight=2,settingbuttonLeft=3,settingbuttonRight=4
+        //ï¿½Ð¶ï¿½ï¿½ï¿½ï¿½Ä¸ï¿½ï¿½ï¿½Å¥ï¿½ï¿½ï¿½Í·Å£ï¿½stratbuttonLeft=1,stratbuttonRight=2,settingbuttonLeft=3,settingbuttonRight=4
         if (!StartingLeftButtonIsPressd)
         {
 
-            //ÊÍ·Å¿ªÊ¼×ó°´Å¥
+            //ï¿½Í·Å¿ï¿½Ê¼ï¿½ï¿½Å¥
             currentFillAmount1 -= fillSpeed * Time.deltaTime;
             currentFillAmount1 = Mathf.Clamp01(currentFillAmount1);
         }
         if (!StartingRightButtonIsPressd)
         {
 
-            //ÊÍ·Å¿ªÊ¼ÓÒ°´Å¥
+            //ï¿½Í·Å¿ï¿½Ê¼ï¿½Ò°ï¿½Å¥
             currentFillAmount2 -= fillSpeed * Time.deltaTime;
             currentFillAmount2 = Mathf.Clamp01(currentFillAmount2);
         }
         if (!EndingLeftButtonIsPressd)
         {
 
-            //ÊÍ·Å¿ªÊ¼ÉèÖÃ×ó°´Å¥
+            //ï¿½Í·Å¿ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å¥
             currentFillAmount3 -= fillSpeed * Time.deltaTime;
             currentFillAmount3 = Mathf.Clamp01(currentFillAmount3);
         }
         if (!EndingRightButtonIsPressd)
         {
 
-            //ÊÍ·Å¿ªÊ¼ÉèÖÃÓÒ°´Å¥
+            //ï¿½Í·Å¿ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½Ò°ï¿½Å¥
             currentFillAmount4 -= fillSpeed * Time.deltaTime;
             currentFillAmount4 = Mathf.Clamp01(currentFillAmount4);
         }
@@ -1231,8 +1231,8 @@ public class UI : MonoBehaviour
 
     private void UpdateProgress()
     {
-        // ¸üÐÂ UI ÖÐµÄÌî³äÁ¿
-        //starting setting Á½×óÁ½ÓÒÒ»¹²ËÄ¸ö
+        // ï¿½ï¿½ï¿½ï¿½ UI ï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        //starting setting ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ä¸ï¿½
 
         SPStartingImage1.fillAmount = currentFillAmount1;
         SPStartingImage2.fillAmount = currentFillAmount2;
@@ -1272,8 +1272,4 @@ public class UI : MonoBehaviour
 
     #endregion
 }
-
-
-
-
 
