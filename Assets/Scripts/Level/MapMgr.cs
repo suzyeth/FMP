@@ -635,7 +635,7 @@ public class MapMgr : MonoBehaviour
 
                         curCharacter.Move(dir);
                         box.Move(dir);
-                        Ski3 = false;
+                        // Ski3 controlled by key release
                     }
                 }
 
