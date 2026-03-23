@@ -1,3 +1,4 @@
-Tag,ID,Content,Jump,Effect,Image,Name
-#,0,Those orange buttons control the gates.,1,,0,Jack
-END,1,,,,,
+Tag,ID,Content_EN,Content_CN,Jump,Effect,Image,Name,VisualHint
+#,0,Those orange buttons control the gates.,那些橙色按钮控制着门。,1,,0,Jack,glow:button
+#,1,Push a box onto the button to open the gate.,把箱子推到按钮上就能打开门。,2,,0,Jack,glow:box|arrow:up
+END,2,,,,,,,

@@ -1,6 +1,6 @@
-Tag,ID,Content,Jump,Effect,Image,Name
-#,0,Some boxes seem impossible to push.,1,,0,Jack
-#,1,But what if I can pull them...,2,,0,Jack
-#,2,The third-panel fragment allows me to pull them@ but it requires 7 crystal energy.,3,,0,Jack
-#,3,Press the 'K' key and arrow keys when using the skill.,4,,0,Jack
-END,4,,,,,
+Tag,ID,Content_EN,Content_CN,Jump,Effect,Image,Name,VisualHint
+#,0,Some boxes seem impossible to push from here.,有些箱子从这个位置似乎推不动。,1,,0,Jack,glow:box
+#,1,But what if I can pull them...,但如果我能拉动它们呢……,2,,0,Jack,
+#,2,The third panel fragment lets me pull boxes@ but requires 7 crystals.,第三块面板碎片让我可以拉箱子，但需要7个水晶。,3,,0,Jack,key:K
+#,3,Hold 'K' and press arrow keys to pull a box behind you!,按住"K"键并按方向键，就能拉动身后的箱子！,4,,0,Jack,key:K|glow:box|arrow:left
+END,4,,,,,,,
