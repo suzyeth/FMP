@@ -17,18 +17,6 @@ public class CharacterViewItem : UnitViewItem
     {
         base.Init();
         animator = GetComponent<Animator>();
-
-        // Ensure character always renders on top of other tiles/items
-        SpriteRenderer sr = GetComponent<SpriteRenderer>();
-        if (sr != null)
-        {
-            sr.sortingOrder = 100;
-        }
-        // Also set children (e.g. animated sprite children)
-        foreach (SpriteRenderer childSR in GetComponentsInChildren<SpriteRenderer>())
-        {
-            childSR.sortingOrder = 100;
-        }
     }
 
 
