@@ -77,6 +77,7 @@ public class UI : MonoBehaviour
     public GameObject MusicPage;
     public GameObject ControlPage;
     public GameObject CreditsPage;
+    public GameObject LanguagePage;
 
     #endregion
 
@@ -667,6 +668,38 @@ public class UI : MonoBehaviour
         SettingPage.SetActive(true);
 
     }
+
+    #region Language Page
+
+    public void OpenLanguagePage()
+    {
+        LanguagePage.SetActive(true);
+        SettingPage.SetActive(false);
+    }
+
+    public void CloseLanguagePage()
+    {
+        LanguagePage.SetActive(false);
+        SettingPage.SetActive(true);
+    }
+
+    public void SetLanguageEnglish()
+    {
+        PlayerPrefs.SetString("GameLanguage", "EN");
+        PlayerPrefs.Save();
+        EventCenter.Instance.EventTrigger("ChangeLanguage", "EN");
+        Debug.Log("Language set to English");
+    }
+
+    public void SetLanguageChinese()
+    {
+        PlayerPrefs.SetString("GameLanguage", "CN");
+        PlayerPrefs.Save();
+        EventCenter.Instance.EventTrigger("ChangeLanguage", "CN");
+        Debug.Log("Language set to Chinese");
+    }
+
+    #endregion
 
     public void OpenGiveingupSkillsPage()
     {
