@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
+    public static AudioManager Instance;
 
-    public static AudioManager Instance; // 单例实例
+    [Header("Audio Clips")]
     public AudioClip IceBreakClip;
     public AudioClip IceCrackClip;
     public AudioClip OpenDoorClip;
@@ -19,95 +20,113 @@ public class AudioManager : MonoBehaviour
     public AudioClip TrapsFilledClip;
     public AudioClip BackgroundClip;
 
-
-
-    // 将你的音频文件拖拽到这里
-    private AudioSource audioSource;
+    // Separate AudioSources for music and SFX to avoid delay
+    private AudioSource musicSource;
+    private AudioSource sfxSource;
 
     void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            audioSource = GetComponent<AudioSource>();
-            audioSource.clip = BackgroundClip;
-            audioSource.Play();
 
+            // Use existing AudioSource for music
+            musicSource = GetComponent<AudioSource>();
+            if (musicSource == null)
+                musicSource = gameObject.AddComponent<AudioSource>();
+
+            // Create a dedicated AudioSource for sound effects
+            sfxSource = gameObject.AddComponent<AudioSource>();
+            sfxSource.playOnAwake = false;
+
+            // Start background music
+            musicSource.clip = BackgroundClip;
+            musicSource.loop = true;
+            musicSource.Play();
         }
         else
         {
             Destroy(gameObject);
         }
-
     }
+
+    #region Background Music
 
     public void PlayBackGroundMusic()
     {
-       
-        audioSource.clip = BackgroundClip;
-        audioSource.Play();
-       
+        musicSource.clip = BackgroundClip;
+        musicSource.Play();
     }
+
     public void StopPlayBackGroundMusic()
     {
-        audioSource.Stop();
+        musicSource.Stop();
+    }
+
+    #endregion
+
+    #region Sound Effects
+
+    private void PlaySFX(AudioClip clip)
+    {
+        if (clip != null)
+            sfxSource.PlayOneShot(clip);
     }
 
     public void OpenDoor()
     {
-        audioSource.PlayOneShot(OpenDoorClip);
+        PlaySFX(OpenDoorClip);
     }
 
     public void IceBreak()
     {
-        audioSource.PlayOneShot(IceBreakClip);
+        PlaySFX(IceBreakClip);
     }
 
     public void IceCrack()
     {
-        audioSource.PlayOneShot(IceCrackClip);
+        PlaySFX(IceCrackClip);
     }
 
     public void SpikesSound()
     {
-        audioSource.PlayOneShot(SpikesClip);
+        PlaySFX(SpikesClip);
     }
 
     public void uiButtonSound()
     {
-        audioSource.PlayOneShot(ButtonClip);
+        PlaySFX(ButtonClip);
     }
 
     public void teleportationSound()
     {
-        audioSource.PlayOneShot(teleportationClip);
+        PlaySFX(teleportationClip);
     }
 
     public void CrystalSound()
     {
-        audioSource.PlayOneShot(CrystalClip);
+        PlaySFX(CrystalClip);
     }
 
     public void GiveUpSkillsSound()
     {
-        audioSource.PlayOneShot(GiveUpSkillsClip);
+        PlaySFX(GiveUpSkillsClip);
     }
 
     public void ChangeScenceSound()
     {
-        audioSource.PlayOneShot(ChangeScenceClip);
+        PlaySFX(ChangeScenceClip);
     }
 
     public void PullBoxSound()
     {
-        audioSource.PlayOneShot(PullBoxClip);
+        PlaySFX(PullBoxClip);
     }
 
     public void TrapsFilledSound()
     {
-        audioSource.PlayOneShot(TrapsFilledClip);
+        PlaySFX(TrapsFilledClip);
     }
 
+    #endregion
 }
-
-
