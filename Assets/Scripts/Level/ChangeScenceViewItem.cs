@@ -11,7 +11,7 @@ public class ChangeScenceViewItem : TileViewItem
         int id = GameMgr.Instance.levelMgr.CurrentMapID();
         if (id == 24)
         {
-            VideoPlayerController.Instance.PlayendingVdeo();
+            VideoPlayerController.Instance.PlayEndingVideo();
         }
         else
         {

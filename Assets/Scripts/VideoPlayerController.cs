@@ -11,15 +11,15 @@ using Path = System.IO.Path;
 public class VideoPlayerController : MonoBehaviour
 {
     public VideoPlayer startingVideo;
-    public VideoPlayer endingVdeo;
+    public VideoPlayer endingVideo;
     public GameObject start;
     public GameObject end;
 
-    public static VideoPlayerController Instance; // µ¥ÀýÊµÀý
+    public static VideoPlayerController Instance; // ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½
 
 
-    string startingvideo_Path = "";//ÊÓÆµÂ·¾¶
-    string endingVdeo_Path = "";//ÊÓÆµÂ·¾¶
+    string startingvideo_Path = "";//ï¿½ï¿½ÆµÂ·ï¿½ï¿½
+    string endingVideo_Path = "";
     void Awake()
     {
         if (Instance == null)
@@ -47,20 +47,20 @@ public class VideoPlayerController : MonoBehaviour
         start.SetActive(true);
         AudioManager.Instance.StopPlayBackGroundMusic();
 
-        // È¡ÏûÖ®Ç°µÄloopPointReachedÊÂ¼þµÄ¶©ÔÄ
+        // È¡ï¿½ï¿½Ö®Ç°ï¿½ï¿½loopPointReachedï¿½Â¼ï¿½ï¿½Ä¶ï¿½ï¿½ï¿½
         //startingVideo.loopPointReached -= OnStartVideoEnd;
-        // ¶©ÔÄloopPointReachedÊÂ¼þ
+        // ï¿½ï¿½ï¿½ï¿½loopPointReachedï¿½Â¼ï¿½
         startingVideo.loopPointReached += OnStartVideoEnd;
-        // ²¥·ÅÊÓÆµ
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æµ
         startingVideo.Play();
     }
 
-    // ÊÂ¼þ´¦Àí·½·¨
+    // ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
      void OnStartVideoEnd(VideoPlayer vp)
     {
-        // È¡ÏûÊÂ¼þµÄ¶©ÔÄ
+        // È¡ï¿½ï¿½ï¿½Â¼ï¿½ï¿½Ä¶ï¿½ï¿½ï¿½
         vp.loopPointReached -= OnStartVideoEnd;
-        // ÔÚÕâÀï´¦ÀíÊÓÆµ²¥·ÅÍê³ÉºóµÄÂß¼­£¬ÀýÈç¼ÓÔØÏÂÒ»¸ö³¡¾°
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï´¦ï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Éºï¿½ï¿½ï¿½ß¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         start.SetActive(false);
         GameMgr.Instance.levelMgr.ChangeMap();
         AudioManager.Instance.PlayBackGroundMusic();
@@ -75,33 +75,28 @@ public class VideoPlayerController : MonoBehaviour
     }
 
 
-    public void PlayendingVdeo()
+    public void PlayEndingVideo()
     {
-        //endingVdeo = GetComponent<VideoPlayer>();
-        endingVdeo_Path = Application.streamingAssetsPath + "/Endin.mp4";
-        endingVdeo.url = endingVdeo_Path;
+        endingVideo_Path = Application.streamingAssetsPath + "/Endin.mp4";
+        endingVideo.url = endingVideo_Path;
 
         end.SetActive(true);
         AudioManager.Instance.StopPlayBackGroundMusic();
-        // È¡ÏûÖ®Ç°µÄloopPointReachedÊÂ¼þµÄ¶©ÔÄ
-       // endingVdeo.loopPointReached -= OnEndVideoEnd;
-        // ¶©ÔÄloopPointReachedÊÂ¼þ
-        endingVdeo.loopPointReached += OnEndVideoEnd;
-        // ²¥·ÅÊÓÆµ
-        endingVdeo.Play();
+        endingVideo.loopPointReached += OnEndVideoEnd;
+        endingVideo.Play();
     }
     void OnEndVideoEnd(VideoPlayer vp)
     {
-        // È¡ÏûÊÂ¼þµÄ¶©ÔÄ
+        // È¡ï¿½ï¿½ï¿½Â¼ï¿½ï¿½Ä¶ï¿½ï¿½ï¿½
         vp.loopPointReached -= OnEndVideoEnd;
-        // ÔÚÕâÀï´¦ÀíÊÓÆµ²¥·ÅÍê³ÉºóµÄÂß¼­£¬ÀýÈç¼ÓÔØÏÂÒ»¸ö³¡¾°
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï´¦ï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Éºï¿½ï¿½ï¿½ß¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         GameMgr.Instance.levelMgr.ChangLevel(0);
 
     }
     public void SkipEndVideo()
     {
-        endingVdeo.Stop();
-        start.SetActive(false);
+        endingVideo.Stop();
+        end.SetActive(false);
         GameMgr.Instance.levelMgr.ChangLevel(0);
         AudioManager.Instance.PlayBackGroundMusic();
     }

@@ -31,7 +31,7 @@ public class MapMgr : MonoBehaviour
 
     public Transform tfTile;
     /// <summary>
-    /// List of Tile View£¨Including Box Wall)
+    /// List of Tile Viewï¿½ï¿½Including Box Wall)
     /// </summary>
     private List<TileViewItem> listTile = new List<TileViewItem>();
 
@@ -93,6 +93,7 @@ public class MapMgr : MonoBehaviour
         //EventCenter.Instance.AddEventListener("IceBreakingSkill1", IceBreakingEvent);
         //EventCenter.Instance.AddEventListener("ThroughSpikesSkill2", ThroughSpikesEvent);
         EventCenter.Instance.AddEventListener("PullBoxSkill3", PullBoxEvent);
+        EventCenter.Instance.AddEventListener("PullBoxSkill3Release", PullBoxReleaseEvent);
         EventCenter.Instance.AddEventListener("TeleportationSkill4", TeleportatioEvent);
 
 
@@ -108,6 +109,7 @@ public class MapMgr : MonoBehaviour
         //EventCenter.Instance.RemoveEventListener("IceBreakingSkill1", IceBreakingEvent);
         //EventCenter.Instance.RemoveEventListener("ThroughSpikesSkill2", ThroughSpikesEvent);
         EventCenter.Instance.RemoveEventListener("PullBoxSkill3", PullBoxEvent);
+        EventCenter.Instance.RemoveEventListener("PullBoxSkill3Release", PullBoxReleaseEvent);
         EventCenter.Instance.RemoveEventListener("TeleportationSkill4", TeleportatioEvent);
 
 
@@ -166,12 +168,14 @@ public class MapMgr : MonoBehaviour
                         {
                             UnityEngine.Debug.Log("TrapsIsImpassable");
                             //No effect
-                            //µ÷ÓÃUNDO
+                            //ï¿½ï¿½ï¿½ï¿½UNDO
 
                         }
                     }
                     else if (dicSceneChange.ContainsKey(transferCharacter))
                     {
+                        if (HasRemainingCrystals()) return;
+
                         UnityEngine.Debug.Log("SceneChange");
 
                         ChangeScenceViewItem SceneChange = (ChangeScenceViewItem)dicSceneChange[transferCharacter];
@@ -348,6 +352,8 @@ public class MapMgr : MonoBehaviour
 
             else if (dicSceneChange.ContainsKey(targetPosCharacter))
             {
+                if (HasRemainingCrystals()) return;
+
                 UnityEngine.Debug.Log("SceneChange");
 
                 ChangeScenceViewItem SceneChange = (ChangeScenceViewItem)dicSceneChange[targetPosCharacter];
@@ -509,6 +515,7 @@ public class MapMgr : MonoBehaviour
 
 
                 CheckButtonState();
+                
             }
 
             // pull box
@@ -545,7 +552,7 @@ public class MapMgr : MonoBehaviour
 
                             ActionRecordData boxAction = new(box.keyID, box.posID, box.posID + dir);
                             listAllAction.Add(boxAction);
-                            Ski3 = false;
+                            // Ski3 controlled by key release
                         }
 
 
@@ -564,7 +571,7 @@ public class MapMgr : MonoBehaviour
 
                             curCharacter.Move(dir);
                             box.Move(dir);
-                            Ski3 = false;
+                            // Ski3 controlled by key release
                         }
                         else
                         {
@@ -586,7 +593,7 @@ public class MapMgr : MonoBehaviour
 
                             curCharacter.Move(dir);
                             box.Move(dir);
-                            Ski3 = false;
+                            // Ski3 controlled by key release
                         }
                         else
                         {
@@ -607,7 +614,7 @@ public class MapMgr : MonoBehaviour
 
                             curCharacter.Move(dir);
                             box.Move(dir);
-                            Ski3 = false;
+                            // Ski3 controlled by key release
                             gameData.UseSkills2Action();
                             AudioManager.Instance.SpikesSound();
                         }
@@ -628,7 +635,7 @@ public class MapMgr : MonoBehaviour
 
                         curCharacter.Move(dir);
                         box.Move(dir);
-                        Ski3 = false;
+                        // Ski3 controlled by key release
                     }
                 }
 
@@ -751,7 +758,7 @@ public class MapMgr : MonoBehaviour
                 {
                     UnityEngine.Debug.Log("TrapsIsImpassable");
                     //No effect
-                    //µ÷ÓÃUNDO
+                    //ï¿½ï¿½ï¿½ï¿½UNDO
 
                 }
 
@@ -824,13 +831,15 @@ public class MapMgr : MonoBehaviour
 
             if (listAllAction != null && listAllAction.Count > 0)
             {
-                gameData.AddRecordAction(listAllAction);
+                gameData.AddRecordAction(new List<BaseRecordData>(listAllAction));
+                
             }
 
             CheckButtonState();
             ScanAllPos(false);
-            
-        }
+                
+
+            }
 
         }
     }
@@ -914,7 +923,7 @@ public class MapMgr : MonoBehaviour
             gameData.ReduceCrystal(Crystal.keyID);
             gameData.GetNumActiveCrystal();
             //UnityEngine.Debug.Log("the number of crystal is" + gameData.GetNumActiveCrystal());
-            //scoreText.text = "Crystal£º" + gameData.GetNumActiveCrystal();
+            //scoreText.text = "Crystalï¿½ï¿½" + gameData.GetNumActiveCrystal();
 
 
 
@@ -984,6 +993,12 @@ public class MapMgr : MonoBehaviour
 
     }
 
+    private void PullBoxReleaseEvent(object arg0)
+    {
+        Ski3 = false;
+        UnityEngine.Debug.Log("PullBoxSki3 Released");
+    }
+
     private void TeleportatioEvent(object arg0)
     {
         if (gameData.SkillPoint4 ==  6 && !gameData.GiveUpSkills4)
@@ -1019,7 +1034,7 @@ public class MapMgr : MonoBehaviour
             }
             else
             {
-            // ´¦Àí¼ü²»´æÔÚµÄÇé¿ö
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½ï¿½ï¿½ï¿½
             UnityEngine.Debug.LogError("Key " + keyID + " not found in the dictionary.");
             }
 
@@ -1030,6 +1045,18 @@ public class MapMgr : MonoBehaviour
 
 
     }
+
+    private bool HasRemainingCrystals()
+    {
+        if (dicCrystal.Count > 0)
+        {
+            UnityEngine.Debug.Log("Cannot change scene, " + dicCrystal.Count + " crystals remaining.");
+            EventCenter.Instance.EventTrigger("ShowHint", "Collect all crystals to proceed! (" + dicCrystal.Count + " remaining)");
+            return true;
+        }
+        return false;
+    }
+
     #endregion
 
     public void RegenerateTile(GameObject Prefab, Vector2Int posID, int keyID)

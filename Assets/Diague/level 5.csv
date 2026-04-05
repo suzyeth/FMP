@@ -1,4 +1,5 @@
-Tag,ID,Content,Jump,Effect,Image,Name
-#,0,I can't walk through these thorn bushes...,1,,0,Jack
-#,1,Unless@ I use the skill 'spike walk' from the second-panel fragment.,2,,0,Jack
-END,2,,,,,
+Tag,ID,Content_EN,Content_CN,Jump,Effect,Image,Name,VisualHint
+#,0,I can't walk through these thorn bushes...,我无法穿过这些荆棘丛……,1,,0,Jack,glow:spikes
+#,1,The second panel fragment gives me 'spike walk' skill.,第二块面板碎片给了我"穿刺行走"技能。,2,,0,Jack,key:J
+#,2,Insert 5 crystals to activate it@ then walk through safely!,注入5个水晶激活它，然后就能安全通过！,3,,0,Jack,glow:spikes|arrow:right
+END,3,,,,,,,

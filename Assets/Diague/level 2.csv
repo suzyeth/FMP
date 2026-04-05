@@ -1,4 +1,4 @@
-Tag,ID,Content,Jump,Effect,Image,Name
-#,0,There are some holes on the ground@ perhaps meteorite craters? ,1,,0,Jack
-#,1,I need to figure out how to get past.,2,,0,Jack
-END,2,,,,,
+Tag,ID,Content_EN,Content_CN,Jump,Effect,Image,Name,VisualHint
+#,0,There are some holes on the ground@ perhaps meteorite craters?,地上有一些洞，也许是陨石坑？,1,,0,Jack,glow:trap
+#,1,I need to figure out how to get past them.,我得想办法绕过它们。,2,,0,Jack,arrow:right
+END,2,,,,,,,

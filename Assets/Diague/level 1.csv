@@ -1,8 +1,9 @@
-Tag,ID,Content,Jump,Effect,Image,Name
-#,0,The spaceship's panels are shattered into four pieces... ,1,,0,Jack
-#,1,I must repair them to leave this place.,2,,0,Jack
-#,2,Those yellow crystals are glowing; they seem to be useful.,3,,0,Jack
-#,3,If needed@ use the button in the upper right to refresh the current level. ,4,,0,Jack
-#,4,Alternatively@ you can press the 'Z' key to undo the last move.,5,,0,Jack
-#,5,Let's move on.,6,,0,Jack
-END,6,,,,,
+Tag,ID,Content_EN,Content_CN,Jump,Effect,Image,Name,VisualHint
+#,0,The spaceship's panels are shattered into four pieces...,飞船的面板碎成了四块……,1,,0,Jack,
+#,1,I must repair them to leave this place.,我必须修好它们才能离开这里。,2,,0,Jack,
+#,2,Those yellow crystals are glowing; they seem to be useful.,那些黄色水晶在发光，看起来很有用。,3,,0,Jack,glow:crystal
+#,3,Use arrow keys or WASD to move and collect them.,使用方向键或WASD移动来收集它们。,4,,0,Jack,key:WASD|glow:crystal
+#,4,If needed@ use the button in the upper right to refresh the current level.,如果需要，可以使用右上角的按钮刷新当前关卡。,5,,0,Jack,
+#,5,Alternatively@ you can press the 'Z' key to undo the last move.,或者，你可以按"Z"键撤销上一步操作。,6,,0,Jack,key:Z
+#,6,Collect all crystals to unlock the exit. Let's move on!,收集所有水晶即可解锁出口。出发吧！,7,,0,Jack,glow:exit|key:WASD
+END,7,,,,,,,

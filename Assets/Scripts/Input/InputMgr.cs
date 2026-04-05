@@ -108,7 +108,8 @@ public partial class InputMgr : MonoSingleton<InputMgr>
         undoAction.performed += Undo_performed;
         //SkillAction1.performed += IceBreakingSkill1_performed;
         //SkillAction12.performed += ThroughSpikesSkill2_performed;
-        SkillAction13.performed += PullBoxSkill3_performed;
+        SkillAction13.started += PullBoxSkill3_started;
+        SkillAction13.canceled += PullBoxSkill3_canceled;
         SkillAction14.performed += TeleportationSkill4_performed;
         EscAction.performed += Esc_performed;
         ResetAction.performed += Reset_performed;
@@ -122,15 +123,18 @@ public partial class InputMgr : MonoSingleton<InputMgr>
     private void DisableInput()
     {
         UpAction.started -= Up_started;
+        UpAction.canceled -= Up_canceled;
         DownAction.started -= Down_started;
+        DownAction.canceled -= Down_canceled;
         LeftAction.started -= Left_started;
+        LeftAction.canceled -= Left_canceled;
         RightAction.started -= Right_started;
+        RightAction.canceled -= Right_canceled;
         touchAction.performed -= Touch_performed;
         undoAction.performed -= Undo_performed;
 
-       // SkillAction1.performed -= IceBreakingSkill1_performed;
-        //SkillAction12.performed -= ThroughSpikesSkill2_performed;
-        SkillAction13.performed -= PullBoxSkill3_performed;
+        SkillAction13.started -= PullBoxSkill3_started;
+        SkillAction13.canceled -= PullBoxSkill3_canceled;
         SkillAction14.performed -= TeleportationSkill4_performed;
         EscAction.performed -= Esc_performed;
         ResetAction.performed -= Reset_performed;
@@ -158,17 +162,16 @@ public partial class InputMgr : MonoSingleton<InputMgr>
     {
         if (PublicTool.GetGameData() != null)
         {
+            if (PublicTool.GetGameData().WhetherDialogue)
+                return;
+
             PublicTool.GetGameData().UndoAction();
-
-
-
             Debug.Log("Invoke Undo");
         }
         else
         {
             Debug.LogWarning("GameData is null");
         }
-
     }
 
    #region skills
@@ -188,10 +191,14 @@ public partial class InputMgr : MonoSingleton<InputMgr>
     }
 
     
-    private void PullBoxSkill3_performed(InputAction.CallbackContext obj)
+    private void PullBoxSkill3_started(InputAction.CallbackContext obj)
     {
         EventCenter.Instance.EventTrigger("PullBoxSkill3", 1);
+    }
 
+    private void PullBoxSkill3_canceled(InputAction.CallbackContext obj)
+    {
+        EventCenter.Instance.EventTrigger("PullBoxSkill3Release", 1);
     }
 
     private void TeleportationSkill4_performed(InputAction.CallbackContext obj)
@@ -229,17 +236,15 @@ public partial class InputMgr : MonoSingleton<InputMgr>
 
     private void SkipAnimation_performed(InputAction.CallbackContext obj)
     {
-        //int id = GameMgr.Instance.levelMgr.CurrentMapID();
-        //if(id==0)
-        //{
-        //    VideoPlayerController.Instance.SkipStartVideo();
-        //}
-        //if (id == 24)
-        //{
-          //  VideoPlayerController.Instance.SkipEndVideo();
-
-        //}
-
+        int id = GameMgr.Instance.levelMgr.CurrentMapID();
+        if (id == 0 && VideoPlayerController.Instance.start.activeSelf)
+        {
+            VideoPlayerController.Instance.SkipStartVideo();
+        }
+        if (id == 24 && VideoPlayerController.Instance.end.activeSelf)
+        {
+            VideoPlayerController.Instance.SkipEndVideo();
+        }
     }
 
 

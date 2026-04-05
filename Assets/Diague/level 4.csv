@@ -1,6 +1,6 @@
-Tag,ID,Content,Jump,Effect,Image,Name
-#,0,Some paths are blocked by ice.,1,,0,Jack
-#,1,I remember the first-panell fragment has the skill to break it.,2,,0,Jack
-#,2,It's time to open the skill list. ,3,,0,Jack
-#,3,Insert 4 crystals into the first ice-breaking skill@ and I can use it directly.,4,,0,Jack
-END,4,,,,,
+Tag,ID,Content_EN,Content_CN,Jump,Effect,Image,Name,VisualHint
+#,0,Some paths are blocked by ice.,有些路被冰挡住了。,1,,0,Jack,glow:ice
+#,1,The first panel fragment has the skill to break it.,第一块面板碎片拥有破冰的技能。,2,,0,Jack,
+#,2,Open the skill list and insert 4 crystals into the ice-breaking skill.,打开技能列表，将4个水晶注入破冰技能。,3,,0,Jack,key:J
+#,3,Then walk into the ice to break it!,然后走向冰块即可破碎！,4,,0,Jack,glow:ice|arrow:right
+END,4,,,,,,,
